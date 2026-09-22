@@ -33,7 +33,7 @@ export default async function CompatibilityResultPage({ searchParams }: { search
     return (
       <div className="px-6 py-24 text-center">
         <p className="text-muted">No compatibility result found.</p>
-        <Link href="/compatibility" className="mt-4 inline-block text-purple-300 underline">
+        <Link href="/compatibility" className="mt-4 inline-block text-purple-600 underline">
           Check your compatibility →
         </Link>
       </div>

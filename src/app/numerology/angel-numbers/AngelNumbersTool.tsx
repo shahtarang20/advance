@@ -18,7 +18,7 @@ export function AngelNumbersTool() {
       {ANGEL_NUMBERS.map((entry) => (
         <GlassCard key={entry.number} className="p-6">
           <p className="accent-gradient-text text-4xl font-bold tracking-wide">{entry.number}</p>
-          <h2 className="mt-2 text-sm font-semibold uppercase tracking-widest text-purple-300">{entry.title}</h2>
+          <h2 className="mt-2 text-sm font-semibold uppercase tracking-widest text-purple-600">{entry.title}</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted">{entry.meaning}</p>
         </GlassCard>
       ))}

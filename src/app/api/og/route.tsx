@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
           alignItems: "center",
           justifyContent: "center",
           padding: "80px",
-          background: "linear-gradient(135deg, #1e1b4b 0%, #4c1d95 45%, #7c2d92 75%, #1e1b4b 100%)",
+          background: "linear-gradient(135deg, #ffffff 0%, #fafafa 55%, #f5f3fb 100%)",
           fontFamily: "sans-serif",
           position: "relative",
         }}
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
             alignItems: "center",
             gap: 10,
             fontSize: 24,
-            color: "#e9d5ff",
+            color: "#3730a3",
             letterSpacing: 2,
           }}
         >
@@ -61,8 +61,8 @@ export async function GET(req: NextRequest) {
             alignItems: "center",
             gap: 6,
             fontSize: 16,
-            color: "rgba(233,213,255,0.75)",
-            border: "1px solid rgba(233,213,255,0.35)",
+            color: "#55555f",
+            border: "1px solid rgba(17,17,17,0.12)",
             borderRadius: 999,
             padding: "6px 14px",
           }}
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
           style={{
             fontSize: 200,
             lineHeight: 1,
-            background: "linear-gradient(135deg, #fde68a, #fbbf24, #f59e0b)",
+            background: "linear-gradient(135deg, #3730a3, #7e22ce, #b45309)",
             backgroundClip: "text",
             color: "transparent",
             display: "flex",
@@ -89,7 +89,7 @@ export async function GET(req: NextRequest) {
           style={{
             fontSize: 56,
             fontWeight: 700,
-            color: "white",
+            color: "#111111",
             textAlign: "center",
             display: "flex",
             marginBottom: 16,
@@ -99,7 +99,7 @@ export async function GET(req: NextRequest) {
         </div>
 
         {subtitle && (
-          <div style={{ fontSize: 30, color: "#d8b4fe", textAlign: "center", display: "flex", marginBottom: 20 }}>
+          <div style={{ fontSize: 30, color: "#7e22ce", textAlign: "center", display: "flex", marginBottom: 20 }}>
             {subtitle}
           </div>
         )}
@@ -108,7 +108,7 @@ export async function GET(req: NextRequest) {
           <div
             style={{
               fontSize: 26,
-              color: "#f1f5f9",
+              color: "#55555f",
               textAlign: "center",
               display: "flex",
               maxWidth: 900,
@@ -124,7 +124,7 @@ export async function GET(req: NextRequest) {
             position: "absolute",
             bottom: 50,
             fontSize: 20,
-            color: "#c4b5fd",
+            color: "#7a7a85",
             letterSpacing: 1,
             display: "flex",
           }}

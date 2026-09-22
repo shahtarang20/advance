@@ -55,17 +55,17 @@ export function HoroscopeTool() {
                 if (dobError) setDobError(null);
               }}
               aria-invalid={!!dobError}
-              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:dark]"
+              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
             />
           </div>
           <button
             onClick={handleDetect}
-            className="btn-tap accent-ring rounded-xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold transition hover:bg-white/20"
+            className="btn-tap accent-ring rounded-xl border border-[var(--surface-border)] bg-[var(--surface-strong)] px-5 py-3 text-sm font-semibold transition hover:bg-[var(--surface-strong)]"
           >
             Detect My Sign
           </button>
         </div>
-        {dobError && <p className="mb-4 text-xs text-amber-300">{dobError}</p>}
+        {dobError && <p className="mb-4 text-xs text-amber-600">{dobError}</p>}
 
         <h2 className="mb-3 mt-6 text-xs font-semibold uppercase tracking-widest text-muted-soft">Or Pick Your Sign</h2>
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
@@ -76,7 +76,7 @@ export function HoroscopeTool() {
               className={`btn-tap accent-ring flex flex-col items-center gap-1 rounded-2xl border p-3 text-sm transition ${
                 selected === z.sign
                   ? "border-purple-400 bg-purple-500/20"
-                  : "border-white/10 bg-white/5 hover:bg-white/10"
+                  : "border-[var(--surface-border)] bg-[var(--surface)] hover:bg-[var(--surface-strong)]"
               }`}
             >
               <span className="text-2xl">{z.glyph}</span>

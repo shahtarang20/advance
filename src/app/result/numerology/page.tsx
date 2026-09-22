@@ -31,7 +31,7 @@ export default async function NumerologyResultPage({ searchParams }: { searchPar
     return (
       <div className="px-6 py-24 text-center">
         <p className="text-muted">No reading found.</p>
-        <Link href="/numerology" className="mt-4 inline-block text-purple-300 underline">
+        <Link href="/numerology" className="mt-4 inline-block text-purple-600 underline">
           Calculate your own numerology reading →
         </Link>
       </div>

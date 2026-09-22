@@ -8,8 +8,9 @@ type Variant = "primary" | "secondary" | "whatsapp";
 
 const VARIANT_CLASS: Record<Variant, string> = {
   primary:
-    "accent-gradient-bg text-white shadow-lg shadow-[var(--accent-ring)] shadow-[0_10px_30px_-8px_var(--accent-ring)]",
-  secondary: "surface-glass border text-[var(--foreground)]",
+    "accent-gradient-bg text-white shadow-[0_10px_30px_-8px_var(--accent-ring)]",
+  secondary:
+    "border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-[var(--accent-solid)]",
   whatsapp: "bg-[#25D366] text-black",
 };
 

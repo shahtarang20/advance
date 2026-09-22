@@ -31,29 +31,29 @@ export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope
             <p className="text-xs uppercase tracking-widest text-muted-soft">{info.name} · {horoscope.dateKey}</p>
             <div className="mx-auto mt-3 flex w-full max-w-xs justify-around text-center">
               <div>
-                <p className="text-lg font-semibold text-amber-300">{horoscope.mood}</p>
+                <p className="text-lg font-semibold text-amber-600">{horoscope.mood}</p>
                 <p className="text-xs text-muted-soft">Mood</p>
               </div>
               <div>
-                <p className="text-lg font-semibold text-purple-300">{horoscope.luckyNumber}</p>
+                <p className="text-lg font-semibold text-purple-600">{horoscope.luckyNumber}</p>
                 <p className="text-xs text-muted-soft">Lucky Number</p>
               </div>
               <div>
-                <p className="text-lg font-semibold text-indigo-300">{horoscope.luckyColor}</p>
+                <p className="text-lg font-semibold text-indigo-600">{horoscope.luckyColor}</p>
                 <p className="text-xs text-muted-soft">Lucky Color</p>
               </div>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
-              <div className="rounded-xl border border-white/10 bg-white/5 p-2">
-                <p className="font-semibold text-rose-300">{info.element}</p>
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2">
+                <p className="font-semibold text-rose-600">{info.element}</p>
                 <p className="text-muted-soft">Element</p>
               </div>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-2">
-                <p className="font-semibold text-emerald-300">{info.modality}</p>
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2">
+                <p className="font-semibold text-emerald-600">{info.modality}</p>
                 <p className="text-muted-soft">Modality</p>
               </div>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-2">
-                <p className="font-semibold text-sky-300">{info.rulingPlanet}</p>
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2">
+                <p className="font-semibold text-sky-600">{info.rulingPlanet}</p>
                 <p className="text-muted-soft">Ruler</p>
               </div>
             </div>
@@ -64,29 +64,29 @@ export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope
 
       <div className="grid gap-4 sm:grid-cols-3">
         <GlassCard className="p-6">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-rose-300">Love</h3>
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-rose-600">Love</h3>
           <p className="text-sm leading-relaxed text-muted">{horoscope.love}</p>
         </GlassCard>
         <GlassCard className="p-6">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-emerald-300">Career</h3>
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-emerald-600">Career</h3>
           <p className="text-sm leading-relaxed text-muted">{horoscope.career}</p>
         </GlassCard>
         <GlassCard className="p-6">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-sky-300">Health</h3>
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-sky-600">Health</h3>
           <p className="text-sm leading-relaxed text-muted">{horoscope.health}</p>
         </GlassCard>
       </div>
 
       <GlassCard className="p-6">
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-purple-300">About {info.name}</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-widest text-purple-600">About {info.name}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{info.about}</p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-emerald-300">Most Compatible</p>
+            <p className="text-xs font-medium uppercase tracking-widest text-emerald-600">Most Compatible</p>
             <p className="mt-1 text-sm text-muted">{info.mostCompatible.map(signName).join(", ")}</p>
           </div>
           <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-rose-300">Least Compatible</p>
+            <p className="text-xs font-medium uppercase tracking-widest text-rose-600">Least Compatible</p>
             <p className="mt-1 text-sm text-muted">{info.leastCompatible.map(signName).join(", ")}</p>
           </div>
         </div>

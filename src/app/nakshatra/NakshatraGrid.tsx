@@ -47,7 +47,7 @@ export function NakshatraGrid() {
           value={query}
           onChange={(e) => handleQueryChange(e.target.value)}
           placeholder="Search by name or deity…"
-          className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
+          className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
         />
       </div>
       <p className="mb-4 text-center text-xs text-muted-soft">
@@ -91,7 +91,7 @@ export function NakshatraGrid() {
               type="button"
               onClick={() => goToPage(p)}
               aria-current={p === currentPage ? "page" : undefined}
-              className={`btn-tap accent-ring h-9 w-9 rounded-full border text-sm transition ${
+              className={`btn-tap accent-ring h-11 w-11 rounded-full border text-sm transition ${
                 p === currentPage
                   ? "accent-gradient-bg border-transparent text-white"
                   : "surface-glass hover:opacity-80"

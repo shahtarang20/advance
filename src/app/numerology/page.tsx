@@ -65,7 +65,7 @@ export default function NumerologyPage() {
       <div className="mx-auto mt-16 max-w-2xl text-center">
         <p className="text-sm text-muted">
           Keep seeing the same number everywhere?{" "}
-          <Link href="/numerology/angel-numbers" className="text-purple-300 underline">
+          <Link href="/numerology/angel-numbers" className="text-purple-600 underline">
             Look up its angel-number meaning →
           </Link>
         </p>

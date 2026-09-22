@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { useTheme } from "next-themes";
+
+const emptySubscribe = () => () => {};
 
 const LINKS = [
   { href: "/numerology", label: "Numerology" },
@@ -13,9 +16,17 @@ const LINKS = [
 
 export function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
+  const isDark = mounted && (theme === "dark" || resolvedTheme === "dark");
 
   return (
-    <header className="surface-glass sticky top-0 z-50 border-b backdrop-blur-xl">
+    <header className="surface-glass dark:backdrop-blur-xl sticky top-0 z-50 border-b">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-1.5 text-base font-semibold tracking-tight sm:text-lg">
           <span className="accent-gradient-text">✦ Cosmic Numbers</span>
@@ -29,10 +40,17 @@ export function NavBar() {
         </div>
         <div className="flex items-center gap-2">
           <button
+            aria-label={mounted ? (isDark ? "Switch to light theme" : "Switch to dark theme") : "Toggle theme"}
+            onClick={() => setTheme(isDark ? "light" : "dark")}
+            className="btn-tap accent-ring surface-glass flex h-11 w-11 items-center justify-center rounded-full border text-base"
+          >
+            {mounted ? (isDark ? "☀️" : "🌙") : "•"}
+          </button>
+          <button
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
-            className="btn-tap accent-ring surface-glass flex h-9 w-9 items-center justify-center rounded-full border text-sm sm:hidden"
+            className="btn-tap accent-ring surface-glass flex h-11 w-11 items-center justify-center rounded-full border text-sm sm:hidden"
           >
             {menuOpen ? "✕" : "☰"}
           </button>
@@ -46,7 +64,7 @@ export function NavBar() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl px-3 py-2.5 text-sm text-muted transition hover:bg-white/5 hover:text-[var(--foreground)]"
+                className="flex min-h-[44px] items-center rounded-xl px-3 py-2.5 text-sm text-muted transition hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
               >
                 {l.label}
               </Link>

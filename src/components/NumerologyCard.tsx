@@ -68,7 +68,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
 
       {profile.karmicDebts.length > 0 && (
         <GlassCard className="border-amber-400/30 p-6">
-          <h3 className="text-sm font-semibold uppercase tracking-widest text-amber-300">
+          <h3 className="text-sm font-semibold uppercase tracking-widest text-amber-600">
             Karmic Debt {profile.karmicDebts.length > 1 ? "Numbers" : "Number"}: {profile.karmicDebts.join(", ")}
           </h3>
           <div className="mt-3 space-y-3">
@@ -101,7 +101,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
 
       {profile.karmicLessons.length > 0 && (
         <GlassCard className="border-indigo-400/30 p-6">
-          <h3 className="text-sm font-semibold uppercase tracking-widest text-indigo-300">
+          <h3 className="text-sm font-semibold uppercase tracking-widest text-indigo-600">
             Karmic Lesson {profile.karmicLessons.length > 1 ? "Numbers" : "Number"}: {profile.karmicLessons.join(", ")}
           </h3>
           <div className="mt-3 space-y-3">
@@ -115,21 +115,21 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
       )}
 
       <GlassCard className="p-6">
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-amber-300">Pinnacles &amp; Challenges</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-widest text-amber-600">Pinnacles &amp; Challenges</h3>
         <p className="mt-1 text-[11px] italic text-muted-soft">
           The classic four-stage life-cycle system, built from your birth month, day, and year.
         </p>
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-4">
           {profile.pinnacleCycle.pinnacles.map((p, i) => (
-            <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div key={i} className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface)] p-4">
               <p className="text-[10px] font-medium uppercase tracking-widest text-muted-soft">
                 {getPinnacleStageLabel(i)}
               </p>
               <p className="text-xs text-muted-soft">{p.ageRange}</p>
               <p className="accent-gradient-text mt-2 text-3xl font-bold">{p.number}</p>
               <p className="mt-2 text-[11px] leading-relaxed text-muted">{getPinnacleDescription(i, p.number)}</p>
-              <div className="mt-3 border-t border-white/10 pt-3">
-                <p className="text-[10px] font-medium uppercase tracking-widest text-rose-300">
+              <div className="mt-3 border-t border-[var(--surface-border)] pt-3">
+                <p className="text-[10px] font-medium uppercase tracking-widest text-rose-600">
                   Challenge {profile.pinnacleCycle.challenges[i]}
                 </p>
                 <p className="mt-1 text-[11px] leading-relaxed text-muted">
@@ -151,7 +151,7 @@ function NumberFlipCard({ category, value }: { category: NumerologyCategory; val
       heightClassName="h-72"
       front={
         <GlassCard className="flex h-full w-full flex-col items-center justify-center p-4 text-center">
-          <p className="accent-gradient-text text-6xl font-bold">{value}</p>
+          <p className="accent-gradient-text text-5xl font-bold sm:text-6xl">{value}</p>
           <p className="mt-2 text-xs font-medium uppercase tracking-widest text-muted-soft">
             {CATEGORY_LABELS[category]}
           </p>
@@ -160,7 +160,7 @@ function NumberFlipCard({ category, value }: { category: NumerologyCategory; val
       }
       back={
         <GlassCard className="flex h-full w-full flex-col overflow-hidden p-4">
-          <h3 className="shrink-0 text-xs font-semibold uppercase tracking-widest text-purple-300">
+          <h3 className="shrink-0 text-xs font-semibold uppercase tracking-widest text-purple-600">
             {CATEGORY_LABELS[category]}
           </h3>
           <p className="mt-1 shrink-0 text-[11px] italic text-muted-soft">{CATEGORY_TAGLINES[category]}</p>

@@ -44,15 +44,15 @@ export default async function NakshatraDetailPage({ params }: { params: Promise<
         <GlassCard className="p-6">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <p className="text-sm font-semibold text-purple-300">{info.deity}</p>
+              <p className="text-sm font-semibold text-purple-600">{info.deity}</p>
               <p className="text-xs text-muted-soft">Ruling Deity</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-sky-300">{info.rulingPlanet}</p>
+              <p className="text-sm font-semibold text-sky-600">{info.rulingPlanet}</p>
               <p className="text-xs text-muted-soft">Ruling Planet</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-emerald-300">{info.symbol}</p>
+              <p className="text-sm font-semibold text-emerald-600">{info.symbol}</p>
               <p className="text-xs text-muted-soft">Symbol</p>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default async function NakshatraDetailPage({ params }: { params: Promise<
         </p>
 
         <p className="text-center">
-          <Link href="/nakshatra" className="text-sm text-purple-300 underline">
+          <Link href="/nakshatra" className="text-sm text-purple-600 underline">
             ← Browse all 27 Nakshatras
           </Link>
         </p>

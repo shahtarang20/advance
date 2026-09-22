@@ -44,7 +44,7 @@ export function CompatibilityCard({ result }: { result: CompatibilityResult }) {
       </div>
 
       <GlassCard className="p-6">
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-purple-300">Why This Score?</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-widest text-purple-600">Why This Score?</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">
           Your Life Path Numbers are compared against a traditional numerology affinity grid, then given a small
           amount of deterministic variance so no two names land on an identical score. This is a fun, shareable

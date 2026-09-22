@@ -54,9 +54,9 @@ export function CompatibilityTool() {
                 onChange={(e) => setNameA(e.target.value)}
                 placeholder="e.g. Tarang"
                 aria-invalid={touched && !!nameAError}
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
+                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
               />
-              {touched && nameAError && <p className="mt-1.5 text-xs text-amber-300">{nameAError}</p>}
+              {touched && nameAError && <p className="mt-1.5 text-xs text-amber-600">{nameAError}</p>}
             </div>
             <div>
               <label className="mb-1.5 block text-sm text-muted">Your DOB</label>
@@ -65,9 +65,9 @@ export function CompatibilityTool() {
                 value={dobA}
                 onChange={(e) => setDobA(e.target.value)}
                 aria-invalid={touched && !!dobAError}
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:dark]"
+                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
               />
-              {touched && dobAError && <p className="mt-1.5 text-xs text-amber-300">{dobAError}</p>}
+              {touched && dobAError && <p className="mt-1.5 text-xs text-amber-600">{dobAError}</p>}
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -78,9 +78,9 @@ export function CompatibilityTool() {
                 onChange={(e) => setNameB(e.target.value)}
                 placeholder="e.g. Aanya"
                 aria-invalid={touched && !!nameBError}
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
+                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
               />
-              {touched && nameBError && <p className="mt-1.5 text-xs text-amber-300">{nameBError}</p>}
+              {touched && nameBError && <p className="mt-1.5 text-xs text-amber-600">{nameBError}</p>}
             </div>
             <div>
               <label className="mb-1.5 block text-sm text-muted">Their DOB</label>
@@ -89,9 +89,9 @@ export function CompatibilityTool() {
                 value={dobB}
                 onChange={(e) => setDobB(e.target.value)}
                 aria-invalid={touched && !!dobBError}
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:dark]"
+                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
               />
-              {touched && dobBError && <p className="mt-1.5 text-xs text-amber-300">{dobBError}</p>}
+              {touched && dobBError && <p className="mt-1.5 text-xs text-amber-600">{dobBError}</p>}
             </div>
           </div>
           <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>

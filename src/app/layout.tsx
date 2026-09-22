@@ -89,7 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             className="min-h-screen text-[var(--foreground)]"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 15% 0%, rgba(139,92,246,0.16), transparent 45%), radial-gradient(circle at 85% 15%, rgba(245,158,11,0.10), transparent 40%), linear-gradient(to bottom, var(--background), var(--background-alt), var(--background))",
+                "radial-gradient(circle at 15% 0%, var(--bg-glow-1), transparent 45%), radial-gradient(circle at 85% 15%, var(--bg-glow-2), transparent 40%), linear-gradient(to bottom, var(--background), var(--background-alt), var(--background))",
             }}
           >
             <NavBar />

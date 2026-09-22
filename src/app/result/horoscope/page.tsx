@@ -34,7 +34,7 @@ export default async function HoroscopeResultPage({ searchParams }: { searchPara
     return (
       <div className="px-6 py-24 text-center">
         <p className="text-muted">No horoscope found.</p>
-        <Link href="/horoscope" className="mt-4 inline-block text-purple-300 underline">
+        <Link href="/horoscope" className="mt-4 inline-block text-purple-600 underline">
           Read today&apos;s horoscope →
         </Link>
       </div>

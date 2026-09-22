@@ -69,7 +69,7 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
           )}
         </Button>
       </div>
-      {downloadError && <p className="mt-2 text-xs text-amber-300">{downloadError}</p>}
+      {downloadError && <p className="mt-2 text-xs text-amber-600">{downloadError}</p>}
     </div>
   );
 }

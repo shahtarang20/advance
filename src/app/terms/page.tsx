@@ -79,7 +79,7 @@ export default function TermsPage() {
             <p>
               This site may display advertising served by Google AdSense or similar ad networks. Ads are subject to
               the ad network&apos;s own terms and privacy practices, described further in our{" "}
-              <a href="/privacy" className="text-purple-300 underline">
+              <a href="/privacy" className="text-purple-600 underline">
                 Privacy Policy
               </a>
               .

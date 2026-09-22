@@ -84,7 +84,7 @@ export default function PrivacyPage() {
                 href="https://policies.google.com/technologies/ads"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-purple-300 underline"
+                className="text-purple-600 underline"
               >
                 policies.google.com/technologies/ads
               </a>
@@ -93,7 +93,7 @@ export default function PrivacyPage() {
                 href="https://adssettings.google.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-purple-300 underline"
+                className="text-purple-600 underline"
               >
                 adssettings.google.com
               </a>

@@ -56,10 +56,10 @@ export function NumerologyTool() {
               placeholder="e.g. Tarang Patel"
               aria-invalid={touched && !!nameError}
               aria-describedby={touched && nameError ? "name-error" : undefined}
-              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
+              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
             />
             {touched && nameError && (
-              <p id="name-error" className="mt-1.5 text-xs text-amber-300">
+              <p id="name-error" className="mt-1.5 text-xs text-amber-600">
                 {nameError}
               </p>
             )}
@@ -75,10 +75,10 @@ export function NumerologyTool() {
               onChange={(e) => setDob(e.target.value)}
               aria-invalid={touched && !!dobError}
               aria-describedby={touched && dobError ? "dob-error" : undefined}
-              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:dark]"
+              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
             />
             {touched && dobError && (
-              <p id="dob-error" className="mt-1.5 text-xs text-amber-300">
+              <p id="dob-error" className="mt-1.5 text-xs text-amber-600">
                 {dobError}
               </p>
             )}
