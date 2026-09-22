@@ -10,6 +10,7 @@ export function LanguageToggle() {
   const languages = [
     { code: "en", label: "English" },
     { code: "hi", label: "हिंदी" },
+    { code: "gu", label: "ગુજરાતી" },
     { code: "de", label: "Deutsch" },
     { code: "zh", label: "中文" },
   ];
@@ -31,7 +32,7 @@ export function LanguageToggle() {
               <button
                 key={lang.code}
                 onClick={() => {
-                  setLanguage(lang.code as "en" | "hi" | "de" | "zh");
+                  setLanguage(lang.code as "en" | "hi" | "de" | "zh" | "gu");
                   setOpen(false);
                 }}
                 className={`text-left rounded-lg px-3 py-2 text-sm transition-colors hover:bg-[var(--background)] ${
