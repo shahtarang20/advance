@@ -1,5 +1,6 @@
 import { AngelNumbersTool } from "./AngelNumbersTool";
 import { Trans } from "@/components/Trans";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Angel Numbers Meaning — 111, 222, 333, 444 & More Explained",

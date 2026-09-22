@@ -1,3 +1,5 @@
+"use client";
+
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FlipCard } from "@/components/ui/FlipCard";
 import { DailyHoroscope, ZODIAC_SIGNS, ZodiacInfo } from "@/lib/horoscope";
