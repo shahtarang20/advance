@@ -490,5 +490,21 @@
   "dreams.page.desc": "अपने सपने को विस्तार से टाइप करें। ब्रह्मांड प्रतीकों में बोलता है - आइए समझें कि यह आपको क्या बताने की कोशिश कर रहा है।",
   "dreams.tool.label": "आपका सपना",
   "dreams.tool.placeholder": "मैं एक विशाल महासागर के ऊपर उड़ रहा था, लेकिन फिर...",
-  "dreams.tool.reveal": "मेरे सपने का विश्लेषण करें"
+  "dreams.tool.reveal": "मेरे सपने का विश्लेषण करें",
+  "biorhythm.result.subtitle": "आपके ऊर्जा चक्र",
+  "biorhythm.result.title": "बायोरिदम चार्ट",
+  "biorhythm.result.physical": "शारीरिक",
+  "biorhythm.result.physical_desc": "ऊर्जा, शक्ति और सहनशक्ति।",
+  "biorhythm.result.emotional": "भावनात्मक",
+  "biorhythm.result.emotional_desc": "मनोदशा, रचनात्मकता और संवेदनशीलता।",
+  "biorhythm.result.intellectual": "बौद्धिक",
+  "biorhythm.result.intellectual_desc": "तर्क, स्मृति और संचार।",
+  "biorhythm.result.invalid_dob": "कृपया एक वैध जन्म तिथि दर्ज करें।",
+  "biorhythm.result.loading": "लोड हो रहा है...",
+  "dreams.result.invalid": "कृपया विश्लेषण करने के लिए एक सपना दर्ज करें।",
+  "dreams.result.subtitle": "ब्रह्मांड का संदेश",
+  "dreams.result.title": "स्वप्न की व्याख्या",
+  "dreams.result.none_detected": "इस सपने में कोई प्रमुख सार्वभौमिक प्रतीक नहीं मिला।",
+  "dreams.result.none_desc": "कभी-कभी सपने सिर्फ हमारे दिमाग द्वारा दिन की घटनाओं को संसाधित करना होते हैं।",
+  "dreams.result.analyze_another": "एक और सपने का विश्लेषण करें"
 }

@@ -271,5 +271,21 @@
   "dreams.page.desc": "તમારું સ્વપ્ન લખો અને બ્રહ્માંડ તમને શું કહેવા માંગે છે તે જાણો.",
   "dreams.tool.label": "તમારું સ્વપ્ન",
   "dreams.tool.placeholder": "હું આકાશમાં ઉડતો હતો...",
-  "dreams.tool.reveal": "મારા સ્વપ્નનું વિશ્લેષણ કરો"
+  "dreams.tool.reveal": "મારા સ્વપ્નનું વિશ્લેષણ કરો",
+  "biorhythm.result.subtitle": "તમારા ઊર્જા ચક્રો",
+  "biorhythm.result.title": "બાયોરિધમ ચાર્ટ",
+  "biorhythm.result.physical": "શારીરિક",
+  "biorhythm.result.physical_desc": "ઊર્જા, શક્તિ અને સહનશક્તિ.",
+  "biorhythm.result.emotional": "ભાવનાત્મક",
+  "biorhythm.result.emotional_desc": "મૂડ, સર્જનાત્મકતા અને સંવેદનશીલતા.",
+  "biorhythm.result.intellectual": "બૌદ્ધિક",
+  "biorhythm.result.intellectual_desc": "તર્ક, મેમરી અને સંચાર.",
+  "biorhythm.result.invalid_dob": "કૃપા કરીને માન્ય જન્મ તારીખ દાખલ કરો.",
+  "biorhythm.result.loading": "લોડ થઈ રહ્યું છે...",
+  "dreams.result.invalid": "કૃપા કરીને વિશ્લેષણ કરવા માટે એક સ્વપ્ન દાખલ કરો.",
+  "dreams.result.subtitle": "બ્રહ્માંડનો સંદેશ",
+  "dreams.result.title": "સ્વપ્ન અર્થઘટન",
+  "dreams.result.none_detected": "આ સ્વપ્નમાં કોઈ મુખ્ય સાર્વત્રિક પ્રતીકો મળ્યા નથી.",
+  "dreams.result.none_desc": "ક્યારેક સપના એ આપણા મગજ દ્વારા દિવસની ઘટનાઓ પર પ્રક્રિયા કરવાનું જ હોય છે.",
+  "dreams.result.analyze_another": "બીજા સ્વપ્નનું વિશ્લેષણ કરો"
 }

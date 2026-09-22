@@ -6,11 +6,13 @@ import Link from "next/link";
 import { analyzeDream, DreamSymbol } from "@/lib/dreams";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal } from "@/components/ui/Reveal";
+import { useTranslation } from "@/lib/I18nContext";
 
 function DreamsResultContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [symbols, setSymbols] = useState<DreamSymbol[]>([]);
+  const { t } = useTranslation();
   
   useEffect(() => {
     if (query) {
@@ -22,7 +24,7 @@ function DreamsResultContent() {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <Link href="/dreams" className="text-purple-600 underline">
-          Please enter a dream to analyze.
+          {t("dreams.result.invalid", { defaultValue: "Please enter a dream to analyze." })}
         </Link>
       </div>
     );
@@ -33,10 +35,10 @@ function DreamsResultContent() {
       <Reveal>
         <div className="text-center mb-16">
           <p className="text-sm font-semibold tracking-widest text-muted-soft uppercase mb-2">
-            Universe's Message
+            {t("dreams.result.subtitle", { defaultValue: "Universe's Message" })}
           </p>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-            Dream Interpretation
+            {t("dreams.result.title", { defaultValue: "Dream Interpretation" })}
           </h1>
           <GlassCard className="p-6 text-left border-l-4 border-[var(--accent-solid)] max-w-2xl mx-auto italic text-muted">
             "{query}"
@@ -47,8 +49,8 @@ function DreamsResultContent() {
       {symbols.length === 0 ? (
         <Reveal delay={0.1}>
           <div className="text-center text-muted">
-            <p className="text-lg">No major universal symbols detected in this dream.</p>
-            <p className="mt-2">Sometimes dreams are simply our brain processing the day's events.</p>
+            <p className="text-lg">{t("dreams.result.none_detected", { defaultValue: "No major universal symbols detected in this dream." })}</p>
+            <p className="mt-2">{t("dreams.result.none_desc", { defaultValue: "Sometimes dreams are simply our brain processing the day's events." })}</p>
           </div>
         </Reveal>
       ) : (
@@ -73,7 +75,7 @@ function DreamsResultContent() {
       
       <div className="mt-16 text-center">
          <Link href="/dreams" className="inline-block px-8 py-3 rounded-full border border-[var(--surface-border)] text-sm font-medium hover:bg-[var(--surface-border)] transition-colors">
-           Analyze Another Dream
+           {t("dreams.result.analyze_another", { defaultValue: "Analyze Another Dream" })}
          </Link>
       </div>
     </div>

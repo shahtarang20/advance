@@ -490,5 +490,21 @@
   "dreams.page.desc": "Tippen Sie Ihren Traum so detailliert wie möglich ein.",
   "dreams.tool.label": "Dein Traum",
   "dreams.tool.placeholder": "Ich flog über einen weiten Ozean, aber dann...",
-  "dreams.tool.reveal": "Meinen Traum analysieren"
+  "dreams.tool.reveal": "Meinen Traum analysieren",
+  "biorhythm.result.subtitle": "Deine Energiezyklen",
+  "biorhythm.result.title": "Biorhythmus-Diagramm",
+  "biorhythm.result.physical": "Körperlich",
+  "biorhythm.result.physical_desc": "Energie, Kraft und Ausdauer.",
+  "biorhythm.result.emotional": "Emotional",
+  "biorhythm.result.emotional_desc": "Stimmung, Kreativität und Sensibilität.",
+  "biorhythm.result.intellectual": "Intellektuell",
+  "biorhythm.result.intellectual_desc": "Logik, Gedächtnis und Kommunikation.",
+  "biorhythm.result.invalid_dob": "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+  "biorhythm.result.loading": "Wird geladen...",
+  "dreams.result.invalid": "Bitte geben Sie einen Traum zur Analyse ein.",
+  "dreams.result.subtitle": "Botschaft des Universums",
+  "dreams.result.title": "Traumdeutung",
+  "dreams.result.none_detected": "In diesem Traum wurden keine wichtigen universellen Symbole erkannt.",
+  "dreams.result.none_desc": "Manchmal verarbeitet unser Gehirn im Traum einfach die Ereignisse des Tages.",
+  "dreams.result.analyze_another": "Einen anderen Traum analysieren"
 }

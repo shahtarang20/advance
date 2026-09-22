@@ -490,5 +490,21 @@
   "dreams.page.desc": "尽可能详细地打出你的梦。宇宙用符号说话——让我们破译它想告诉你什么。",
   "dreams.tool.label": "你的梦",
   "dreams.tool.placeholder": "我在浩瀚的海洋上空飞翔，但是后来...",
-  "dreams.tool.reveal": "分析我的梦"
+  "dreams.tool.reveal": "分析我的梦",
+  "biorhythm.result.subtitle": "你的能量周期",
+  "biorhythm.result.title": "生物节律图",
+  "biorhythm.result.physical": "体力",
+  "biorhythm.result.physical_desc": "能量、力量和耐力。",
+  "biorhythm.result.emotional": "情绪",
+  "biorhythm.result.emotional_desc": "情绪、创造力和敏感度。",
+  "biorhythm.result.intellectual": "智力",
+  "biorhythm.result.intellectual_desc": "逻辑、记忆和沟通。",
+  "biorhythm.result.invalid_dob": "请输入有效的出生日期。",
+  "biorhythm.result.loading": "加载中...",
+  "dreams.result.invalid": "请输入要分析的梦境。",
+  "dreams.result.subtitle": "宇宙的信息",
+  "dreams.result.title": "梦境解析",
+  "dreams.result.none_detected": "在这个梦中没有检测到主要的普遍象征。",
+  "dreams.result.none_desc": "有时梦只是我们的大脑在处理当天的事件。",
+  "dreams.result.analyze_another": "分析另一个梦"
 }
