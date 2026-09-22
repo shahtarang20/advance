@@ -38,7 +38,7 @@ export function TarotTable() {
         </div>
       ) : (
         <div className="flex flex-col items-center gap-8 w-full">
-          <Button onClick={() => setSpread(null)} variant="outline" className="mb-4">
+          <Button onClick={() => setSpread(null)} variant="secondary" className="mb-4">
             {t("tarot.btn.draw_again", { defaultValue: "Draw Again" })}
           </Button>
           
