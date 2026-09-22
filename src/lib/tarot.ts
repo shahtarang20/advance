@@ -235,7 +235,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
 export function pullRandomCards(count: number): { card: TarotCard; isReversed: boolean }[] {
   const deck = [...MAJOR_ARCANA];
   const pulled: { card: TarotCard; isReversed: boolean }[] = [];
-  
+
   for (let i = 0; i < count; i++) {
     if (deck.length === 0) break;
     const randomIndex = Math.floor(Math.random() * deck.length);
@@ -243,6 +243,43 @@ export function pullRandomCards(count: number): { card: TarotCard; isReversed: b
     const isReversed = Math.random() > 0.6; // 40% chance of being reversed
     pulled.push({ card, isReversed });
   }
-  
+
+  return pulled;
+}
+
+// Deterministic, seedable variant of pullRandomCards so a draw can be encoded in a
+// shareable URL (`?seed=...`) and reproduced exactly on revisit.
+function hashSeed(seed: string): number {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = (Math.imul(31, h) + seed.charCodeAt(i)) | 0;
+  }
+  return h;
+}
+
+function mulberry32(seed: number) {
+  let a = seed;
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+export function pullSeededCards(seed: string, count: number): { card: TarotCard; isReversed: boolean }[] {
+  const rand = mulberry32(hashSeed(seed));
+  const deck = [...MAJOR_ARCANA];
+  const pulled: { card: TarotCard; isReversed: boolean }[] = [];
+
+  for (let i = 0; i < count; i++) {
+    if (deck.length === 0) break;
+    const randomIndex = Math.floor(rand() * deck.length);
+    const card = deck.splice(randomIndex, 1)[0];
+    const isReversed = rand() > 0.6;
+    pulled.push({ card, isReversed });
+  }
+
   return pulled;
 }

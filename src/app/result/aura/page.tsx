@@ -1,37 +1,53 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Suspense } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { validateDob } from "@/lib/validation";
 import { getAuraForLifePath, ChakraColor } from "@/lib/aura";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal } from "@/components/ui/Reveal";
+import { ShareButtons } from "@/components/ShareButtons";
+import { SITE_URL } from "@/lib/site";
 
-function AuraResultContent() {
-  const searchParams = useSearchParams();
-  const dob = searchParams.get("dob") || "";
-  const [aura, setAura] = useState<ChakraColor | null>(null);
-  
-  useEffect(() => {
-    if (validateDob(dob)) return;
-    
-    // Calculate Life Path Number
-    const parts = dob.split("-"); // YYYY-MM-DD
-    const digits = parts.join("").split("").map(Number);
-    
-    const sumDigits = (n: number): number => {
-      if (n <= 9) return n;
-      if (n === 11 || n === 22 || n === 33) return n; // Keep master numbers temporarily
-      return sumDigits(String(n).split('').map(Number).reduce((a,b)=>a+b,0));
-    };
-    
-    const lp = sumDigits(digits.reduce((a,b)=>a+b,0));
-    setAura(getAuraForLifePath(lp));
-  }, [dob]);
+type SP = { dob?: string };
 
-  if (!dob || validateDob(dob)) {
+function computeAura(dob: string): ChakraColor | null {
+  if (!dob || validateDob(dob)) return null;
+
+  const parts = dob.split("-"); // YYYY-MM-DD
+  const digits = parts.join("").split("").map(Number);
+
+  const sumDigits = (n: number): number => {
+    if (n <= 9) return n;
+    if (n === 11 || n === 22 || n === 33) return n; // Keep master numbers temporarily
+    return sumDigits(String(n).split("").map(Number).reduce((a, b) => a + b, 0));
+  };
+
+  const lp = sumDigits(digits.reduce((a, b) => a + b, 0));
+  return getAuraForLifePath(lp);
+}
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<SP> }): Promise<Metadata> {
+  const { dob } = await searchParams;
+  const aura = dob ? computeAura(dob) : null;
+  if (!aura) {
+    return { title: "Aura Reading", alternates: { canonical: "/result/aura" } };
+  }
+  const title = `${aura.name} — Your Aura Reading`;
+  const description = `Your aura is aligned with the ${aura.chakra}. ${aura.description}`;
+  const ogUrl = `/api/og?type=aura&title=${encodeURIComponent(aura.name)}&subtitle=${encodeURIComponent(aura.chakra)}&color=${encodeURIComponent(aura.colorHex)}`;
+  return {
+    title,
+    description,
+    alternates: { canonical: `/result/aura?dob=${dob}` },
+    openGraph: { title, description, images: [{ url: ogUrl, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title, description, images: [ogUrl] },
+  };
+}
+
+export default async function AuraResultPage({ searchParams }: { searchParams: Promise<SP> }) {
+  const { dob } = await searchParams;
+  const aura = dob ? computeAura(dob) : null;
+
+  if (!dob || !aura) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <Link href="/aura" className="text-purple-600 underline">
@@ -41,20 +57,21 @@ function AuraResultContent() {
     );
   }
 
-  if (!aura) return null;
+  const shareUrl = `${SITE_URL}/result/aura?dob=${dob}`;
+  const ogQuery = `type=aura&title=${encodeURIComponent(aura.name)}&subtitle=${encodeURIComponent(aura.chakra)}&color=${encodeURIComponent(aura.colorHex)}`;
 
   return (
     <div className="relative min-h-screen overflow-hidden px-6 pb-32 pt-16">
       {/* Animated Glowing Aura Background */}
-      <div 
+      <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px] opacity-30 animate-pulse pointer-events-none"
-        style={{ backgroundColor: aura.colorHex, animationDuration: '4s' }}
+        style={{ backgroundColor: aura.colorHex, animationDuration: "4s" }}
       />
-      <div 
+      <div
         className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-[100px] opacity-20 animate-pulse pointer-events-none"
-        style={{ backgroundColor: aura.colorHex, animationDuration: '6s', animationDelay: '1s' }}
+        style={{ backgroundColor: aura.colorHex, animationDuration: "6s", animationDelay: "1s" }}
       />
-      
+
       <div className="relative z-10 mx-auto max-w-3xl">
         <Reveal>
           <div className="text-center mb-12">
@@ -77,30 +94,32 @@ function AuraResultContent() {
               <p className="text-base leading-relaxed text-muted">{aura.description}</p>
             </GlassCard>
           </Reveal>
-          
+
           <Reveal delay={0.2}>
             <GlassCard className="p-8">
               <h2 className="text-xl font-bold tracking-tight mb-3 text-emerald-500">Your Greatest Strengths</h2>
               <p className="text-base leading-relaxed text-muted">{aura.strength}</p>
             </GlassCard>
           </Reveal>
-          
+
           <Reveal delay={0.3}>
             <GlassCard className="p-8">
               <h2 className="text-xl font-bold tracking-tight mb-3 text-amber-500">How to Balance Your Chakra</h2>
               <p className="text-base leading-relaxed text-muted">{aura.balanceTip}</p>
             </GlassCard>
           </Reveal>
+
+          <Reveal delay={0.4}>
+            <div className="pt-4">
+              <ShareButtons
+                shareUrl={shareUrl}
+                ogQuery={ogQuery}
+                caption={`My aura is ${aura.name}, aligned with the ${aura.chakra} — from Cosmic Numbers. Find yours:`}
+              />
+            </div>
+          </Reveal>
         </div>
       </div>
     </div>
-  );
-}
-
-export default function AuraResultPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-muted">Loading...</div>}>
-      <AuraResultContent />
-    </Suspense>
   );
 }

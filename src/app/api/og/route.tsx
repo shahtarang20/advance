@@ -17,8 +17,20 @@ export async function GET(req: NextRequest) {
   const type = searchParams.get("type") ?? "numerology";
   const title = truncate(searchParams.get("title") ?? "Cosmic Reading", 60);
   const subtitle = truncate(searchParams.get("subtitle") ?? "", 90);
-  const big = searchParams.get("big") ?? (type === "horoscope" ? GLYPHS[searchParams.get("sign") ?? ""] ?? "✦" : "✦");
+  const TYPE_GLYPHS: Record<string, string> = {
+    aura: "✧",
+    biorhythm: "〰",
+    dreams: "☾",
+    tarot: "🃏",
+  };
+  const big =
+    searchParams.get("big") ??
+    (type === "horoscope" ? GLYPHS[searchParams.get("sign") ?? ""] ?? "✦" : TYPE_GLYPHS[type] ?? "✦");
   const text = truncate(searchParams.get("text") ?? "", 140);
+  const accentColor = searchParams.get("color");
+  const gradient = accentColor
+    ? `linear-gradient(135deg, ${accentColor}, #7e22ce, #3730a3)`
+    : "linear-gradient(135deg, #3730a3, #7e22ce, #b45309)";
 
   return new ImageResponse(
     (
@@ -75,7 +87,7 @@ export async function GET(req: NextRequest) {
           style={{
             fontSize: 200,
             lineHeight: 1,
-            background: "linear-gradient(135deg, #3730a3, #7e22ce, #b45309)",
+            background: gradient,
             backgroundClip: "text",
             color: "transparent",
             display: "flex",

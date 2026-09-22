@@ -1,107 +1,115 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { validateDob } from "@/lib/validation";
-import { calculateBiorhythms, BiorhythmData } from "@/lib/biorhythm";
+import { calculateBiorhythms } from "@/lib/biorhythm";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal } from "@/components/ui/Reveal";
-import { useTranslation } from "@/lib/I18nContext";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from "recharts";
+import { Trans } from "@/components/Trans";
+import { ShareButtons } from "@/components/ShareButtons";
+import { SITE_URL } from "@/lib/site";
+import { BiorhythmChart } from "@/app/biorhythm/BiorhythmChart";
 
-function BiorhythmResultContent() {
-  const searchParams = useSearchParams();
-  const dob = searchParams.get("dob") || "";
-  const [data, setData] = useState<BiorhythmData | null>(null);
-  const { t } = useTranslation();
+type SP = { dob?: string };
 
-  useEffect(() => {
-    if (validateDob(dob)) return;
-    setData(calculateBiorhythms(dob));
-  }, [dob]);
+export async function generateMetadata({ searchParams }: { searchParams: Promise<SP> }): Promise<Metadata> {
+  const { dob } = await searchParams;
+  const data = dob && !validateDob(dob) ? calculateBiorhythms(dob) : null;
+  if (!data) {
+    return { title: "Biorhythm Chart", alternates: { canonical: "/result/biorhythm" } };
+  }
+  const title = `Today's Biorhythm: ${data.todayPhysical}% Physical, ${data.todayEmotional}% Emotional`;
+  const description = `Physical ${data.todayPhysical}%, Emotional ${data.todayEmotional}%, Intellectual ${data.todayIntellectual}%. See your own free biorhythm chart.`;
+  const ogUrl = `/api/og?type=biorhythm&title=${encodeURIComponent("Today's Biorhythm")}&subtitle=${encodeURIComponent(`Physical ${data.todayPhysical}% · Emotional ${data.todayEmotional}% · Intellectual ${data.todayIntellectual}%`)}&big=${encodeURIComponent(`${data.todayPhysical}%`)}`;
+  return {
+    title,
+    description,
+    alternates: { canonical: `/result/biorhythm?dob=${dob}` },
+    openGraph: { title, description, images: [{ url: ogUrl, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title, description, images: [ogUrl] },
+  };
+}
 
-  if (!dob || validateDob(dob)) {
+export default async function BiorhythmResultPage({ searchParams }: { searchParams: Promise<SP> }) {
+  const { dob } = await searchParams;
+  const data = dob && !validateDob(dob) ? calculateBiorhythms(dob) : null;
+
+  if (!dob || !data) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <Link href="/biorhythm" className="text-purple-600 underline">
-          {t("biorhythm.result.invalid_dob", { defaultValue: "Please enter a valid Date of Birth." })}
+          <Trans tKey="biorhythm.result.invalid_dob" replacements={{ defaultValue: "Please enter a valid Date of Birth." }} />
         </Link>
       </div>
     );
   }
 
-  if (!data) return null;
+  const shareUrl = `${SITE_URL}/result/biorhythm?dob=${dob}`;
+  const ogQuery = `type=biorhythm&title=${encodeURIComponent("Today's Biorhythm")}&subtitle=${encodeURIComponent(`Physical ${data.todayPhysical}% · Emotional ${data.todayEmotional}% · Intellectual ${data.todayIntellectual}%`)}&big=${encodeURIComponent(`${data.todayPhysical}%`)}`;
 
   return (
     <div className="mx-auto max-w-5xl px-6 pb-32 pt-16">
       <Reveal>
         <div className="text-center mb-12">
           <p className="text-sm font-semibold tracking-widest text-muted-soft uppercase mb-2">
-            {t("biorhythm.result.subtitle", { defaultValue: "Your Energy Cycles" })}
+            <Trans tKey="biorhythm.result.subtitle" replacements={{ defaultValue: "Your Energy Cycles" }} />
           </p>
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-4">
-            {t("biorhythm.result.title", { defaultValue: "Biorhythm Chart" })}
+            <Trans tKey="biorhythm.result.title" replacements={{ defaultValue: "Biorhythm Chart" }} />
           </h1>
         </div>
       </Reveal>
 
       <Reveal delay={0.1}>
         <GlassCard className="p-4 sm:p-8 mb-8">
-          <div className="h-[400px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data.days} margin={{ top: 20, right: 20, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
-                <XAxis dataKey="date" stroke="rgba(255,255,255,0.5)" tick={{ fontSize: 12 }} />
-                <YAxis domain={[-100, 100]} stroke="rgba(255,255,255,0.5)" tick={{ fontSize: 12 }} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}
-                  itemStyle={{ fontSize: 14, fontWeight: 'bold' }}
-                />
-                <Legend wrapperStyle={{ paddingTop: '20px' }} />
-                <ReferenceLine y={0} stroke="rgba(255,255,255,0.3)" strokeDasharray="3 3" />
-                <ReferenceLine x={data.days[7].date} stroke="rgba(255,255,255,0.5)" label={{ position: 'top', value: 'Today', fill: 'white', fontSize: 12 }} />
-                
-                <Line type="monotone" dataKey="physical" name={t("biorhythm.result.physical", { defaultValue: "Physical" })} stroke="#ef4444" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
-                <Line type="monotone" dataKey="emotional" name={t("biorhythm.result.emotional", { defaultValue: "Emotional" })} stroke="#3b82f6" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
-                <Line type="monotone" dataKey="intellectual" name={t("biorhythm.result.intellectual", { defaultValue: "Intellectual" })} stroke="#22c55e" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <BiorhythmChart data={data} />
         </GlassCard>
       </Reveal>
 
       <div className="grid sm:grid-cols-3 gap-6">
         <Reveal delay={0.2}>
           <GlassCard className="p-6 text-center border-t-4 border-t-red-500">
-            <h3 className="text-lg font-bold mb-2">{t("biorhythm.result.physical", { defaultValue: "Physical" })}</h3>
+            <h3 className="text-lg font-bold mb-2">
+              <Trans tKey="biorhythm.result.physical" replacements={{ defaultValue: "Physical" }} />
+            </h3>
             <p className="text-3xl font-black mb-2 text-red-500">{data.todayPhysical}%</p>
-            <p className="text-sm text-muted">{t("biorhythm.result.physical_desc", { defaultValue: "Energy, strength, and endurance." })}</p>
+            <p className="text-sm text-muted">
+              <Trans tKey="biorhythm.result.physical_desc" replacements={{ defaultValue: "Energy, strength, and endurance." }} />
+            </p>
           </GlassCard>
         </Reveal>
         <Reveal delay={0.3}>
           <GlassCard className="p-6 text-center border-t-4 border-t-blue-500">
-            <h3 className="text-lg font-bold mb-2">{t("biorhythm.result.emotional", { defaultValue: "Emotional" })}</h3>
+            <h3 className="text-lg font-bold mb-2">
+              <Trans tKey="biorhythm.result.emotional" replacements={{ defaultValue: "Emotional" }} />
+            </h3>
             <p className="text-3xl font-black mb-2 text-blue-500">{data.todayEmotional}%</p>
-            <p className="text-sm text-muted">{t("biorhythm.result.emotional_desc", { defaultValue: "Mood, creativity, and sensitivity." })}</p>
+            <p className="text-sm text-muted">
+              <Trans tKey="biorhythm.result.emotional_desc" replacements={{ defaultValue: "Mood, creativity, and sensitivity." }} />
+            </p>
           </GlassCard>
         </Reveal>
         <Reveal delay={0.4}>
           <GlassCard className="p-6 text-center border-t-4 border-t-green-500">
-            <h3 className="text-lg font-bold mb-2">{t("biorhythm.result.intellectual", { defaultValue: "Intellectual" })}</h3>
+            <h3 className="text-lg font-bold mb-2">
+              <Trans tKey="biorhythm.result.intellectual" replacements={{ defaultValue: "Intellectual" }} />
+            </h3>
             <p className="text-3xl font-black mb-2 text-green-500">{data.todayIntellectual}%</p>
-            <p className="text-sm text-muted">{t("biorhythm.result.intellectual_desc", { defaultValue: "Logic, memory, and communication." })}</p>
+            <p className="text-sm text-muted">
+              <Trans tKey="biorhythm.result.intellectual_desc" replacements={{ defaultValue: "Logic, memory, and communication." }} />
+            </p>
           </GlassCard>
         </Reveal>
       </div>
-    </div>
-  );
-}
 
-export default function BiorhythmResultPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-muted">Loading...</div>}>
-      <BiorhythmResultContent />
-    </Suspense>
+      <Reveal delay={0.5}>
+        <div className="mt-10 flex justify-center">
+          <ShareButtons
+            shareUrl={shareUrl}
+            ogQuery={ogQuery}
+            caption={`My biorhythm today: ${data.todayPhysical}% Physical, ${data.todayEmotional}% Emotional, ${data.todayIntellectual}% Intellectual — from Cosmic Numbers. See yours:`}
+          />
+        </div>
+      </Reveal>
+    </div>
   );
 }
