@@ -13,19 +13,19 @@ function truncate(s: string, n: number) {
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams, host } = new URL(req.url);
   const type = searchParams.get("type") ?? "numerology";
   const title = truncate(searchParams.get("title") ?? "Cosmic Reading", 60);
   const subtitle = truncate(searchParams.get("subtitle") ?? "", 90);
   const TYPE_GLYPHS: Record<string, string> = {
-    aura: "✧",
-    biorhythm: "〰",
-    dreams: "☾",
+    aura: "🔮",
+    biorhythm: "📈",
+    dreams: "🌙",
     tarot: "🃏",
   };
   const big =
     searchParams.get("big") ??
-    (type === "horoscope" ? GLYPHS[searchParams.get("sign") ?? ""] ?? "✦" : TYPE_GLYPHS[type] ?? "✦");
+    (type === "horoscope" ? GLYPHS[searchParams.get("sign") ?? ""] ?? "✨" : TYPE_GLYPHS[type] ?? "✨");
   const text = truncate(searchParams.get("text") ?? "", 140);
   const accentColor = searchParams.get("color");
   const gradient = accentColor
@@ -61,7 +61,15 @@ export async function GET(req: NextRequest) {
             letterSpacing: 2,
           }}
         >
-          <span style={{ display: "flex" }}>✦</span>
+          <span
+            style={{
+              display: "flex",
+              width: 16,
+              height: 16,
+              borderRadius: 4,
+              background: "linear-gradient(135deg, #3730a3, #7e22ce)",
+            }}
+          />
           <span style={{ display: "flex", fontWeight: 700 }}>Cosmic Numbers</span>
         </div>
         <div
@@ -79,8 +87,16 @@ export async function GET(req: NextRequest) {
             padding: "6px 14px",
           }}
         >
-          <span style={{ display: "flex" }}>✓</span>
-          <span style={{ display: "flex" }}>cosmic-numbers.vercel.app</span>
+          <span
+            style={{
+              display: "flex",
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              background: "#16a34a",
+            }}
+          />
+          <span style={{ display: "flex" }}>{host}</span>
         </div>
 
         <div
@@ -141,7 +157,7 @@ export async function GET(req: NextRequest) {
             display: "flex",
           }}
         >
-          Free numerology &amp; horoscope readings · cosmic-numbers.vercel.app
+          Free numerology &amp; horoscope readings · {host}
         </div>
       </div>
     ),
