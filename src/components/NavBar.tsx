@@ -15,6 +15,8 @@ const LINKS = [
   { href: "/nakshatra", labelKey: "nav.nakshatra" },
   { href: "/tarot", labelKey: "nav.tarot" },
   { href: "/aura", labelKey: "nav.aura" },
+  { href: "/biorhythm", labelKey: "nav.biorhythm" },
+  { href: "/dreams", labelKey: "nav.dreams" },
   { href: "/profile", labelKey: "nav.profile" },
 ];
 

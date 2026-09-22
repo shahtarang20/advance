@@ -479,5 +479,16 @@
   "moon.phase.full": "满月",
   "moon.phase.waning_gibbous": "亏凸月",
   "moon.phase.last_quarter": "下弦月",
-  "moon.phase.waning_crescent": "残月"
+  "moon.phase.waning_crescent": "残月",
+  "nav.biorhythm": "生物节律",
+  "nav.dreams": "梦境",
+  "biorhythm.page.title": "生物节律能量图",
+  "biorhythm.page.desc": "根据您出生的确切天数，发现您的身体、情感和智力周期。",
+  "biorhythm.tool.dob": "出生日期",
+  "biorhythm.tool.reveal": "计算我的生物节律",
+  "dreams.page.title": "梦境象征分析仪",
+  "dreams.page.desc": "尽可能详细地打出你的梦。宇宙用符号说话——让我们破译它想告诉你什么。",
+  "dreams.tool.label": "你的梦",
+  "dreams.tool.placeholder": "我在浩瀚的海洋上空飞翔，但是后来...",
+  "dreams.tool.reveal": "分析我的梦"
 }

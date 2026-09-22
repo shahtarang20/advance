@@ -479,5 +479,16 @@
   "moon.phase.full": "Vollmond",
   "moon.phase.waning_gibbous": "Abnehmender Mond",
   "moon.phase.last_quarter": "Letztes Viertel",
-  "moon.phase.waning_crescent": "Abnehmende Sichel"
+  "moon.phase.waning_crescent": "Abnehmende Sichel",
+  "nav.biorhythm": "Biorhythmus",
+  "nav.dreams": "Träume",
+  "biorhythm.page.title": "Biorhythmus Energie-Diagramm",
+  "biorhythm.page.desc": "Entdecken Sie Ihre physischen, emotionalen und intellektuellen Zyklen.",
+  "biorhythm.tool.dob": "Geburtsdatum",
+  "biorhythm.tool.reveal": "Meinen Biorhythmus berechnen",
+  "dreams.page.title": "Traum-Symbolik Analysator",
+  "dreams.page.desc": "Tippen Sie Ihren Traum so detailliert wie möglich ein.",
+  "dreams.tool.label": "Dein Traum",
+  "dreams.tool.placeholder": "Ich flog über einen weiten Ozean, aber dann...",
+  "dreams.tool.reveal": "Meinen Traum analysieren"
 }

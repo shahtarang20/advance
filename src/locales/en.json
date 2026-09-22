@@ -260,5 +260,16 @@
   "moon.phase.full": "Full Moon",
   "moon.phase.waning_gibbous": "Waning Gibbous",
   "moon.phase.last_quarter": "Last Quarter",
-  "moon.phase.waning_crescent": "Waning Crescent"
+  "moon.phase.waning_crescent": "Waning Crescent",
+  "nav.biorhythm": "Biorhythm",
+  "nav.dreams": "Dreams",
+  "biorhythm.page.title": "Biorhythm Energy Chart",
+  "biorhythm.page.desc": "Discover your Physical, Emotional, and Intellectual cycles based on the exact days since your birth.",
+  "biorhythm.tool.dob": "Date of Birth",
+  "biorhythm.tool.reveal": "Calculate My Biorhythms",
+  "dreams.page.title": "Dream Symbolism Analyzer",
+  "dreams.page.desc": "Type out your dream in as much detail as possible. The universe speaks in symbols—let's decipher what it's trying to tell you.",
+  "dreams.tool.label": "Your Dream",
+  "dreams.tool.placeholder": "I was flying over a vast ocean, but then...",
+  "dreams.tool.reveal": "Analyze My Dream"
 }
