@@ -245,5 +245,20 @@
   "tarot.label.present": "Present",
   "tarot.label.future": "Future",
   "tarot.card.tap_reveal": "Tap to Reveal",
-  "tarot.card.reversed": "Reversed"
+  "tarot.card.reversed": "Reversed",
+  "nav.aura": "Aura",
+  "aura.page.title": "Aura Color & Chakras",
+  "aura.page.desc": "Discover your primary Aura Color and Chakra alignment based on your birth date.",
+  "aura.tool.dob": "Date of Birth",
+  "aura.tool.reveal": "Reveal My Aura",
+  "moon.label": "Current Moon Phase",
+  "moon.tip.label": "Manifestation Tip",
+  "moon.phase.new": "New Moon",
+  "moon.phase.waxing_crescent": "Waxing Crescent",
+  "moon.phase.first_quarter": "First Quarter",
+  "moon.phase.waxing_gibbous": "Waxing Gibbous",
+  "moon.phase.full": "Full Moon",
+  "moon.phase.waning_gibbous": "Waning Gibbous",
+  "moon.phase.last_quarter": "Last Quarter",
+  "moon.phase.waning_crescent": "Waning Crescent"
 }

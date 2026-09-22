@@ -14,6 +14,7 @@ const LINKS = [
   { href: "/compatibility", labelKey: "nav.compatibility" },
   { href: "/nakshatra", labelKey: "nav.nakshatra" },
   { href: "/tarot", labelKey: "nav.tarot" },
+  { href: "/aura", labelKey: "nav.aura" },
   { href: "/profile", labelKey: "nav.profile" },
 ];
 

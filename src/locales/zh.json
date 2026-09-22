@@ -464,5 +464,20 @@
   "tarot.name.21": "世界",
   "tarot.upright.21": "完成，整合，成就，旅行。",
   "tarot.reversed.21": "寻求个人封闭，捷径，延误。",
-  "tarot.desc.21": "世界标志着完成与和谐。你已经来到了一段漫长旅程的终点，整合了所有学到的教训，现在准备庆祝你的完整并步入一个新的循环。"
+  "tarot.desc.21": "世界标志着完成与和谐。你已经来到了一段漫长旅程的终点，整合了所有学到的教训，现在准备庆祝你的完整并步入一个新的循环。",
+  "nav.aura": "灵气",
+  "aura.page.title": "灵气颜色与脉轮",
+  "aura.page.desc": "根据你的出生日期发现你的主要灵气颜色和脉轮对齐。",
+  "aura.tool.dob": "出生日期",
+  "aura.tool.reveal": "揭示我的灵气",
+  "moon.label": "当前月相",
+  "moon.tip.label": "显化技巧",
+  "moon.phase.new": "新月",
+  "moon.phase.waxing_crescent": "蛾眉月",
+  "moon.phase.first_quarter": "上弦月",
+  "moon.phase.waxing_gibbous": "盈凸月",
+  "moon.phase.full": "满月",
+  "moon.phase.waning_gibbous": "亏凸月",
+  "moon.phase.last_quarter": "下弦月",
+  "moon.phase.waning_crescent": "残月"
 }

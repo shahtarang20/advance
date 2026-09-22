@@ -464,5 +464,20 @@
   "tarot.name.21": "Die Welt",
   "tarot.upright.21": "Vollendung, Integration, Leistung, Reise.",
   "tarot.reversed.21": "Suche nach persönlichem Abschluss, Verzögerungen.",
-  "tarot.desc.21": "Die Welt bedeutet Vollendung und Harmonie. Sie sind am Ende einer langen Reise angelangt und bereit, in einen neuen Zyklus einzutreten."
+  "tarot.desc.21": "Die Welt bedeutet Vollendung und Harmonie. Sie sind am Ende einer langen Reise angelangt und bereit, in einen neuen Zyklus einzutreten.",
+  "nav.aura": "Aura",
+  "aura.page.title": "Aura-Farbe & Chakren",
+  "aura.page.desc": "Entdecken Sie Ihre primäre Aura-Farbe und Chakra-Ausrichtung basierend auf Ihrem Geburtsdatum.",
+  "aura.tool.dob": "Geburtsdatum",
+  "aura.tool.reveal": "Meine Aura enthüllen",
+  "moon.label": "Aktuelle Mondphase",
+  "moon.tip.label": "Manifestations-Tipp",
+  "moon.phase.new": "Neumond",
+  "moon.phase.waxing_crescent": "Zunehmende Sichel",
+  "moon.phase.first_quarter": "Erstes Viertel",
+  "moon.phase.waxing_gibbous": "Zunehmender Mond",
+  "moon.phase.full": "Vollmond",
+  "moon.phase.waning_gibbous": "Abnehmender Mond",
+  "moon.phase.last_quarter": "Letztes Viertel",
+  "moon.phase.waning_crescent": "Abnehmende Sichel"
 }

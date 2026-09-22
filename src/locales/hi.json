@@ -464,5 +464,20 @@
   "tarot.name.21": "दुनिया (The World)",
   "tarot.upright.21": "पूर्णता, एकीकरण, उपलब्धि, यात्रा।",
   "tarot.reversed.21": "व्यक्तिगत समापन की तलाश, शॉर्ट-कट, देरी।",
-  "tarot.desc.21": "दुनिया पूर्णता और सद्भाव का प्रतीक है। आप एक लंबी यात्रा के अंत में आ गए हैं, सीखे गए सभी पाठों को एकीकृत कर रहे हैं।"
+  "tarot.desc.21": "दुनिया पूर्णता और सद्भाव का प्रतीक है। आप एक लंबी यात्रा के अंत में आ गए हैं, सीखे गए सभी पाठों को एकीकृत कर रहे हैं।",
+  "nav.aura": "आभा",
+  "aura.page.title": "आभा का रंग और चक्र",
+  "aura.page.desc": "अपनी जन्म तिथि के आधार पर अपनी प्राथमिक आभा का रंग और चक्र संरेखण खोजें।",
+  "aura.tool.dob": "जन्म की तारीख",
+  "aura.tool.reveal": "मेरी आभा प्रकट करें",
+  "moon.label": "वर्तमान चंद्र चरण",
+  "moon.tip.label": "प्रकटीकरण टिप",
+  "moon.phase.new": "नया चाँद",
+  "moon.phase.waxing_crescent": "बढ़ता हुआ वर्धमान",
+  "moon.phase.first_quarter": "पहली तिमाही",
+  "moon.phase.waxing_gibbous": "बढ़ता हुआ गिबस",
+  "moon.phase.full": "पूर्णिमा",
+  "moon.phase.waning_gibbous": "घटता हुआ गिबस",
+  "moon.phase.last_quarter": "अंतिम तिमाही",
+  "moon.phase.waning_crescent": "घटता हुआ वर्धमान"
 }

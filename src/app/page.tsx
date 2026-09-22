@@ -4,6 +4,7 @@ import { useTranslation } from "@/lib/I18nContext";
 import { FeatureCard } from "@/components/FeatureCard";
 import { GamificationWidget } from "@/components/GamificationWidget";
 import { DailyQuestCard } from "@/components/DailyQuestCard";
+import { MoonWidget } from "@/components/MoonWidget";
 import { AdSlot } from "@/components/ui/AdSlot";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
@@ -35,6 +36,7 @@ export default function HomePage() {
       </section>
 
       <div className="mx-auto mt-20 max-w-2xl space-y-6">
+        <MoonWidget />
         <GamificationWidget />
         <DailyQuestCard />
       </div>
