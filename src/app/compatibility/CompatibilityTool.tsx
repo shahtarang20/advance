@@ -8,6 +8,7 @@ import { CompatibilityCard } from "@/components/CompatibilityCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { Button } from "@/components/ui/Button";
 import { useGamification } from "@/lib/gamification";
+import { useTranslation } from "@/lib/I18nContext";
 
 export function CompatibilityTool() {
   const [nameA, setNameA] = useState("");
@@ -18,6 +19,7 @@ export function CompatibilityTool() {
   const [result, setResult] = useState<CompatibilityResult | null>(null);
   const [samePerson, setSamePerson] = useState(false);
   const { recordAction } = useGamification();
+  const { t } = useTranslation();
 
   const nameAError = validateName(nameA);
   const dobAError = validateDob(dobA);
@@ -48,18 +50,18 @@ export function CompatibilityTool() {
         <form onSubmit={handleSubmit} noValidate className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-sm text-muted">Your Name</label>
+              <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.your_name")}</label>
               <input
                 value={nameA}
                 onChange={(e) => setNameA(e.target.value)}
-                placeholder="e.g. Tarang"
+                placeholder={t("comp.tool.your_name_ph")}
                 aria-invalid={touched && !!nameAError}
                 className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
               />
               {touched && nameAError && <p className="mt-1.5 text-xs text-amber-600">{nameAError}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm text-muted">Your DOB</label>
+              <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.your_dob")}</label>
               <input
                 type="date"
                 value={dobA}
@@ -72,18 +74,18 @@ export function CompatibilityTool() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-sm text-muted">Their Name</label>
+              <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.their_name")}</label>
               <input
                 value={nameB}
                 onChange={(e) => setNameB(e.target.value)}
-                placeholder="e.g. Aanya"
+                placeholder={t("comp.tool.their_name_ph")}
                 aria-invalid={touched && !!nameBError}
                 className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
               />
               {touched && nameBError && <p className="mt-1.5 text-xs text-amber-600">{nameBError}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm text-muted">Their DOB</label>
+              <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.their_dob")}</label>
               <input
                 type="date"
                 value={dobB}
@@ -95,7 +97,7 @@ export function CompatibilityTool() {
             </div>
           </div>
           <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
-            Check Compatibility
+            {t("comp.tool.check_btn")}
           </Button>
         </form>
       </GlassCard>
@@ -104,8 +106,7 @@ export function CompatibilityTool() {
         <div className="mt-10 space-y-6">
           {samePerson && (
             <p className="text-center text-xs text-muted-soft">
-              Looks like you entered the same name and date of birth twice — here&apos;s what the numbers say about
-              that anyway.
+              {t("comp.tool.same_person")}
             </p>
           )}
           <CompatibilityCard result={result} />

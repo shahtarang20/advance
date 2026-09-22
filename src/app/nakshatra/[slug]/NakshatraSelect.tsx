@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { NakshatraInfo } from "@/lib/nakshatra";
 import { useGamification } from "@/lib/gamification";
 import { Button } from "@/components/ui/Button";
 import { ShareButtons } from "@/components/ShareButtons";
+import { useTranslation } from "@/lib/I18nContext";
 
-export function NakshatraSelect({ info }: { info: NakshatraInfo }) {
+export function NakshatraSelect({ info }: { info: any }) {
   const { recordAction } = useGamification();
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(false);
 
   const origin = typeof window !== "undefined" ? window.location.origin : "";
@@ -18,7 +19,7 @@ export function NakshatraSelect({ info }: { info: NakshatraInfo }) {
     return (
       <div className="mt-6 text-center">
         <p className="mb-3 text-xs text-muted-soft">
-          Already know this is your Nakshatra from a Vedic birth chart or priest?
+          {t("nak.select.already_know")}
         </p>
         <Button
           onClick={() => {
@@ -26,7 +27,7 @@ export function NakshatraSelect({ info }: { info: NakshatraInfo }) {
             recordAction("nakshatra_select");
           }}
         >
-          This is my Nakshatra ✦
+          {t("nak.select.this_is_mine")}
         </Button>
       </div>
     );
@@ -35,7 +36,7 @@ export function NakshatraSelect({ info }: { info: NakshatraInfo }) {
   return (
     <div className="mt-6 space-y-4 text-center">
       <p className="text-sm text-muted">
-        {info.name} is now set as your Nakshatra. Share your reading below.
+        {t("nak.select.now_set", { name: t(`nak.${info.slug}.name`, { defaultValue: info.name }) })}
       </p>
       <ShareButtons
         shareUrl={shareUrl}

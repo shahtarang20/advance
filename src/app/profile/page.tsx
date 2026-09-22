@@ -3,6 +3,8 @@
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { BADGE_CATALOG, useGamification } from "@/lib/gamification";
+import { Trans } from "@/components/Trans";
+import { useTranslation } from "@/lib/I18nContext";
 
 function StatTile({ label, value }: { label: string; value: string | number }) {
   return (
@@ -15,9 +17,10 @@ function StatTile({ label, value }: { label: string; value: string | number }) {
 
 export default function ProfilePage() {
   const { hydrated, xp, streak, bestStreak, badges, totalReadings, bestXpDayTotal, levelTitle } = useGamification();
+  const { t } = useTranslation();
 
   if (!hydrated) {
-    return <div className="px-6 py-24 text-center text-muted">Loading your stats…</div>;
+    return <div className="px-6 py-24 text-center text-muted">{t("profile.page.loading")}</div>;
   }
 
   const earnedIds = new Set(badges.map((b) => b.id));
@@ -26,28 +29,27 @@ export default function ProfilePage() {
   return (
     <div className="mx-auto max-w-3xl px-6 pb-24 pt-16">
       <div className="text-center">
-        <p className="text-xs uppercase tracking-widest text-muted-soft">Your Profile</p>
+        <p className="text-xs uppercase tracking-widest text-muted-soft">{t("profile.page.title")}</p>
         <h1 className="mt-2 text-3xl font-bold">{levelTitle}</h1>
         <p className="mt-2 text-sm text-muted">
-          These stats live only in this browser — there&apos;s no account or server, so this is a personal
-          record, not a public leaderboard.
+          {t("profile.page.desc")}
         </p>
       </div>
 
       <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <StatTile label="Cosmic XP" value={xp} />
-        <StatTile label="Current Streak" value={streak} />
-        <StatTile label="Longest Streak" value={bestStreak} />
-        <StatTile label="Best XP Day" value={bestXpDayTotal} />
+        <StatTile label={t("profile.page.xp")} value={xp} />
+        <StatTile label={t("profile.page.streak")} value={streak} />
+        <StatTile label={t("profile.page.best_streak")} value={bestStreak} />
+        <StatTile label={t("profile.page.best_xp")} value={bestXpDayTotal} />
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4">
-        <StatTile label="Total Readings" value={totalReadings} />
-        <StatTile label="Badges Collected" value={`${badges.length} / ${allBadgeIds.length}`} />
+        <StatTile label={t("profile.page.total_readings")} value={totalReadings} />
+        <StatTile label={t("profile.page.badges_collected")} value={`${badges.length} / ${allBadgeIds.length}`} />
       </div>
 
       <GlassCard className="mt-10 p-6">
-        <h2 className="mb-4 text-lg font-semibold">Badge Collection</h2>
+        <h2 className="mb-4 text-lg font-semibold">{t("profile.page.badge_collection")}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {allBadgeIds.map((id) => {
             const meta = BADGE_CATALOG[id];
@@ -69,7 +71,7 @@ export default function ProfilePage() {
       </GlassCard>
 
       <div className="mt-10 text-center">
-        <Button href="/">Back to Home</Button>
+        <Button href="/">{t("profile.page.back_home")}</Button>
       </div>
     </div>
   );

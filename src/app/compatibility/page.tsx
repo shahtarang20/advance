@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CompatibilityTool } from "./CompatibilityTool";
+import { Trans } from "@/components/Trans";
 
 export const metadata: Metadata = {
   title: "Numerology Compatibility Calculator — Love Match Percentage",
@@ -17,10 +18,9 @@ export default function CompatibilityPage() {
   return (
     <div className="px-6 pb-24 pt-16">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Compatibility Calculator</h1>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl"><Trans tKey="comp.page.title" /></h1>
         <p className="mt-4 text-muted">
-          Enter two names and birth dates to see your numerology-based cosmic
-          match percentage — perfect for friends, couples, or crushes.
+          <Trans tKey="comp.page.desc" />
         </p>
       </div>
       <div className="mt-12">

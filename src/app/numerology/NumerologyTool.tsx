@@ -8,6 +8,7 @@ import { NumerologyCard } from "@/components/NumerologyCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { Button } from "@/components/ui/Button";
 import { useGamification } from "@/lib/gamification";
+import { useTranslation } from "@/lib/I18nContext";
 
 export function NumerologyTool() {
   const [name, setName] = useState("");
@@ -15,6 +16,7 @@ export function NumerologyTool() {
   const [touched, setTouched] = useState(false);
   const [submitted, setSubmitted] = useState<{ name: string; profile: NumerologyProfile } | null>(null);
   const { recordAction } = useGamification();
+  const { t } = useTranslation();
 
   const nameError = validateName(name);
   const dobError = validateDob(dob);
@@ -46,14 +48,14 @@ export function NumerologyTool() {
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div>
             <label htmlFor="name" className="mb-1.5 block text-sm text-muted">
-              Full Name (as given at birth)
+              {t("numerology.tool.name")}
             </label>
             <input
               id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Tarang Patel"
+              placeholder={t("numerology.tool.name_placeholder")}
               aria-invalid={touched && !!nameError}
               aria-describedby={touched && nameError ? "name-error" : undefined}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
@@ -66,7 +68,7 @@ export function NumerologyTool() {
           </div>
           <div>
             <label htmlFor="dob" className="mb-1.5 block text-sm text-muted">
-              Date of Birth
+              {t("numerology.tool.dob")}
             </label>
             <input
               id="dob"
@@ -84,7 +86,7 @@ export function NumerologyTool() {
             )}
           </div>
           <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
-            Reveal My Numbers
+            {t("numerology.tool.reveal_btn")}
           </Button>
         </form>
       </GlassCard>

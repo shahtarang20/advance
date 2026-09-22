@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { AngelNumbersTool } from "./AngelNumbersTool";
+import { Trans } from "@/components/Trans";
 
 export const metadata: Metadata = {
   title: "Angel Numbers Meaning — 111, 222, 333, 444 & More Explained",
@@ -17,16 +17,18 @@ export default function AngelNumbersPage() {
   return (
     <div className="px-6 pb-24 pt-16">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Angel Numbers</h1>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          <Trans tKey="angel_numbers.title" />
+        </h1>
         <p className="mt-4 text-muted">
-          A quick reference for the repeating numbers people report noticing — 111, 222, 444, 1111, and more.
+          <Trans tKey="angel_numbers.desc" />
         </p>
         <p className="mt-3 text-xs text-muted-soft">
           This is folklore and spiritual tradition, not scientific fact — treat these meanings as a reflective
           prompt, not a prediction.
         </p>
       </div>
-      <div className="mx-auto mt-12 max-w-4xl">
+      <div className="mx-auto mt-12 max-w-5xl">
         <AngelNumbersTool />
       </div>
     </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { NumerologyTool } from "./NumerologyTool";
+import { Trans } from "@/components/Trans";
 
 export const metadata: Metadata = {
   title: "Free Numerology Calculator — Life Path, Destiny & Soul Urge Number",
@@ -53,10 +54,9 @@ export default function NumerologyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Numerology Calculator</h1>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl"><Trans tKey="numerology.page.title" /></h1>
         <p className="mt-4 text-muted">
-          Enter your full birth name and date of birth to reveal your four core
-          numerology numbers, each with a genuine, detailed reading.
+          <Trans tKey="numerology.page.desc" />
         </p>
       </div>
       <div className="mt-12">
@@ -64,9 +64,9 @@ export default function NumerologyPage() {
       </div>
       <div className="mx-auto mt-16 max-w-2xl text-center">
         <p className="text-sm text-muted">
-          Keep seeing the same number everywhere?{" "}
+          <Trans tKey="numerology.page.angel" />{" "}
           <Link href="/numerology/angel-numbers" className="text-purple-600 underline">
-            Look up its angel-number meaning →
+            <Trans tKey="numerology.page.angel_link" />
           </Link>
         </p>
       </div>

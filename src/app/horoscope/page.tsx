@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HoroscopeTool } from "./HoroscopeTool";
+import { Trans } from "@/components/Trans";
 
 export const metadata: Metadata = {
   title: "Daily Horoscope Today — All 12 Zodiac Signs",
@@ -17,10 +18,11 @@ export default function HoroscopePage() {
   return (
     <div className="px-6 pb-24 pt-16">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Daily Horoscope</h1>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          <Trans tKey="horoscope.page.title" />
+        </h1>
         <p className="mt-4 text-muted">
-          Pick your zodiac sign, or enter your date of birth, to get today&apos;s
-          reading — refreshed once every day for everyone.
+          <Trans tKey="horoscope.page.desc" />
         </p>
       </div>
       <div className="mt-12">

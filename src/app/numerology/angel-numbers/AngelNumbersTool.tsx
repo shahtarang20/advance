@@ -4,9 +4,11 @@ import { useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ANGEL_NUMBERS } from "@/lib/numerology";
 import { useGamification } from "@/lib/gamification";
+import { useTranslation } from "@/lib/I18nContext";
 
 export function AngelNumbersTool() {
   const { recordAction } = useGamification();
+  const { t } = useTranslation();
 
   useEffect(() => {
     recordAction("angel_numbers_view");
@@ -18,8 +20,8 @@ export function AngelNumbersTool() {
       {ANGEL_NUMBERS.map((entry) => (
         <GlassCard key={entry.number} className="p-6">
           <p className="accent-gradient-text text-4xl font-bold tracking-wide">{entry.number}</p>
-          <h2 className="mt-2 text-sm font-semibold uppercase tracking-widest text-purple-600">{entry.title}</h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted">{entry.meaning}</p>
+          <h2 className="mt-2 text-sm font-semibold uppercase tracking-widest text-purple-600">{t(`angel.${entry.number}.title`, { defaultValue: entry.title })}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted">{t(`angel.${entry.number}.meaning`, { defaultValue: entry.meaning })}</p>
         </GlassCard>
       ))}
     </div>

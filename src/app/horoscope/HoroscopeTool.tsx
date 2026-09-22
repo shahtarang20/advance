@@ -7,12 +7,14 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { HoroscopeCard } from "@/components/HoroscopeCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { useGamification } from "@/lib/gamification";
+import { useTranslation } from "@/lib/I18nContext";
 
 export function HoroscopeTool() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
   const [dob, setDob] = useState("");
   const [dobError, setDobError] = useState<string | null>(null);
   const { checkinHoroscope, recordAction } = useGamification();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (selected) {
@@ -40,11 +42,11 @@ export function HoroscopeTool() {
   return (
     <div className="mx-auto max-w-3xl">
       <GlassCard className="p-8">
-        <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-soft">Find Your Sign</h2>
+        <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-soft">{t("horoscope.tool.find_sign")}</h2>
         <div className="mb-2 flex flex-wrap items-end gap-4">
           <div className="flex-1">
             <label htmlFor="horoscope-dob" className="mb-1.5 block text-sm text-muted">
-              Don&apos;t know your sign? Enter your DOB
+              {t("horoscope.tool.dont_know")}
             </label>
             <input
               id="horoscope-dob"
@@ -62,12 +64,12 @@ export function HoroscopeTool() {
             onClick={handleDetect}
             className="btn-tap accent-ring rounded-xl border border-[var(--surface-border)] bg-[var(--surface-strong)] px-5 py-3 text-sm font-semibold transition hover:bg-[var(--surface-strong)]"
           >
-            Detect My Sign
+            {t("horoscope.tool.detect_btn")}
           </button>
         </div>
         {dobError && <p className="mb-4 text-xs text-amber-600">{dobError}</p>}
 
-        <h2 className="mb-3 mt-6 text-xs font-semibold uppercase tracking-widest text-muted-soft">Or Pick Your Sign</h2>
+        <h2 className="mb-3 mt-6 text-xs font-semibold uppercase tracking-widest text-muted-soft">{t("horoscope.tool.or_pick")}</h2>
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
           {ZODIAC_SIGNS.map((z) => (
             <button
@@ -80,7 +82,7 @@ export function HoroscopeTool() {
               }`}
             >
               <span className="text-2xl">{z.glyph}</span>
-              {z.name}
+              {t(`zodiac.${z.sign}`)}
             </button>
           ))}
         </div>

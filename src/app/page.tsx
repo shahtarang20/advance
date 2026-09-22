@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslation } from "@/lib/I18nContext";
 import { FeatureCard } from "@/components/FeatureCard";
 import { GamificationWidget } from "@/components/GamificationWidget";
 import { DailyQuestCard } from "@/components/DailyQuestCard";
@@ -7,27 +10,26 @@ import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
 export default function HomePage() {
+  const { t } = useTranslation();
   return (
     <div className="mx-auto max-w-6xl px-6 pb-32 pt-20 sm:pt-28">
       {/* Hero */}
       <section className="mx-auto max-w-3xl text-center">
         <p className="mb-5 text-sm font-medium uppercase tracking-widest text-muted-soft">
-          Free · No Sign-up · Made for India
+          {t("home.hero.subtitle")}
         </p>
         <h1 className="accent-gradient-text text-5xl font-bold tracking-tight sm:text-7xl">
-          Your Numbers. Your Stars. Your Story.
+          {t("home.hero.title")}
         </h1>
         <p className="mx-auto mt-7 max-w-xl text-lg font-normal leading-relaxed text-muted">
-          Discover your Life Path Number, read your daily horoscope, and check
-          cosmic compatibility with anyone — calculated instantly, right in
-          your browser.
+          {t("home.hero.desc")}
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <Button href="/numerology" variant="primary">
-            Calculate My Numbers
+            {t("home.btn.calc")}
           </Button>
           <Button href="/horoscope" variant="secondary">
-            Read Today&apos;s Horoscope
+            {t("home.btn.horoscope")}
           </Button>
         </div>
       </section>
@@ -43,22 +45,22 @@ export default function HomePage() {
           <FeatureCard
             href="/numerology"
             icon="🔢"
-            title="Numerology Calculator"
-            description="Get your Life Path, Destiny, Soul Urge, and Personality numbers, each with a real, in-depth reading."
+            title={t("home.feat.num.title")}
+            description={t("home.feat.num.desc")}
             gradient="bg-gradient-to-br from-indigo-500/30 to-indigo-500/10"
           />
           <FeatureCard
             href="/horoscope"
             icon="🌙"
-            title="Daily Horoscope"
-            description="A fresh horoscope every day for all 12 zodiac signs — love, career, health, lucky number and color."
+            title={t("home.feat.horo.title")}
+            description={t("home.feat.horo.desc")}
             gradient="bg-gradient-to-br from-purple-500/30 to-purple-500/10"
           />
           <FeatureCard
             href="/compatibility"
             icon="💫"
-            title="Compatibility Check"
-            description="See your cosmic match percentage with a friend, partner, or crush based on numerology."
+            title={t("home.feat.comp.title")}
+            description={t("home.feat.comp.desc")}
             gradient="bg-gradient-to-br from-amber-500/30 to-amber-500/10"
           />
         </section>
@@ -73,31 +75,15 @@ export default function HomePage() {
       <Reveal className="mt-28 sm:mt-36">
         <section className="grid gap-8 sm:grid-cols-2">
           <GlassCard className="p-8 sm:p-10">
-            <h2 className="mb-4 text-2xl font-semibold tracking-tight sm:text-3xl">Why Numerology?</h2>
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight sm:text-3xl">{t("home.why.title")}</h2>
             <p className="text-base leading-relaxed text-muted">
-              Numerology is the ancient practice of finding meaning in numbers —
-              especially the ones already hiding in your name and birth date.
-              Rooted in Pythagorean mathematics, it reduces your personal
-              details into single, powerful digits that are said to reveal your
-              personality, life purpose, and hidden strengths. Millions of
-              people across India use numerology alongside astrology to
-              understand themselves better, choose auspicious dates, and make
-              sense of big life decisions. Whether you take it as spiritual
-              insight or a fun personality mirror, your numbers offer a
-              surprisingly specific snapshot of who you are.
+              {t("home.why.desc")}
             </p>
           </GlassCard>
           <GlassCard className="p-8 sm:p-10">
-            <h2 className="mb-4 text-2xl font-semibold tracking-tight sm:text-3xl">How This App Works</h2>
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight sm:text-3xl">{t("home.how.title")}</h2>
             <p className="text-base leading-relaxed text-muted">
-              Everything here runs instantly in your own browser — your name
-              and birth date are never sent to a server or stored anywhere
-              except your device&apos;s local storage. We use the standard
-              Pythagorean reduction method for numerology, and a deterministic
-              daily algorithm for horoscopes, so the same day always produces
-              the same reading for everyone. Track your streaks, earn Cosmic
-              XP, unlock badges, and share any reading as a beautiful card on
-              WhatsApp — no account required, ever.
+              {t("home.how.desc")}
             </p>
           </GlassCard>
         </section>

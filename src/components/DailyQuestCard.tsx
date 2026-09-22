@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { DAILY_QUESTS, useGamification } from "@/lib/gamification";
+import { useTranslation } from "@/lib/I18nContext";
 
 export function DailyQuestCard() {
   const { hydrated, questsCompletedToday, questBonusAwardedToday } = useGamification();
+  const { t } = useTranslation();
 
   if (!hydrated) return null;
 
@@ -15,9 +17,9 @@ export function DailyQuestCard() {
   return (
     <GlassCard className="p-6">
       <div className="flex items-center justify-between">
-        <p className="text-xs uppercase tracking-widest text-muted-soft">Daily Quests</p>
+        <p className="text-xs uppercase tracking-widest text-muted-soft">{t("daily_quest.title")}</p>
         <p className="text-xs font-medium text-muted">
-          {doneCount}/{DAILY_QUESTS.length} {allDone && questBonusAwardedToday ? "· +30 XP claimed" : ""}
+          {doneCount}/{DAILY_QUESTS.length} {allDone && questBonusAwardedToday ? t("daily_quest.claimed") : ""}
         </p>
       </div>
       <ul className="mt-4 space-y-2.5">
@@ -40,7 +42,7 @@ export function DailyQuestCard() {
         })}
       </ul>
       {!allDone && (
-        <p className="mt-4 text-xs text-muted-soft">Finish all {DAILY_QUESTS.length} today for a +30 XP bonus.</p>
+        <p className="mt-4 text-xs text-muted-soft">{t("daily_quest.finish_all", { count: DAILY_QUESTS.length.toString() })}</p>
       )}
     </GlassCard>
   );

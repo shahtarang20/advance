@@ -3,9 +3,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { useGamification } from "@/lib/gamification";
+import { useTranslation } from "@/lib/I18nContext";
 
 export function GamificationToasts() {
   const { pendingBadges, dismissBadge, pendingLevelUp, dismissLevelUp } = useGamification();
+  const { t } = useTranslation();
   const activeBadge = pendingBadges[0];
 
   useEffect(() => {
@@ -34,8 +36,8 @@ export function GamificationToasts() {
           >
             <span className="text-2xl">✦</span>
             <div>
-              <p className="text-sm font-semibold">Level up!</p>
-              <p className="text-xs text-muted">You&apos;re now a {pendingLevelUp.title}</p>
+              <p className="text-sm font-semibold">{t("gami.toast.levelup")}</p>
+              <p className="text-xs text-muted">{t("gami.toast.now_a", { title: pendingLevelUp.title })}</p>
             </div>
           </motion.div>
         )}
@@ -50,7 +52,7 @@ export function GamificationToasts() {
           >
             <span className="text-2xl">🏅</span>
             <div>
-              <p className="text-sm font-semibold">Badge unlocked: {activeBadge.name}</p>
+              <p className="text-sm font-semibold">{t("gami.toast.badge_unlocked", { name: activeBadge.name })}</p>
               <p className="text-xs text-muted">{activeBadge.description}</p>
             </div>
           </motion.div>

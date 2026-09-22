@@ -12,6 +12,7 @@ import {
   getPinnacleDescription,
   getPinnacleStageLabel,
 } from "@/lib/numerology";
+import { useTranslation } from "@/lib/I18nContext";
 
 const HEADLINE_ORDER: NumerologyCategory[] = ["lifePath", "destiny", "soulUrge", "personality"];
 const CORE_GRID_ORDER: NumerologyCategory[] = [
@@ -33,6 +34,7 @@ const EXTENDED_GRID_ORDER: NumerologyCategory[] = [
 ];
 
 export function NumerologyCard({ name, profile }: { name: string; profile: NumerologyProfile }) {
+  const { t } = useTranslation();
   const values: Record<NumerologyCategory, number> = {
     lifePath: profile.lifePath,
     destiny: profile.destiny,
@@ -52,7 +54,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
   return (
     <div className="space-y-10">
       <GlassCard className="overflow-hidden p-8 text-center sm:p-10">
-        <p className="text-sm font-medium text-muted-soft">Numerology reading for</p>
+        <p className="text-sm font-medium text-muted-soft">{t("numerology.card.reading_for")}</p>
         <h2 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{name}</h2>
         <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
           {HEADLINE_ORDER.map((cat) => (
@@ -60,7 +62,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
               <p className="accent-gradient-text text-5xl font-bold tracking-tight sm:text-6xl">
                 {values[cat]}
               </p>
-              <p className="mt-2 text-sm text-muted">{CATEGORY_LABELS[cat]}</p>
+              <p className="mt-2 text-sm text-muted">{t(`num.label.${cat}`, { defaultValue: CATEGORY_LABELS[cat] })}</p>
             </div>
           ))}
         </div>
@@ -69,7 +71,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
       {profile.karmicDebts.length > 0 && (
         <GlassCard className="border-amber-400/20 p-6 sm:p-8">
           <h3 className="text-lg font-semibold tracking-tight text-amber-700">
-            Karmic Debt {profile.karmicDebts.length > 1 ? "Numbers" : "Number"}: {profile.karmicDebts.join(", ")}
+            {profile.karmicDebts.length > 1 ? t("numerology.card.karmic_debt_p") : t("numerology.card.karmic_debt_s")} {profile.karmicDebts.join(", ")}
           </h3>
           <div className="mt-3 space-y-3">
             {profile.karmicDebts.map((debt) => (
@@ -82,7 +84,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
       )}
 
       <div>
-        <h3 className="mb-5 text-2xl font-semibold tracking-tight">Core Numbers</h3>
+        <h3 className="mb-5 text-2xl font-semibold tracking-tight">{t("numerology.card.core_numbers")}</h3>
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
           {CORE_GRID_ORDER.map((cat) => (
             <NumberFlipCard key={cat} category={cat} value={values[cat]} />
@@ -91,7 +93,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
       </div>
 
       <div>
-        <h3 className="mb-5 text-2xl font-semibold tracking-tight">Extended Reading</h3>
+        <h3 className="mb-5 text-2xl font-semibold tracking-tight">{t("numerology.card.extended_reading")}</h3>
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
           {EXTENDED_GRID_ORDER.map((cat) => (
             <NumberFlipCard key={cat} category={cat} value={values[cat]} />
@@ -102,7 +104,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
       {profile.karmicLessons.length > 0 && (
         <GlassCard className="border-indigo-400/20 p-6 sm:p-8">
           <h3 className="text-lg font-semibold tracking-tight text-indigo-700">
-            Karmic Lesson {profile.karmicLessons.length > 1 ? "Numbers" : "Number"}: {profile.karmicLessons.join(", ")}
+            {profile.karmicLessons.length > 1 ? t("numerology.card.karmic_lesson_p") : t("numerology.card.karmic_lesson_s")} {profile.karmicLessons.join(", ")}
           </h3>
           <div className="mt-3 space-y-3">
             {profile.karmicLessons.map((lesson) => (
@@ -115,9 +117,9 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
       )}
 
       <GlassCard className="p-6 sm:p-8">
-        <h3 className="text-2xl font-semibold tracking-tight">Pinnacles &amp; Challenges</h3>
+        <h3 className="text-2xl font-semibold tracking-tight">{t("numerology.card.pinnacles_challenges")}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-soft">
-          The classic four-stage life-cycle system, built from your birth month, day, and year.
+          {t("numerology.card.pinnacles_desc")}
         </p>
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
           {profile.pinnacleCycle.pinnacles.map((p, i) => (
@@ -130,7 +132,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
               <p className="mt-2 text-[13px] leading-relaxed text-muted">{getPinnacleDescription(i, p.number)}</p>
               <div className="mt-3 border-t border-[var(--surface-border)] pt-3">
                 <p className="text-xs font-medium text-rose-600">
-                  Challenge {profile.pinnacleCycle.challenges[i]}
+                  {t("numerology.card.challenge")} {profile.pinnacleCycle.challenges[i]}
                 </p>
                 <p className="mt-1 text-[13px] leading-relaxed text-muted">
                   {getChallengeDescription(profile.pinnacleCycle.challenges[i])}
@@ -145,6 +147,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
 }
 
 function NumberFlipCard({ category, value }: { category: NumerologyCategory; value: number }) {
+  const { t } = useTranslation();
   return (
     <FlipCard
       ariaLabel={`${CATEGORY_LABELS[category]}: ${value}`}
@@ -153,19 +156,19 @@ function NumberFlipCard({ category, value }: { category: NumerologyCategory; val
         <GlassCard className="flex h-full w-full flex-col items-center justify-center p-5 text-center">
           <p className="accent-gradient-text text-5xl font-bold tracking-tight sm:text-6xl">{value}</p>
           <p className="mt-3 text-sm font-medium text-muted">
-            {CATEGORY_LABELS[category]}
+            {t(`num.label.${category}`, { defaultValue: CATEGORY_LABELS[category] })}
           </p>
-          <p className="mt-3 text-xs text-muted-soft">Tap to reveal meaning ✦</p>
+          <p className="mt-3 text-xs text-muted-soft">{t("numerology.card.tap_reveal")}</p>
         </GlassCard>
       }
       back={
         <GlassCard className="flex h-full w-full flex-col overflow-hidden p-5">
           <h3 className="shrink-0 text-base font-semibold tracking-tight">
-            {CATEGORY_LABELS[category]}
+            {t(`num.label.${category}`, { defaultValue: CATEGORY_LABELS[category] })}
           </h3>
-          <p className="mt-1 shrink-0 text-xs italic text-muted-soft">{CATEGORY_TAGLINES[category]}</p>
+          <p className="mt-1 shrink-0 text-xs italic text-muted-soft">{t(`num.tagline.${category}`, { defaultValue: CATEGORY_TAGLINES[category] })}</p>
           <p className="scroll-thin mt-3 min-h-0 flex-1 overflow-y-auto pr-1 text-[13px] leading-relaxed text-muted">
-            {getDescription(category, value)}
+            {t(`num.desc.${category}.${value}`, { defaultValue: getDescription(category, value) })}
           </p>
         </GlassCard>
       }

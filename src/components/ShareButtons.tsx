@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useGamification } from "@/lib/gamification";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/lib/I18nContext";
 
 interface ShareButtonsProps {
   /** Full absolute shareable page URL (e.g. /result/numerology?name=...) */
@@ -15,6 +16,7 @@ interface ShareButtonsProps {
 
 export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) {
   const { recordAction } = useGamification();
+  const { t } = useTranslation();
   const [downloading, setDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState<string | null>(null);
 
@@ -41,7 +43,7 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
       link.remove();
       URL.revokeObjectURL(objectUrl);
     } catch {
-      setDownloadError("Couldn't generate the image — please check your connection and try again.");
+      setDownloadError(t("share.error"));
     } finally {
       setDownloading(false);
     }
@@ -51,7 +53,7 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
     <div>
       <div className="flex flex-wrap gap-3">
         <Button variant="whatsapp" onClick={handleWhatsApp}>
-          Share to WhatsApp
+          {t("share.whatsapp")}
         </Button>
         <Button
           variant="secondary"
@@ -62,10 +64,10 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
           {downloading ? (
             <span className="flex items-center gap-2">
               <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-              Generating…
+              {t("share.generating")}
             </span>
           ) : (
-            "Download PNG"
+            t("share.download")
           )}
         </Button>
       </div>

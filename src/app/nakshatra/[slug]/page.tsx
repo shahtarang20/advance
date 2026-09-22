@@ -4,6 +4,7 @@ import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { getNakshatraBySlug, NAKSHATRAS } from "@/lib/nakshatra";
 import { NakshatraSelect } from "./NakshatraSelect";
+import { Trans } from "@/components/Trans";
 
 export function generateStaticParams() {
   return NAKSHATRAS.map((n) => ({ slug: n.slug }));
@@ -35,25 +36,25 @@ export default async function NakshatraDetailPage({ params }: { params: Promise<
   return (
     <div className="px-6 pb-24 pt-16">
       <div className="mx-auto max-w-2xl text-center">
-        <p className="text-xs uppercase tracking-widest text-muted-soft">Nakshatra #{info.order}</p>
-        <h1 className="mt-1 text-4xl font-bold tracking-tight sm:text-5xl">{info.name}</h1>
-        <p className="mt-4 text-muted">{info.description}</p>
+        <p className="text-xs uppercase tracking-widest text-muted-soft"><Trans tKey="nak.detail.subtitle" replacements={{ order: info.order.toString() }} /></p>
+        <h1 className="mt-1 text-4xl font-bold tracking-tight sm:text-5xl"><Trans tKey={`nak.${info.slug}.name`} replacements={{ defaultValue: info.name }} /></h1>
+        <p className="mt-4 text-muted"><Trans tKey={`nak.${info.slug}.desc`} replacements={{ defaultValue: info.description }} /></p>
       </div>
 
       <div className="mx-auto mt-12 max-w-2xl space-y-6">
         <GlassCard className="p-6">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <p className="text-sm font-semibold text-purple-600">{info.deity}</p>
-              <p className="text-xs text-muted-soft">Ruling Deity</p>
+              <p className="text-sm font-semibold text-purple-600"><Trans tKey={`nak.${info.slug}.deity`} replacements={{ defaultValue: info.deity }} /></p>
+              <p className="text-xs text-muted-soft"><Trans tKey="nak.detail.ruling_deity" /></p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-sky-600">{info.rulingPlanet}</p>
-              <p className="text-xs text-muted-soft">Ruling Planet</p>
+              <p className="text-sm font-semibold text-sky-600"><Trans tKey={`planet.${info.rulingPlanet.toLowerCase()}`} replacements={{ defaultValue: info.rulingPlanet }} /></p>
+              <p className="text-xs text-muted-soft"><Trans tKey="nak.detail.ruling_planet" /></p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-emerald-600">{info.symbol}</p>
-              <p className="text-xs text-muted-soft">Symbol</p>
+              <p className="text-sm font-semibold text-emerald-600"><Trans tKey={`nak.${info.slug}.symbol`} replacements={{ defaultValue: info.symbol }} /></p>
+              <p className="text-xs text-muted-soft"><Trans tKey="nak.detail.symbol" /></p>
             </div>
           </div>
         </GlassCard>
@@ -61,13 +62,12 @@ export default async function NakshatraDetailPage({ params }: { params: Promise<
         <NakshatraSelect info={info} />
 
         <p className="text-center text-[11px] text-muted-soft">
-          This is a traditional, educational reference — not a calculation from your date of birth. Your actual
-          birth Nakshatra depends on the Moon&apos;s exact sidereal position at your birth time.
+          <Trans tKey="nak.detail.disclaimer" />
         </p>
 
         <p className="text-center">
           <Link href="/nakshatra" className="text-sm text-purple-600 underline">
-            ← Browse all 27 Nakshatras
+            <Trans tKey="nak.detail.browse_all" />
           </Link>
         </p>
       </div>
