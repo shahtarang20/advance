@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { ZODIAC_SIGNS } from "@/lib/horoscope";
 import { NAKSHATRAS } from "@/lib/nakshatra";
-
-const SITE_URL = "https://cosmic-numbers.vercel.app";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

@@ -5,6 +5,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+import { SITE_URL } from "@/lib/site";
 
 // Set this in your Vercel project's env vars once you have an AdSense account
 // (Settings → Environment Variables → NEXT_PUBLIC_ADSENSE_CLIENT_ID = ca-pub-XXXXXXXXXXXXXXXX).
@@ -12,8 +13,6 @@ import { Footer } from "@/components/Footer";
 const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-
-const SITE_URL = "https://cosmic-numbers.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
