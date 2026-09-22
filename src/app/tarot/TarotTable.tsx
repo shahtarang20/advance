@@ -66,7 +66,7 @@ export function TarotTable() {
                         <div className="text-right">
                           <p className="text-xs font-bold tracking-widest text-muted-soft">{item.card.numeral}</p>
                           <h4 className="text-lg font-bold tracking-tight">
-                            {item.card.name}
+                            {t(`tarot.name.${item.card.id}`, { defaultValue: item.card.name })}
                             {item.isReversed && <span className="text-rose-500 text-xs ml-2">({t("tarot.card.reversed", { defaultValue: "Reversed" })})</span>}
                           </h4>
                         </div>
@@ -74,10 +74,12 @@ export function TarotTable() {
                       
                       <div className="flex-1 overflow-y-auto pr-2 scroll-thin">
                         <p className="text-[13px] font-medium text-indigo-400 mb-3 leading-relaxed">
-                          {item.isReversed ? item.card.reversedMeaning : item.card.uprightMeaning}
+                          {item.isReversed 
+                            ? t(`tarot.reversed.${item.card.id}`, { defaultValue: item.card.reversedMeaning }) 
+                            : t(`tarot.upright.${item.card.id}`, { defaultValue: item.card.uprightMeaning })}
                         </p>
                         <p className="text-[13px] text-muted leading-relaxed">
-                          {item.card.description}
+                          {t(`tarot.desc.${item.card.id}`, { defaultValue: item.card.description })}
                         </p>
                       </div>
                     </GlassCard>
