@@ -364,5 +364,17 @@
   "num.desc.rationalThought.6": "Verantwortungsbewusstes Denken.",
   "num.desc.rationalThought.7": "Analytisches Denken.",
   "num.desc.rationalThought.8": "Praktisches Denken.",
-  "num.desc.rationalThought.9": "Humanitäres Denken."
+  "num.desc.rationalThought.9": "Humanitäres Denken.",
+  "nav.tarot": "Tarot",
+  "tarot.title": "Tägliches Tarot-Lesen",
+  "tarot.desc": "Ziehen Sie Ihre täglichen Tarotkarten. Holen Sie sich eine kostenlose 1-Karten-Tagesziehung oder eine 3-Karten-Vergangenheit-Gegenwart-Zukunft-Lesung.",
+  "tarot.btn.daily": "Tagesziehung (1 Karte)",
+  "tarot.btn.three_card": "Vergangenheit, Gegenwart, Zukunft (3 Karten)",
+  "tarot.btn.draw_again": "Erneut ziehen",
+  "tarot.label.card_of_day": "Karte des Tages",
+  "tarot.label.past": "Vergangenheit",
+  "tarot.label.present": "Gegenwart",
+  "tarot.label.future": "Zukunft",
+  "tarot.card.tap_reveal": "Tippen zum Aufdecken",
+  "tarot.card.reversed": "Umgekehrt"
 }

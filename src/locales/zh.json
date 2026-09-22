@@ -364,5 +364,17 @@
   "num.desc.rationalThought.6": "负责任的思维。",
   "num.desc.rationalThought.7": "分析性思维。",
   "num.desc.rationalThought.8": "务实的思维。",
-  "num.desc.rationalThought.9": "人道主义的思维。"
+  "num.desc.rationalThought.9": "人道主义的思维。",
+  "nav.tarot": "塔罗牌",
+  "tarot.title": "每日塔罗牌占卜",
+  "tarot.desc": "抽取你的每日塔罗牌。获得免费的单张每日抽牌或3张过去、现在、未来占卜。",
+  "tarot.btn.daily": "每日抽牌 (1张)",
+  "tarot.btn.three_card": "过去、现在、未来 (3张)",
+  "tarot.btn.draw_again": "再次抽取",
+  "tarot.label.card_of_day": "今日牌",
+  "tarot.label.past": "过去",
+  "tarot.label.present": "现在",
+  "tarot.label.future": "未来",
+  "tarot.card.tap_reveal": "点击揭晓",
+  "tarot.card.reversed": "逆位"
 }

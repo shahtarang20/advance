@@ -233,5 +233,17 @@
   "num.desc.destiny.1": "Your destiny is to lead. You're meant to innovate and start things others are too afraid to attempt.",
   "num.desc.destiny.9": "Your destiny is service on a broad scale. You're meant to give back — through art, activism, teaching, or compassion.",
   "num.desc.soulUrge.3": "Your soul craves joy, play, and expression. You want to be seen and appreciated for your creativity and charm.",
-  "num.desc.personality.4": "People see you as dependable and grounded, the one they call when they need something done right."
+  "num.desc.personality.4": "People see you as dependable and grounded, the one they call when they need something done right.",
+  "nav.tarot": "Tarot",
+  "tarot.title": "Daily Tarot Reading",
+  "tarot.desc": "Draw your daily Tarot cards. Get a free 1-card daily pull or a 3-card Past, Present, Future reading.",
+  "tarot.btn.daily": "Daily Draw (1 Card)",
+  "tarot.btn.three_card": "Past, Present, Future (3 Cards)",
+  "tarot.btn.draw_again": "Draw Again",
+  "tarot.label.card_of_day": "Card of the Day",
+  "tarot.label.past": "Past",
+  "tarot.label.present": "Present",
+  "tarot.label.future": "Future",
+  "tarot.card.tap_reveal": "Tap to Reveal",
+  "tarot.card.reversed": "Reversed"
 }

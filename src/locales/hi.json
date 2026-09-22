@@ -364,5 +364,17 @@
   "num.desc.rationalThought.6": "जिम्मेदार सोच।",
   "num.desc.rationalThought.7": "विश्लेषणात्मक सोच।",
   "num.desc.rationalThought.8": "व्यावहारिक सोच।",
-  "num.desc.rationalThought.9": "मानवीय सोच।"
+  "num.desc.rationalThought.9": "मानवीय सोच।",
+  "nav.tarot": "टैरो",
+  "tarot.title": "दैनिक टैरो रीडिंग",
+  "tarot.desc": "अपना दैनिक टैरो कार्ड निकालें। मुफ्त 1-कार्ड दैनिक पुल या 3-कार्ड अतीत, वर्तमान, भविष्य रीडिंग प्राप्त करें।",
+  "tarot.btn.daily": "दैनिक ड्रा (1 कार्ड)",
+  "tarot.btn.three_card": "अतीत, वर्तमान, भविष्य (3 कार्ड)",
+  "tarot.btn.draw_again": "फिर से निकालें",
+  "tarot.label.card_of_day": "आज का कार्ड",
+  "tarot.label.past": "अतीत",
+  "tarot.label.present": "वर्तमान",
+  "tarot.label.future": "भविष्य",
+  "tarot.card.tap_reveal": "देखने के लिए टैप करें",
+  "tarot.card.reversed": "उलटा"
 }

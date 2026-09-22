@@ -13,6 +13,7 @@ const LINKS = [
   { href: "/horoscope", labelKey: "nav.horoscope" },
   { href: "/compatibility", labelKey: "nav.compatibility" },
   { href: "/nakshatra", labelKey: "nav.nakshatra" },
+  { href: "/tarot", labelKey: "nav.tarot" },
   { href: "/profile", labelKey: "nav.profile" },
 ];
 
