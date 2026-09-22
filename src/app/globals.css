@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0b0614;
+  --background-alt: #140b28;
+  --foreground: #f5f3ff;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-border: rgba(255, 255, 255, 0.1);
+  --surface-strong: rgba(255, 255, 255, 0.1);
+  --muted: rgba(245, 243, 255, 0.6);
+  --muted-soft: rgba(245, 243, 255, 0.4);
+
+  /* Cosmic accent system — indigo → violet → magenta → gold */
+  --accent-from: #6366f1;
+  --accent-via: #a855f7;
+  --accent-to: #f59e0b;
+  --accent-solid: #8b5cf6;
+  --accent-ring: rgba(139, 92, 246, 0.45);
+
+  --shadow-glow: 0 20px 60px -15px rgba(124, 58, 237, 0.45);
+  --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.35);
+}
+
+:root.light {
+  --background: #faf9fc;
+  --background-alt: #f1eef9;
+  --foreground: #170f28;
+  --surface: rgba(255, 255, 255, 0.75);
+  --surface-border: rgba(76, 29, 149, 0.14);
+  --surface-strong: rgba(255, 255, 255, 0.92);
+  --muted: rgba(23, 15, 40, 0.7);
+  --muted-soft: rgba(23, 15, 40, 0.5);
+
+  /* Deep, saturated jewel tones for AA contrast on a near-white surface */
+  --accent-from: #3730a3;
+  --accent-via: #7e22ce;
+  --accent-to: #b45309;
+  --accent-solid: #6d28d9;
+  --accent-ring: rgba(109, 40, 217, 0.32);
+
+  --shadow-glow: 0 20px 50px -18px rgba(109, 40, 217, 0.22);
+  --shadow-card: 0 8px 30px rgba(76, 29, 149, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.35);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.text-muted-soft {
+  color: var(--muted-soft);
+}
+
+.surface-glass {
+  background: var(--surface);
+  border-color: var(--surface-border);
+  box-shadow: var(--shadow-card);
+}
+
+.accent-gradient-text {
+  background-image: linear-gradient(135deg, var(--accent-from), var(--accent-via), var(--accent-to));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.accent-gradient-bg {
+  background-image: linear-gradient(135deg, var(--accent-from), var(--accent-via));
+}
+
+.accent-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.btn-tap {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-solid) transparent;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background-color: var(--accent-solid);
+  border-radius: 999px;
+}
