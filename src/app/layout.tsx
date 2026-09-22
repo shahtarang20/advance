@@ -7,10 +7,9 @@ import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { SITE_URL } from "@/lib/site";
 
-// Set this in your Vercel project's env vars once you have an AdSense account
-// (Settings → Environment Variables → NEXT_PUBLIC_ADSENSE_CLIENT_ID = ca-pub-XXXXXXXXXXXXXXXX).
-// Ads stay off everywhere (script never loads, AdSlot renders nothing) until this is set.
-const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+// Defaults to the real AdSense publisher ID. Override via NEXT_PUBLIC_ADSENSE_CLIENT_ID
+// in Vercel's env vars if this ever needs to change (Settings → Environment Variables).
+const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-5841910105267784";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
@@ -70,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="google-adsense-account" content={ADSENSE_CLIENT_ID} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
