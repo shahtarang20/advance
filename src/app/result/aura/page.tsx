@@ -2,13 +2,14 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { validateDob } from "@/lib/validation";
 import { getAuraForLifePath, ChakraColor } from "@/lib/aura";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal } from "@/components/ui/Reveal";
 
-export default function AuraResultPage() {
+function AuraResultContent() {
   const searchParams = useSearchParams();
   const dob = searchParams.get("dob") || "";
   const [aura, setAura] = useState<ChakraColor | null>(null);
@@ -93,5 +94,13 @@ export default function AuraResultPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuraResultPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-muted">Loading...</div>}>
+      <AuraResultContent />
+    </Suspense>
   );
 }
