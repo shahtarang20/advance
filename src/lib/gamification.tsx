@@ -17,7 +17,8 @@ export type ActionType =
   | "pinnacles_view"
   | "angel_numbers_view"
   | "nakshatra_browse"
-  | "nakshatra_select";
+  | "nakshatra_select"
+  | "kundli_generate";
 
 export type QuestId =
   | "quest_horoscope"
@@ -56,6 +57,8 @@ export const BADGE_CATALOG: Record<string, { name: string; description: string }
   "angel-watcher": { name: "Angel Watcher", description: "Checked the meaning of a repeating angel number." },
   "nakshatra-scholar": { name: "Nakshatra Scholar", description: "Browsed the Vedic Nakshatra reference." },
   "star-seeker": { name: "Star Seeker", description: "Selected your own Nakshatra for a personal reading." },
+  "kundli-seeker": { name: "Kundli Seeker", description: "Generated your first Janam Kundli (Vedic birth chart)." },
+  "kundli-scholar": { name: "Kundli Scholar", description: "Generated three or more Kundli charts." },
 };
 
 interface DailyQuestState {
@@ -100,6 +103,7 @@ const DEFAULT_STATE: GamificationState = {
     angel_numbers_view: 0,
     nakshatra_browse: 0,
     nakshatra_select: 0,
+    kundli_generate: 0,
   },
   signsViewed: [],
   todayXp: { date: todayKey(), earned: 0 },
@@ -130,6 +134,7 @@ const XP_REWARDS: Record<ActionType, number> = {
   angel_numbers_view: 10,
   nakshatra_browse: 10,
   nakshatra_select: 15,
+  kundli_generate: 25,
 };
 
 const QUEST_BONUS_XP = 30;
@@ -142,6 +147,7 @@ const ACTION_TO_QUEST: Partial<Record<ActionType, QuestId>> = {
   zodiac_profile_view: "quest_explore",
   angel_numbers_view: "quest_cosmic_reference",
   nakshatra_browse: "quest_cosmic_reference",
+  kundli_generate: "quest_explore",
 };
 
 export const DAILY_QUESTS: { id: QuestId; label: string }[] = [
@@ -370,6 +376,16 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
         }
         if (action === "nakshatra_select") {
           const r = awardBadge(next, "star-seeker");
+          next = r.state;
+          if (r.awarded) newlyAwarded.push(r.awarded);
+        }
+        if (action === "kundli_generate" && next.actionsCompleted.kundli_generate === 1) {
+          const r = awardBadge(next, "kundli-seeker");
+          next = r.state;
+          if (r.awarded) newlyAwarded.push(r.awarded);
+        }
+        if (action === "kundli_generate" && next.actionsCompleted.kundli_generate >= 3) {
+          const r = awardBadge(next, "kundli-scholar");
           next = r.state;
           if (r.awarded) newlyAwarded.push(r.awarded);
         }

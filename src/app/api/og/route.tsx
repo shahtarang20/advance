@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     biorhythm: "📈",
     dreams: "🌙",
     tarot: "🃏",
+    kundli: "🕉️",
   };
   const big =
     searchParams.get("big") ??

@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/horoscope",
     "/compatibility",
     "/nakshatra",
+    "/kundli",
   ].map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: new Date(),

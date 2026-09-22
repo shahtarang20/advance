@@ -65,6 +65,13 @@ export default function HomePage() {
             description={t("home.feat.comp.desc")}
             gradient="bg-gradient-to-br from-amber-500/30 to-amber-500/10"
           />
+          <FeatureCard
+            href="/kundli"
+            icon="🕉️"
+            title={t("home.feat.kundli.title")}
+            description={t("home.feat.kundli.desc")}
+            gradient="bg-gradient-to-br from-rose-500/30 to-rose-500/10"
+          />
         </section>
       </Reveal>
 
