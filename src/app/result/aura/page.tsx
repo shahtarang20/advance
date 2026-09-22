@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { validateDob } from "@/lib/validation";
-import { getAuraForLifePath, ChakraColor } from "@/lib/aura";
+import {
+  getAuraForLifePath,
+  ChakraColor,
+  auraNameKey,
+  auraChakraKey,
+  auraDescriptionKey,
+  auraStrengthKey,
+  auraBalanceTipKey,
+} from "@/lib/aura";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal } from "@/components/ui/Reveal";
 import { ShareButtons } from "@/components/ShareButtons";
 import { SITE_URL } from "@/lib/site";
+import { Trans } from "@/components/Trans";
 
 type SP = { dob?: string };
 
@@ -51,7 +60,7 @@ export default async function AuraResultPage({ searchParams }: { searchParams: P
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <Link href="/aura" className="text-purple-600 underline">
-          Please enter a valid Date of Birth.
+          <Trans tKey="aura.result.invalid_dob" replacements={{ defaultValue: "Please enter a valid Date of Birth." }} />
         </Link>
       </div>
     );
@@ -76,13 +85,16 @@ export default async function AuraResultPage({ searchParams }: { searchParams: P
         <Reveal>
           <div className="text-center mb-12">
             <p className="text-sm font-semibold tracking-widest text-muted-soft uppercase mb-2">
-              Your Primary Aura
+              <Trans tKey="aura.result.primary_aura" replacements={{ defaultValue: "Your Primary Aura" }} />
             </p>
             <h1 className="text-5xl font-bold tracking-tight sm:text-7xl mb-4" style={{ color: aura.colorHex }}>
-              {aura.name}
+              <Trans tKey={auraNameKey(aura)} replacements={{ defaultValue: aura.name }} />
             </h1>
             <p className="text-xl text-muted font-medium">
-              Aligned with the <span className="text-[var(--foreground)]">{aura.chakra}</span>
+              <Trans tKey="aura.result.aligned_with" replacements={{ defaultValue: "Aligned with the" }} />{" "}
+              <span className="text-[var(--foreground)]">
+                <Trans tKey={auraChakraKey(aura)} replacements={{ defaultValue: aura.chakra }} />
+              </span>
             </p>
           </div>
         </Reveal>
@@ -90,22 +102,34 @@ export default async function AuraResultPage({ searchParams }: { searchParams: P
         <div className="space-y-6">
           <Reveal delay={0.1}>
             <GlassCard className="p-8">
-              <h2 className="text-xl font-bold tracking-tight mb-3">Your Energy Profile</h2>
-              <p className="text-base leading-relaxed text-muted">{aura.description}</p>
+              <h2 className="text-xl font-bold tracking-tight mb-3">
+                <Trans tKey="aura.result.energy_profile" replacements={{ defaultValue: "Your Energy Profile" }} />
+              </h2>
+              <p className="text-base leading-relaxed text-muted">
+                <Trans tKey={auraDescriptionKey(aura)} replacements={{ defaultValue: aura.description }} />
+              </p>
             </GlassCard>
           </Reveal>
 
           <Reveal delay={0.2}>
             <GlassCard className="p-8">
-              <h2 className="text-xl font-bold tracking-tight mb-3 text-emerald-500">Your Greatest Strengths</h2>
-              <p className="text-base leading-relaxed text-muted">{aura.strength}</p>
+              <h2 className="text-xl font-bold tracking-tight mb-3 text-emerald-500">
+                <Trans tKey="aura.result.greatest_strengths" replacements={{ defaultValue: "Your Greatest Strengths" }} />
+              </h2>
+              <p className="text-base leading-relaxed text-muted">
+                <Trans tKey={auraStrengthKey(aura)} replacements={{ defaultValue: aura.strength }} />
+              </p>
             </GlassCard>
           </Reveal>
 
           <Reveal delay={0.3}>
             <GlassCard className="p-8">
-              <h2 className="text-xl font-bold tracking-tight mb-3 text-amber-500">How to Balance Your Chakra</h2>
-              <p className="text-base leading-relaxed text-muted">{aura.balanceTip}</p>
+              <h2 className="text-xl font-bold tracking-tight mb-3 text-amber-500">
+                <Trans tKey="aura.result.balance_title" replacements={{ defaultValue: "How to Balance Your Chakra" }} />
+              </h2>
+              <p className="text-base leading-relaxed text-muted">
+                <Trans tKey={auraBalanceTipKey(aura)} replacements={{ defaultValue: aura.balanceTip }} />
+              </p>
             </GlassCard>
           </Reveal>
 

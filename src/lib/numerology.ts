@@ -616,6 +616,15 @@ export function getPinnacleStageLabel(stageIndex: number): string {
   return PINNACLE_STAGE_LABELS[stageIndex];
 }
 
+export function pinnacleThemeKey(num: number): string {
+  const resolved = num in PINNACLE_CORE_THEMES ? num : reduceNumber(num);
+  return `num.pinnacleTheme.${resolved}`;
+}
+export const pinnacleThemeEn = (num: number) => PINNACLE_CORE_THEMES[num] ?? PINNACLE_CORE_THEMES[reduceNumber(num)];
+export const pinnacleFramingKey = (stageIndex: number) => `num.pinnacleFraming.${stageIndex}`;
+export const pinnacleFramingEn = (stageIndex: number) => PINNACLE_STAGE_FRAMING[stageIndex];
+export const pinnacleStageLabelKey = (stageIndex: number) => `num.pinnacleStage.${stageIndex}`;
+
 const CHALLENGE_DESCRIPTIONS: Record<number, string> = {
   0: "A Challenge of 0 is rare and is traditionally read as an open, do-over challenge — you'll face a bit of every number's lesson, with the freedom to choose your own response each time.",
   1: "This challenge asks you to overcome self-doubt and learn to assert yourself without becoming domineering or overly dependent on others.",
@@ -632,6 +641,14 @@ const CHALLENGE_DESCRIPTIONS: Record<number, string> = {
 export function getChallengeDescription(num: number): string {
   return CHALLENGE_DESCRIPTIONS[num] ?? CHALLENGE_DESCRIPTIONS[reduceNumber(num)];
 }
+
+export function challengeDescriptionKey(num: number): string {
+  const resolved = num in CHALLENGE_DESCRIPTIONS ? num : reduceNumber(num);
+  return `num.challenge.${resolved}`;
+}
+
+export const karmicDebtKey = (n: number) => `num.karmicDebt.${n}`;
+export const karmicLessonKey = (n: number) => `num.karmicLesson.${n}`;
 
 const CATEGORY_DESCRIPTION_MAP: Record<NumerologyCategory, Record<number, string>> = {
   ...NUMBER_DESCRIPTIONS,

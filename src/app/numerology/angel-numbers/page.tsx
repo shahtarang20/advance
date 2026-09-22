@@ -25,8 +25,13 @@ export default function AngelNumbersPage() {
           <Trans tKey="angel_numbers.desc" />
         </p>
         <p className="mt-3 text-xs text-muted-soft">
-          This is folklore and spiritual tradition, not scientific fact — treat these meanings as a reflective
-          prompt, not a prediction.
+          <Trans
+            tKey="angel_numbers.disclaimer"
+            replacements={{
+              defaultValue:
+                "This is folklore and spiritual tradition, not scientific fact — treat these meanings as a reflective prompt, not a prediction.",
+            }}
+          />
         </p>
       </div>
       <div className="mx-auto mt-12 max-w-5xl">

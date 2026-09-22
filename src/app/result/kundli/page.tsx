@@ -5,14 +5,18 @@ import {
   MOON_RASHI_MEANING,
   LAGNA_MEANING,
   SUN_RASHI_MEANING,
-  planetInRashiSignificance,
+  moonRashiMeaningKey,
+  lagnaMeaningKey,
+  sunRashiMeaningKey,
 } from "@/lib/kundliInterpretations";
 import { getNakshatraBySlug } from "@/lib/nakshatra";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { KundliChartGrid } from "@/components/KundliChartGrid";
 import { KundliResultTracker } from "./KundliResultTracker";
+import { GrahaInRashiLine } from "./GrahaInRashiLine";
 import { ShareButtons } from "@/components/ShareButtons";
+import { Trans } from "@/components/Trans";
 
 type SP = { name?: string; dob?: string; time?: string; lat?: string; lng?: string; tz?: string; utcOffset?: string };
 
@@ -72,9 +76,11 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
   if (!input) {
     return (
       <div className="px-6 py-24 text-center">
-        <p className="text-muted">No Kundli found.</p>
+        <p className="text-muted">
+          <Trans tKey="kundli.result.no_kundli" replacements={{ defaultValue: "No Kundli found." }} />
+        </p>
         <Link href="/kundli" className="mt-4 inline-block text-purple-600 underline">
-          Generate your own Kundli →
+          <Trans tKey="kundli.result.generate_own_link" replacements={{ defaultValue: "Generate your own Kundli →" }} />
         </Link>
       </div>
     );
@@ -95,10 +101,15 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
     <div className="mx-auto max-w-3xl px-6 pb-24 pt-16">
       <KundliResultTracker />
       <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{input.name}&rsquo;s Janam Kundli</h1>
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <Trans tKey="kundli.result.heading" replacements={{ name: input.name, defaultValue: "{name}’s Janam Kundli" }} />
+        </h1>
         <p className="mt-3 text-muted">
-          Lagna: <strong>{lagnaRashiEn}</strong> · Moon Rashi: <strong>{moonRashiEn}</strong> · Nakshatra:{" "}
-          <strong>{moonNakshatra.name}</strong> (Pada {chart.moonNakshatraPada})
+          <Trans tKey="kundli.result.lagna_label" replacements={{ defaultValue: "Lagna:" }} /> <strong>{lagnaRashiEn}</strong> ·{" "}
+          <Trans tKey="kundli.result.moon_rashi_label" replacements={{ defaultValue: "Moon Rashi:" }} /> <strong>{moonRashiEn}</strong> ·{" "}
+          <Trans tKey="kundli.result.nakshatra_label" replacements={{ defaultValue: "Nakshatra:" }} />{" "}
+          <strong>{moonNakshatra.name}</strong> (
+          <Trans tKey="kundli.result.pada_label" replacements={{ defaultValue: "Pada" }} /> {chart.moonNakshatraPada})
         </p>
       </div>
 
@@ -107,14 +118,24 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
       </GlassCard>
 
       <GlassCard className="mt-8 overflow-x-auto p-6 sm:p-8">
-        <h2 className="text-lg font-semibold">Graha Positions</h2>
+        <h2 className="text-lg font-semibold">
+          <Trans tKey="kundli.result.graha_positions_title" replacements={{ defaultValue: "Graha Positions" }} />
+        </h2>
         <table className="mt-4 w-full text-left text-sm">
           <thead>
             <tr className="text-muted-soft">
-              <th className="py-2 pr-3 font-medium">Graha</th>
-              <th className="py-2 pr-3 font-medium">Rashi</th>
-              <th className="py-2 pr-3 font-medium">Degree</th>
-              <th className="py-2 font-medium">House</th>
+              <th className="py-2 pr-3 font-medium">
+                <Trans tKey="kundli.chart.graha" replacements={{ defaultValue: "Graha" }} />
+              </th>
+              <th className="py-2 pr-3 font-medium">
+                <Trans tKey="kundli.chart.rashi" replacements={{ defaultValue: "Rashi" }} />
+              </th>
+              <th className="py-2 pr-3 font-medium">
+                <Trans tKey="kundli.chart.degree" replacements={{ defaultValue: "Degree" }} />
+              </th>
+              <th className="py-2 font-medium">
+                <Trans tKey="kundli.chart.house" replacements={{ defaultValue: "House" }} />
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -122,8 +143,15 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
               const p = chart.planets.find((pl) => pl.graha === g)!;
               return (
                 <tr key={g} className="border-t border-[var(--surface-border)]">
-                  <td className="py-2 pr-3 font-medium">{g}</td>
-                  <td className="py-2 pr-3">{RASHI_ENGLISH[p.rashi]}</td>
+                  <td className="py-2 pr-3 font-medium">
+                    <Trans tKey={`kundli.graha.${g.toLowerCase()}`} replacements={{ defaultValue: g }} />
+                  </td>
+                  <td className="py-2 pr-3">
+                    <Trans
+                      tKey={`zodiac.${RASHI_ENGLISH[p.rashi].toLowerCase()}`}
+                      replacements={{ defaultValue: RASHI_ENGLISH[p.rashi] }}
+                    />
+                  </td>
                   <td className="py-2 pr-3 text-muted">{formatDegree(p.degreeInRashi)}</td>
                   <td className="py-2 text-muted">{p.house}</td>
                 </tr>
@@ -134,39 +162,73 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
       </GlassCard>
 
       <GlassCard className="mt-8 p-6 sm:p-8">
-        <h2 className="text-lg font-semibold">Your Moon Rashi &amp; Nakshatra</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{MOON_RASHI_MEANING[chart.moon.rashi]}</p>
+        <h2 className="text-lg font-semibold">
+          <Trans tKey="kundli.result.moon_rashi_nakshatra_title" replacements={{ defaultValue: "Your Moon Rashi & Nakshatra" }} />
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          <Trans
+            tKey={moonRashiMeaningKey(chart.moon.rashi)}
+            replacements={{ defaultValue: MOON_RASHI_MEANING[chart.moon.rashi] }}
+          />
+        </p>
         <p className="mt-4 text-sm leading-relaxed text-muted">
-          Your Janam Nakshatra is <strong>{moonNakshatra.name}</strong>, ruled by {moonNakshatra.rulingPlanet}, with
-          the deity {moonNakshatra.deity} and symbol {moonNakshatra.symbol}. {moonNakshatra.description}
+          <Trans
+            tKey="kundli.result.nakshatra_intro"
+            replacements={{
+              name: moonNakshatra.name,
+              ruler: moonNakshatra.rulingPlanet,
+              deity: moonNakshatra.deity,
+              symbol: moonNakshatra.symbol,
+              defaultValue: `Your Janam Nakshatra is {name}, ruled by {ruler}, with the deity {deity} and symbol {symbol}.`,
+            }}
+          />{" "}
+          <Trans
+            tKey={`nakshatra.desc.${moonNakshatra.slug}`}
+            replacements={{ defaultValue: moonNakshatra.description }}
+          />
         </p>
         <Link href={`/nakshatra/${moonNakshatra.slug}`} className="mt-3 inline-block text-sm text-purple-600 underline">
-          Read more about {moonNakshatra.name} Nakshatra →
+          <Trans
+            tKey="kundli.result.read_more_nakshatra_link"
+            replacements={{ name: moonNakshatra.name, defaultValue: "Read more about {name} Nakshatra →" }}
+          />
         </Link>
       </GlassCard>
 
       <GlassCard className="mt-8 p-6 sm:p-8">
-        <h2 className="text-lg font-semibold">Your Lagna (Ascendant)</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{LAGNA_MEANING[chart.lagnaRashi]}</p>
+        <h2 className="text-lg font-semibold">
+          <Trans tKey="kundli.result.lagna_title" replacements={{ defaultValue: "Your Lagna (Ascendant)" }} />
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          <Trans tKey={lagnaMeaningKey(chart.lagnaRashi)} replacements={{ defaultValue: LAGNA_MEANING[chart.lagnaRashi] }} />
+        </p>
       </GlassCard>
 
       <GlassCard className="mt-8 p-6 sm:p-8">
-        <h2 className="text-lg font-semibold">Your Sun Rashi</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{SUN_RASHI_MEANING[sunPlanet.rashi]}</p>
+        <h2 className="text-lg font-semibold">
+          <Trans tKey="kundli.result.sun_rashi_title" replacements={{ defaultValue: "Your Sun Rashi" }} />
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          <Trans tKey={sunRashiMeaningKey(sunPlanet.rashi)} replacements={{ defaultValue: SUN_RASHI_MEANING[sunPlanet.rashi] }} />
+        </p>
       </GlassCard>
 
       <GlassCard className="mt-8 p-6 sm:p-8">
-        <h2 className="text-lg font-semibold">Other Grahas</h2>
+        <h2 className="text-lg font-semibold">
+          <Trans tKey="kundli.result.other_grahas_title" replacements={{ defaultValue: "Other Grahas" }} />
+        </h2>
         <div className="mt-4 space-y-3">
           {GRAHA_ORDER.filter((g) => g !== "Sun" && g !== "Moon").map((g) => {
             const p = chart.planets.find((pl) => pl.graha === g)!;
             return (
-              <p key={g} className="text-sm leading-relaxed text-muted">
-                <strong className="text-[var(--foreground)]">
-                  {g} in {RASHI_ENGLISH[p.rashi]} (House {p.house}):
-                </strong>{" "}
-                {planetInRashiSignificance(g, p.rashi)}
-              </p>
+              <GrahaInRashiLine
+                key={g}
+                graha={g}
+                grahaEnglish={g}
+                rashi={p.rashi}
+                rashiEnglish={RASHI_ENGLISH[p.rashi]}
+                house={p.house}
+              />
             );
           })}
         </div>
@@ -178,13 +240,19 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
           ogQuery={ogQuery}
           caption={`My Kundli: Moon in ${moonRashiEn}, ${moonNakshatra.name} Nakshatra — see yours free on Cosmic Numbers:`}
         />
-        <Button href="/kundli">Generate Your Own Kundli →</Button>
+        <Button href="/kundli">
+          <Trans tKey="kundli.result.generate_own_btn" replacements={{ defaultValue: "Generate Your Own Kundli →" }} />
+        </Button>
       </div>
 
       <p className="mx-auto mt-10 max-w-xl text-center text-xs text-muted-soft">
-        Calculated on-demand from real planetary positions using the Lahiri ayanamsa and whole-sign
-        houses. Nothing about your birth details is stored on our servers — this chart is computed
-        fresh each time from the link&rsquo;s parameters.
+        <Trans
+          tKey="kundli.result.privacy_note"
+          replacements={{
+            defaultValue:
+              "Calculated on-demand from real planetary positions using the Lahiri ayanamsa and whole-sign houses. Nothing about your birth details is stored on our servers — this chart is computed fresh each time from the link’s parameters.",
+          }}
+        />
       </p>
     </div>
   );

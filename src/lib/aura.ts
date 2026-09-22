@@ -97,3 +97,9 @@ export function getAuraForLifePath(lifePathNumber: number): ChakraColor {
   const reduced = lifePathNumber > 9 ? (lifePathNumber % 9 || 9) : lifePathNumber;
   return AURA_COLORS[reduced];
 }
+
+export const auraNameKey = (aura: ChakraColor) => `aura.color.${aura.id}.name`;
+export const auraChakraKey = (aura: ChakraColor) => `aura.color.${aura.id}.chakra`;
+export const auraDescriptionKey = (aura: ChakraColor) => `aura.color.${aura.id}.description`;
+export const auraStrengthKey = (aura: ChakraColor) => `aura.color.${aura.id}.strength`;
+export const auraBalanceTipKey = (aura: ChakraColor) => `aura.color.${aura.id}.balanceTip`;

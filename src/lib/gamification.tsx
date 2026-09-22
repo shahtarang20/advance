@@ -139,6 +139,23 @@ const XP_REWARDS: Record<ActionType, number> = {
 
 const QUEST_BONUS_XP = 30;
 
+// Progressive feature unlocks — Numerology, Aura, Biorhythm, and Dreams stay hidden from
+// navigation and their own pages until the user has built up enough daily-checkin streak,
+// revealing one new feature per full week of consecutive check-ins. bestStreak (not the
+// current streak) gates unlocks so a broken streak never takes an already-unlocked feature away.
+export type LockableFeature = "numerology" | "aura" | "biorhythm" | "dreams";
+
+export const FEATURE_UNLOCK_ORDER: LockableFeature[] = ["numerology", "aura", "biorhythm", "dreams"];
+
+const STREAK_DAYS_PER_WEEK = 7;
+
+export const FEATURE_UNLOCK_DAYS: Record<LockableFeature, number> = {
+  numerology: 1 * STREAK_DAYS_PER_WEEK,
+  aura: 2 * STREAK_DAYS_PER_WEEK,
+  biorhythm: 3 * STREAK_DAYS_PER_WEEK,
+  dreams: 4 * STREAK_DAYS_PER_WEEK,
+};
+
 const ACTION_TO_QUEST: Partial<Record<ActionType, QuestId>> = {
   horoscope_checkin: "quest_horoscope",
   numerology_calc: "quest_numerology",
@@ -226,6 +243,8 @@ interface GamificationContextValue extends GamificationState {
   dismissLevelUp: () => void;
   questsCompletedToday: QuestId[];
   questBonusAwardedToday: boolean;
+  unlockedFeatures: LockableFeature[];
+  isFeatureUnlocked: (feature: LockableFeature) => boolean;
 }
 
 const GamificationContext = createContext<GamificationContextValue | null>(null);
@@ -505,6 +524,11 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
 
   const level = getLevel(state.xp);
 
+  const unlockedFeatures = hydrated
+    ? FEATURE_UNLOCK_ORDER.filter((f) => state.bestStreak >= FEATURE_UNLOCK_DAYS[f])
+    : [];
+  const isFeatureUnlocked = (feature: LockableFeature) => unlockedFeatures.includes(feature);
+
   const value: GamificationContextValue = {
     ...state,
     levelTitle: level.current,
@@ -519,6 +543,8 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     dismissLevelUp,
     questsCompletedToday: state.dailyQuest.date === todayKey() ? state.dailyQuest.completed : [],
     questBonusAwardedToday: state.dailyQuest.date === todayKey() ? state.dailyQuest.bonusAwarded : false,
+    unlockedFeatures,
+    isFeatureUnlocked,
   };
 
   return <GamificationContext.Provider value={value}>{children}</GamificationContext.Provider>;

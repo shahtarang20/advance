@@ -85,3 +85,17 @@ const RASHI_FLAVOR: Record<Rashi, string> = {
 export function planetInRashiSignificance(graha: Graha, rashi: Rashi): string {
   return `${graha} governs ${PLANET_THEMES[graha]} in your chart. Placed in ${rashi}, this expresses through ${RASHI_FLAVOR[rashi]} — coloring how you experience and act on ${PLANET_THEMES[graha].split(",")[0]} in daily life.`;
 }
+
+// --- Translation key helpers ---------------------------------------------
+// These map each interpretation to an i18n key (src/locales/*.json). The
+// English maps above are passed as `defaultValue` so the page always renders
+// correctly even for keys a given locale hasn't translated yet.
+
+export const moonRashiMeaningKey = (rashi: Rashi) => `kundli.moonMeaning.${rashi.toLowerCase()}`;
+export const lagnaMeaningKey = (rashi: Rashi) => `kundli.lagnaMeaning.${rashi.toLowerCase()}`;
+export const sunRashiMeaningKey = (rashi: Rashi) => `kundli.sunMeaning.${rashi.toLowerCase()}`;
+export const planetThemeKey = (graha: Graha) => `kundli.planetTheme.${graha.toLowerCase()}`;
+export const rashiFlavorKey = (rashi: Rashi) => `kundli.rashiFlavor.${rashi.toLowerCase()}`;
+
+export const PLANET_THEMES_EN = PLANET_THEMES;
+export const RASHI_FLAVOR_EN = RASHI_FLAVOR;

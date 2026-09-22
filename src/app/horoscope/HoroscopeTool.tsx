@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getDailyHoroscope, getZodiacByDob, getZodiacInfo, ZODIAC_SIGNS, ZodiacSign } from "@/lib/horoscope";
 import { validateDob } from "@/lib/validation";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { HoroscopeCard } from "@/components/HoroscopeCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { useGamification } from "@/lib/gamification";
@@ -48,16 +49,15 @@ export function HoroscopeTool() {
             <label htmlFor="horoscope-dob" className="mb-1.5 block text-sm text-muted">
               {t("horoscope.tool.dont_know")}
             </label>
-            <input
+            <DateOfBirthInput
               id="horoscope-dob"
-              type="date"
               value={dob}
-              onChange={(e) => {
-                setDob(e.target.value);
+              onChange={(v) => {
+                setDob(v);
                 if (dobError) setDobError(null);
               }}
-              aria-invalid={!!dobError}
-              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
+              ariaInvalid={!!dobError}
+              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
             />
           </div>
           <button

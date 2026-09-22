@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NumerologyTool } from "./NumerologyTool";
 import { Trans } from "@/components/Trans";
+import { FeatureGate } from "@/components/FeatureGate";
 
 export const metadata: Metadata = {
   title: "Free Numerology Calculator — Life Path, Destiny & Soul Urge Number",
@@ -53,23 +54,25 @@ export default function NumerologyPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl"><Trans tKey="numerology.page.title" /></h1>
-        <p className="mt-4 text-muted">
-          <Trans tKey="numerology.page.desc" />
-        </p>
-      </div>
-      <div className="mt-12">
-        <NumerologyTool />
-      </div>
-      <div className="mx-auto mt-16 max-w-2xl text-center">
-        <p className="text-sm text-muted">
-          <Trans tKey="numerology.page.angel" />{" "}
-          <Link href="/numerology/angel-numbers" className="text-purple-600 underline">
-            <Trans tKey="numerology.page.angel_link" />
-          </Link>
-        </p>
-      </div>
+      <FeatureGate feature="numerology">
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl"><Trans tKey="numerology.page.title" /></h1>
+          <p className="mt-4 text-muted">
+            <Trans tKey="numerology.page.desc" />
+          </p>
+        </div>
+        <div className="mt-12">
+          <NumerologyTool />
+        </div>
+        <div className="mx-auto mt-16 max-w-2xl text-center">
+          <p className="text-sm text-muted">
+            <Trans tKey="numerology.page.angel" />{" "}
+            <Link href="/numerology/angel-numbers" className="text-purple-600 underline">
+              <Trans tKey="numerology.page.angel_link" />
+            </Link>
+          </p>
+        </div>
+      </FeatureGate>
     </div>
   );
 }

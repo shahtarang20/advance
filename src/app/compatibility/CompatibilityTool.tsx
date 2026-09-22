@@ -4,6 +4,7 @@ import { useState } from "react";
 import { calculateCompatibility, CompatibilityResult } from "@/lib/compatibility";
 import { validateDob, validateName } from "@/lib/validation";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { CompatibilityCard } from "@/components/CompatibilityCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { Button } from "@/components/ui/Button";
@@ -62,12 +63,11 @@ export function CompatibilityTool() {
             </div>
             <div>
               <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.your_dob")}</label>
-              <input
-                type="date"
+              <DateOfBirthInput
                 value={dobA}
-                onChange={(e) => setDobA(e.target.value)}
-                aria-invalid={touched && !!dobAError}
-                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
+                onChange={setDobA}
+                ariaInvalid={touched && !!dobAError}
+                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
               />
               {touched && dobAError && <p className="mt-1.5 text-xs text-amber-600">{dobAError}</p>}
             </div>
@@ -86,12 +86,11 @@ export function CompatibilityTool() {
             </div>
             <div>
               <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.their_dob")}</label>
-              <input
-                type="date"
+              <DateOfBirthInput
                 value={dobB}
-                onChange={(e) => setDobB(e.target.value)}
-                aria-invalid={touched && !!dobBError}
-                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
+                onChange={setDobB}
+                ariaInvalid={touched && !!dobBError}
+                className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
               />
               {touched && dobBError && <p className="mt-1.5 text-xs text-amber-600">{dobBError}</p>}
             </div>

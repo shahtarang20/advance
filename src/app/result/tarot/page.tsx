@@ -47,7 +47,7 @@ export default async function TarotResultPage({ searchParams }: { searchParams: 
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <Link href="/tarot" className="text-purple-600 underline">
-          Draw your Tarot cards →
+          <Trans tKey="tarot.result.draw_link" replacements={{ defaultValue: "Draw your Tarot cards →" }} />
         </Link>
       </div>
     );
@@ -80,7 +80,7 @@ export default async function TarotResultPage({ searchParams }: { searchParams: 
         <ShareButtons shareUrl={shareUrl} ogQuery={ogQuery} caption={caption} />
 
         <Button href="/tarot" variant="secondary">
-          Draw Again →
+          <Trans tKey="tarot.result.draw_again" replacements={{ defaultValue: "Draw Again →" }} />
         </Button>
       </div>
     </div>

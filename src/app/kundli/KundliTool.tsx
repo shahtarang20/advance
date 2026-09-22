@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { CITY_GROUPS, type CityInfo } from "@/data/cities";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
+import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
+import { useTranslation } from "@/lib/I18nContext";
 
 export function KundliTool() {
   const router = useRouter();
@@ -18,6 +20,7 @@ export function KundliTool() {
   const [customLng, setCustomLng] = useState("");
   const [customOffset, setCustomOffset] = useState("5.5");
   const [touched, setTouched] = useState(false);
+  const { t } = useTranslation();
 
   const groupedFilteredCities = useMemo(() => {
     if (!citySearch.trim()) return [];
@@ -64,32 +67,31 @@ export function KundliTool() {
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div>
             <label htmlFor="k-name" className="mb-1.5 block text-sm text-muted">
-              Full name (optional, for personalization)
+              {t("kundli.tool.name_label", { defaultValue: "Full name (optional, for personalization)" })}
             </label>
             <input
               id="k-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
+              placeholder={t("kundli.tool.name_placeholder", { defaultValue: "Your name" })}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
             />
           </div>
           <div>
             <label htmlFor="k-dob" className="mb-1.5 block text-sm text-muted">
-              Date of birth
+              {t("kundli.tool.dob_label", { defaultValue: "Date of birth" })}
             </label>
-            <input
+            <DateOfBirthInput
               id="k-dob"
-              type="date"
               value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
+              onChange={setDob}
+              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
             />
           </div>
           <div>
             <label htmlFor="k-time" className="mb-1.5 block text-sm text-muted">
-              Exact time of birth
+              {t("kundli.tool.time_label", { defaultValue: "Exact time of birth" })}
             </label>
             <input
               id="k-time"
@@ -99,14 +101,16 @@ export function KundliTool() {
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
             />
             <p className="mt-1.5 text-xs text-muted-soft">
-              Your Lagna (ascendant) shifts roughly one degree every four minutes — please use your
-              exact birth time, not an approximation.
+              {t("kundli.tool.time_warning", {
+                defaultValue:
+                  "Your Lagna (ascendant) shifts roughly one degree every four minutes — please use your exact birth time, not an approximation.",
+              })}
             </p>
           </div>
 
           <div>
             <label htmlFor="k-place" className="mb-1.5 block text-sm text-muted">
-              Birth place
+              {t("kundli.tool.place_label", { defaultValue: "Birth place" })}
             </label>
             {!showCustom ? (
               <>
@@ -118,7 +122,7 @@ export function KundliTool() {
                     setSelectedCity(null);
                     setCitySearch(e.target.value);
                   }}
-                  placeholder="Search a city (e.g. Jaipur, New York, Paris)"
+                  placeholder={t("kundli.tool.city_placeholder", { defaultValue: "Search a city (e.g. Jaipur, New York, Paris)" })}
                   autoComplete="off"
                   className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
                 />
@@ -154,7 +158,7 @@ export function KundliTool() {
                   onClick={() => setShowCustom(true)}
                   className="mt-2 text-xs text-purple-600 underline"
                 >
-                  My city isn&rsquo;t listed — enter coordinates manually
+                  {t("kundli.tool.manual_coords_link", { defaultValue: "My city isn’t listed — enter coordinates manually" })}
                 </button>
               </>
             ) : (
@@ -165,7 +169,7 @@ export function KundliTool() {
                     step="any"
                     value={customLat}
                     onChange={(e) => setCustomLat(e.target.value)}
-                    placeholder="Latitude"
+                    placeholder={t("kundli.tool.lat_placeholder", { defaultValue: "Latitude" })}
                     className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
                   />
                   <input
@@ -173,7 +177,7 @@ export function KundliTool() {
                     step="any"
                     value={customLng}
                     onChange={(e) => setCustomLng(e.target.value)}
-                    placeholder="Longitude"
+                    placeholder={t("kundli.tool.lng_placeholder", { defaultValue: "Longitude" })}
                     className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
                   />
                   <input
@@ -181,7 +185,7 @@ export function KundliTool() {
                     step="any"
                     value={customOffset}
                     onChange={(e) => setCustomOffset(e.target.value)}
-                    placeholder="UTC offset (hrs)"
+                    placeholder={t("kundli.tool.utc_offset_placeholder", { defaultValue: "UTC offset (hrs)" })}
                     className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
                   />
                 </div>
@@ -194,15 +198,19 @@ export function KundliTool() {
                   }}
                   className="text-xs text-purple-600 underline"
                 >
-                  Search cities instead
+                  {t("kundli.tool.search_cities_instead", { defaultValue: "Search cities instead" })}
                 </button>
               </div>
             )}
-            {touched && !place && <p className="mt-1.5 text-xs text-amber-600">Please select or enter a birth place.</p>}
+            {touched && !place && (
+              <p className="mt-1.5 text-xs text-amber-600">
+                {t("kundli.tool.place_error", { defaultValue: "Please select or enter a birth place." })}
+              </p>
+            )}
           </div>
 
           <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
-            Generate My Kundli →
+            {t("kundli.tool.submit", { defaultValue: "Generate My Kundli →" })}
           </Button>
         </form>
       </GlassCard>

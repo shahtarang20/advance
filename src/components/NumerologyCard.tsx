@@ -7,10 +7,18 @@ import {
   KARMIC_LESSON_DESCRIPTIONS,
   NumerologyCategory,
   NumerologyProfile,
+  challengeDescriptionKey,
   getChallengeDescription,
   getDescription,
   getPinnacleDescription,
   getPinnacleStageLabel,
+  karmicDebtKey,
+  karmicLessonKey,
+  pinnacleFramingEn,
+  pinnacleFramingKey,
+  pinnacleStageLabelKey,
+  pinnacleThemeEn,
+  pinnacleThemeKey,
 } from "@/lib/numerology";
 import { useTranslation } from "@/lib/I18nContext";
 
@@ -76,7 +84,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
           <div className="mt-3 space-y-3">
             {profile.karmicDebts.map((debt) => (
               <p key={debt} className="text-base leading-relaxed text-muted">
-                {KARMIC_DEBT_DESCRIPTIONS[debt]}
+                {t(karmicDebtKey(debt), { defaultValue: KARMIC_DEBT_DESCRIPTIONS[debt] })}
               </p>
             ))}
           </div>
@@ -109,7 +117,7 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
           <div className="mt-3 space-y-3">
             {profile.karmicLessons.map((lesson) => (
               <p key={lesson} className="text-base leading-relaxed text-muted">
-                {KARMIC_LESSON_DESCRIPTIONS[lesson]}
+                {t(karmicLessonKey(lesson), { defaultValue: KARMIC_LESSON_DESCRIPTIONS[lesson] })}
               </p>
             ))}
           </div>
@@ -125,17 +133,22 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
           {profile.pinnacleCycle.pinnacles.map((p, i) => (
             <div key={i} className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface)] p-5">
               <p className="text-xs font-medium text-muted-soft">
-                {getPinnacleStageLabel(i)}
+                {t(pinnacleStageLabelKey(i), { defaultValue: getPinnacleStageLabel(i) })}
               </p>
               <p className="text-xs text-muted-soft">{p.ageRange}</p>
               <p className="mt-2 text-3xl font-bold tracking-tight">{p.number}</p>
-              <p className="mt-2 text-[13px] leading-relaxed text-muted">{getPinnacleDescription(i, p.number)}</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-muted">
+                {t(pinnacleFramingKey(i), { defaultValue: pinnacleFramingEn(i) })}{" "}
+                {t(pinnacleThemeKey(p.number), { defaultValue: pinnacleThemeEn(p.number) })}.
+              </p>
               <div className="mt-3 border-t border-[var(--surface-border)] pt-3">
                 <p className="text-xs font-medium text-rose-600">
                   {t("numerology.card.challenge")} {profile.pinnacleCycle.challenges[i]}
                 </p>
                 <p className="mt-1 text-[13px] leading-relaxed text-muted">
-                  {getChallengeDescription(profile.pinnacleCycle.challenges[i])}
+                  {t(challengeDescriptionKey(profile.pinnacleCycle.challenges[i]), {
+                    defaultValue: getChallengeDescription(profile.pinnacleCycle.challenges[i]),
+                  })}
                 </p>
               </div>
             </div>

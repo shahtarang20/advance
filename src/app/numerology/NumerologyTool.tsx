@@ -4,6 +4,7 @@ import { useState } from "react";
 import { calculateNumerologyProfile, NumerologyProfile } from "@/lib/numerology";
 import { validateDob, validateName } from "@/lib/validation";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { NumerologyCard } from "@/components/NumerologyCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { Button } from "@/components/ui/Button";
@@ -70,14 +71,13 @@ export function NumerologyTool() {
             <label htmlFor="dob" className="mb-1.5 block text-sm text-muted">
               {t("numerology.tool.dob")}
             </label>
-            <input
+            <DateOfBirthInput
               id="dob"
-              type="date"
               value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              aria-invalid={touched && !!dobError}
-              aria-describedby={touched && dobError ? "dob-error" : undefined}
-              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
+              onChange={setDob}
+              ariaInvalid={touched && !!dobError}
+              ariaDescribedBy={touched && dobError ? "dob-error" : undefined}
+              className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
             />
             {touched && dobError && (
               <p id="dob-error" className="mt-1.5 text-xs text-amber-600">
