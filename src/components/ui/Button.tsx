@@ -8,16 +8,16 @@ type Variant = "primary" | "secondary" | "whatsapp";
 
 const VARIANT_CLASS: Record<Variant, string> = {
   primary:
-    "accent-gradient-bg text-white shadow-[0_10px_30px_-8px_var(--accent-ring)]",
+    "accent-gradient-bg text-white shadow-[0_8px_20px_-8px_var(--accent-ring)] hover:shadow-[0_10px_24px_-8px_var(--accent-ring)]",
   secondary:
     "border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-[var(--accent-solid)]",
   whatsapp: "bg-[#25D366] text-black",
 };
 
 const press = {
-  whileHover: { scale: 1.03 },
-  whileTap: { scale: 0.96 },
-  transition: { type: "spring" as const, stiffness: 400, damping: 22 },
+  whileHover: { scale: 1.015 },
+  whileTap: { scale: 0.98 },
+  transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const },
 };
 
 export function Button({
@@ -32,7 +32,7 @@ export function Button({
   className?: string;
   children: ReactNode;
 } & Omit<HTMLMotionProps<"button">, "children">) {
-  const classes = `btn-tap accent-ring inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-tight transition-colors ${VARIANT_CLASS[variant]} ${className}`;
+  const classes = `btn-tap accent-ring inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-[15px] font-medium tracking-tight transition-[colors,box-shadow] duration-300 ${VARIANT_CLASS[variant]} ${className}`;
 
   if (href) {
     return (

@@ -43,8 +43,8 @@ export function FlipCard({
       className={`btn-tap accent-ring group relative block w-full cursor-pointer text-left [perspective:1200px] ${heightClassName} ${className}`}
       animate={float && !flipped ? FLOAT_ANIMATION : STILL_ANIMATION}
       transition={float && !flipped ? FLOAT_TRANSITION : { duration: 0.2 }}
-      whileHover={flipped ? undefined : { scale: 1.02 }}
-      whileTap={flipped ? undefined : { scale: 0.98 }}
+      whileHover={flipped ? undefined : { scale: 1.015, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
+      whileTap={flipped ? undefined : { scale: 0.985, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
     >
       <span id={describedById} className="sr-only">
         Flippable card. {ariaLabel}
@@ -52,7 +52,7 @@ export function FlipCard({
       <motion.div
         className="relative h-full w-full [transform-style:preserve-3d]"
         animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ type: "spring", stiffness: 260, damping: 24 }}
+        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
           {front}

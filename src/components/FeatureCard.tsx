@@ -18,17 +18,17 @@ export function FeatureCard({
   gradient: string;
 }) {
   return (
-    <motion.div whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
+    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
       <Link href={href}>
-        <GlassCard className="group h-full p-8 transition hover:border-[var(--surface-border)]">
+        <GlassCard className="group h-full p-8 transition-colors hover:border-[var(--accent-solid)]/20 sm:p-9">
           <div
-            className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl text-3xl ${gradient}`}
+            className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl text-2xl ${gradient}`}
           >
             {icon}
           </div>
-          <h3 className="mb-2 text-xl font-semibold">{title}</h3>
-          <p className="text-sm leading-relaxed text-muted">{description}</p>
-          <p className="mt-4 text-sm font-medium text-purple-600 group-hover:text-purple-600">
+          <h3 className="mb-2.5 text-xl font-semibold tracking-tight">{title}</h3>
+          <p className="text-[15px] leading-relaxed text-muted">{description}</p>
+          <p className="mt-5 text-sm font-medium text-[var(--foreground)]">
             Try it →
           </p>
         </GlassCard>

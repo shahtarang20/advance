@@ -28,12 +28,12 @@ export function NavBar() {
   return (
     <header className="surface-glass dark:backdrop-blur-xl sticky top-0 z-50 border-b">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-1.5 text-base font-semibold tracking-tight sm:text-lg">
-          <span className="accent-gradient-text">✦ Cosmic Numbers</span>
+        <Link href="/" className="flex items-center gap-1.5 text-base font-semibold tracking-tight text-[var(--foreground)] sm:text-lg">
+          <span className="text-[var(--accent-solid)]">✦</span> Cosmic Numbers
         </Link>
-        <div className="hidden items-center gap-6 sm:flex">
+        <div className="hidden items-center gap-8 sm:flex">
           {LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className="text-sm text-muted transition hover:text-[var(--foreground)]">
+            <Link key={l.href} href={l.href} className="text-[15px] font-medium text-muted transition-colors hover:text-[var(--foreground)]">
               {l.label}
             </Link>
           ))}

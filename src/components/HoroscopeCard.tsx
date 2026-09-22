@@ -8,28 +8,28 @@ function signName(sign: string) {
 
 export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope: DailyHoroscope }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <FlipCard
         ariaLabel={`${info.name} horoscope card`}
         className="mx-auto max-w-sm"
         heightClassName="h-[420px]"
         front={
           <GlassCard className="flex h-full w-full flex-col items-center justify-center p-8 text-center">
-            <p className="text-xs uppercase tracking-widest text-muted-soft">{horoscope.dateKey}</p>
-            <div className="mt-4 text-9xl leading-none drop-shadow-[0_4px_24px_rgba(124,58,237,0.45)]">
+            <p className="text-sm text-muted-soft">{horoscope.dateKey}</p>
+            <div className="mt-4 text-9xl leading-none drop-shadow-[0_4px_24px_rgba(124,58,237,0.35)]">
               {info.glyph}
             </div>
-            <h2 className="mt-6 text-3xl font-bold">{info.name}</h2>
+            <h2 className="mt-6 text-3xl font-bold tracking-tight">{info.name}</h2>
             <p className="mt-1 text-sm text-muted">
               {info.symbol} · {info.dateRange}
             </p>
-            <p className="mt-6 text-[11px] text-muted-soft">Tap to reveal today&apos;s details ✦</p>
+            <p className="mt-6 text-xs text-muted-soft">Tap to reveal today&apos;s details ✦</p>
           </GlassCard>
         }
         back={
           <GlassCard className="flex h-full w-full flex-col overflow-y-auto p-6">
-            <p className="text-xs uppercase tracking-widest text-muted-soft">{info.name} · {horoscope.dateKey}</p>
-            <div className="mx-auto mt-3 flex w-full max-w-xs justify-around text-center">
+            <p className="text-sm text-muted-soft">{info.name} · {horoscope.dateKey}</p>
+            <div className="mx-auto mt-4 flex w-full max-w-xs justify-around text-center">
               <div>
                 <p className="text-lg font-semibold text-amber-600">{horoscope.mood}</p>
                 <p className="text-xs text-muted-soft">Mood</p>
@@ -43,54 +43,54 @@ export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope
                 <p className="text-xs text-muted-soft">Lucky Color</p>
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
-              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2">
+            <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs">
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2.5">
                 <p className="font-semibold text-rose-600">{info.element}</p>
                 <p className="text-muted-soft">Element</p>
               </div>
-              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2">
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2.5">
                 <p className="font-semibold text-emerald-600">{info.modality}</p>
                 <p className="text-muted-soft">Modality</p>
               </div>
-              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2">
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] p-2.5">
                 <p className="font-semibold text-sky-600">{info.rulingPlanet}</p>
                 <p className="text-muted-soft">Ruler</p>
               </div>
             </div>
-            <p className="mt-4 text-xs leading-relaxed text-muted">{horoscope.summary}</p>
+            <p className="mt-5 text-sm leading-relaxed text-muted">{horoscope.summary}</p>
           </GlassCard>
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <GlassCard className="p-6">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-rose-600">Love</h3>
-          <p className="text-sm leading-relaxed text-muted">{horoscope.love}</p>
+      <div className="grid gap-5 sm:grid-cols-3">
+        <GlassCard className="p-6 sm:p-7">
+          <h3 className="mb-2 text-lg font-semibold tracking-tight text-rose-700">Love</h3>
+          <p className="text-[15px] leading-relaxed text-muted">{horoscope.love}</p>
         </GlassCard>
-        <GlassCard className="p-6">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-emerald-600">Career</h3>
-          <p className="text-sm leading-relaxed text-muted">{horoscope.career}</p>
+        <GlassCard className="p-6 sm:p-7">
+          <h3 className="mb-2 text-lg font-semibold tracking-tight text-emerald-700">Career</h3>
+          <p className="text-[15px] leading-relaxed text-muted">{horoscope.career}</p>
         </GlassCard>
-        <GlassCard className="p-6">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-sky-600">Health</h3>
-          <p className="text-sm leading-relaxed text-muted">{horoscope.health}</p>
+        <GlassCard className="p-6 sm:p-7">
+          <h3 className="mb-2 text-lg font-semibold tracking-tight text-sky-700">Health</h3>
+          <p className="text-[15px] leading-relaxed text-muted">{horoscope.health}</p>
         </GlassCard>
       </div>
 
-      <GlassCard className="p-6">
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-purple-600">About {info.name}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted">{info.about}</p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      <GlassCard className="p-6 sm:p-8">
+        <h3 className="text-2xl font-semibold tracking-tight">About {info.name}</h3>
+        <p className="mt-3 text-base leading-relaxed text-muted">{info.about}</p>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2">
           <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-emerald-600">Most Compatible</p>
+            <p className="text-sm font-medium text-emerald-700">Most Compatible</p>
             <p className="mt-1 text-sm text-muted">{info.mostCompatible.map(signName).join(", ")}</p>
           </div>
           <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-rose-600">Least Compatible</p>
+            <p className="text-sm font-medium text-rose-700">Least Compatible</p>
             <p className="mt-1 text-sm text-muted">{info.leastCompatible.map(signName).join(", ")}</p>
           </div>
         </div>
-        <p className="mt-4 text-[11px] text-muted-soft">
+        <p className="mt-5 text-xs leading-relaxed text-muted-soft">
           This reference reflects traditional astrological associations (element, modality, ruling planet, and
           classic compatibility groupings). The daily horoscope above is generated for entertainment and is not a
           factual prediction.
