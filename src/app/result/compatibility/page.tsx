@@ -10,7 +10,7 @@ type SP = { nameA?: string; dobA?: string; nameB?: string; dobB?: string };
 export async function generateMetadata({ searchParams }: { searchParams: Promise<SP> }): Promise<Metadata> {
   const { nameA, dobA, nameB, dobB } = await searchParams;
   if (!nameA || !dobA || !nameB || !dobB) {
-    return { title: "Compatibility Result" };
+    return { title: "Love Match Result" };
   }
   const result = calculateCompatibility(nameA, dobA, nameB, dobB);
   const title = `${nameA} & ${nameB}: ${result.percentage}% Cosmic Match`;
@@ -33,9 +33,9 @@ export default async function CompatibilityResultPage({ searchParams }: { search
   if (!nameA || !dobA || !nameB || !dobB) {
     return (
       <div className="px-6 py-24 text-center">
-        <p className="text-muted">No compatibility result found.</p>
+        <p className="text-muted">No love match result found.</p>
         <Link href="/compatibility" className="mt-4 inline-block text-purple-600 underline">
-          Check your compatibility →
+          Check your love match →
         </Link>
       </div>
     );
@@ -49,12 +49,12 @@ export default async function CompatibilityResultPage({ searchParams }: { search
         id="compatibility"
         href={`/result/compatibility?nameA=${encodeURIComponent(nameA)}&dobA=${dobA}&nameB=${encodeURIComponent(nameB)}&dobB=${dobB}`}
         labelKey="nav.compatibility"
-        labelDefault="Compatibility"
+        labelDefault="Love Match"
         icon="💫"
       />
       <CompatibilityCard result={result} />
       <div className="mt-10 text-center">
-        <Button href="/compatibility">Check Your Own Compatibility →</Button>
+        <Button href="/compatibility">Check Your Own Love Match →</Button>
       </div>
     </div>
   );

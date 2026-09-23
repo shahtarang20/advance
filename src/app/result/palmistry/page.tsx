@@ -394,54 +394,7 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
         </GlassCard>
       </Reveal>
 
-      <Reveal delay={0.1}>
-        <div className="mb-10">
-          <h2 className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-muted-soft">
-            <Trans tKey="palmistry.result.quick.section_title" replacements={{ defaultValue: "Your Reading at a Glance" }} />
-          </h2>
-          <p className="mx-auto mb-5 max-w-md text-center text-xs text-muted-soft">
-            <Trans
-              tKey="palmistry.result.quick.section_note"
-              replacements={{ defaultValue: "A quick read on each area — the full line-by-line reading follows below." }}
-            />
-          </p>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {quickSections.map((section) => (
-              <GlassCard key={section.key} className="p-5">
-                <h3 className="flex items-center gap-2 text-sm font-semibold">
-                  <span className="text-lg">{section.icon}</span>
-                  <Trans tKey={section.titleKey} replacements={{ defaultValue: section.titleDefault }} />
-                </h3>
-                <p className="mt-2 text-sm font-medium text-[var(--accent-solid)]">
-                  <Trans tKey={section.variantTitleKey} replacements={{ defaultValue: section.variantTitleDefault }} />
-                </p>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
-                  <Trans tKey={section.meaningKey} replacements={{ defaultValue: section.meaningDefault }} />
-                </p>
-              </GlassCard>
-            ))}
-          </div>
-        </div>
-      </Reveal>
-
-      <div className="space-y-6">
-        {lines.map((line, i) => (
-          <Reveal key={line.key} delay={0.05 * i}>
-            <GlassCard className="p-6 sm:p-8">
-              <h2 className="text-lg font-semibold">
-                <Trans tKey={line.titleKey} replacements={{ defaultValue: line.titleDefault }} /> —{" "}
-                <span className="text-[var(--accent-solid)]">
-                  <Trans tKey={line.variantTitleKey} replacements={{ defaultValue: line.variantTitleDefault }} />
-                </span>
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                <Trans tKey={line.meaningKey} replacements={{ defaultValue: line.meaningDefault }} />
-              </p>
-            </GlassCard>
-          </Reveal>
-        ))}
-
-        <Reveal delay={0.3}>
+      <Reveal delay={0.3}>
           <div className="mb-10">
             <h2 className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-muted-soft">
               <Trans tKey="palmistry.result.specific_predictions_title" replacements={{ defaultValue: "Deep Predictions" }} />
@@ -596,6 +549,55 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
             </div>
           </div>
         </Reveal>
+
+<Reveal delay={0.1}>
+        <div className="mb-10">
+          <h2 className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-muted-soft">
+            <Trans tKey="palmistry.result.quick.section_title" replacements={{ defaultValue: "Your Reading at a Glance" }} />
+          </h2>
+          <p className="mx-auto mb-5 max-w-md text-center text-xs text-muted-soft">
+            <Trans
+              tKey="palmistry.result.quick.section_note"
+              replacements={{ defaultValue: "A quick read on each area — the full line-by-line reading follows below." }}
+            />
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {quickSections.map((section) => (
+              <GlassCard key={section.key} className="p-5">
+                <h3 className="flex items-center gap-2 text-sm font-semibold">
+                  <span className="text-lg">{section.icon}</span>
+                  <Trans tKey={section.titleKey} replacements={{ defaultValue: section.titleDefault }} />
+                </h3>
+                <p className="mt-2 text-sm font-medium text-[var(--accent-solid)]">
+                  <Trans tKey={section.variantTitleKey} replacements={{ defaultValue: section.variantTitleDefault }} />
+                </p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
+                  <Trans tKey={section.meaningKey} replacements={{ defaultValue: section.meaningDefault }} />
+                </p>
+              </GlassCard>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      <div className="space-y-6">
+        {lines.map((line, i) => (
+          <Reveal key={line.key} delay={0.05 * i}>
+            <GlassCard className="p-6 sm:p-8">
+              <h2 className="text-lg font-semibold">
+                <Trans tKey={line.titleKey} replacements={{ defaultValue: line.titleDefault }} /> —{" "}
+                <span className="text-[var(--accent-solid)]">
+                  <Trans tKey={line.variantTitleKey} replacements={{ defaultValue: line.variantTitleDefault }} />
+                </span>
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted">
+                <Trans tKey={line.meaningKey} replacements={{ defaultValue: line.meaningDefault }} />
+              </p>
+            </GlassCard>
+          </Reveal>
+        ))}
+
+        
 
 
         <Reveal delay={0.4}>
