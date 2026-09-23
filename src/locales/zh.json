@@ -774,7 +774,7 @@
   "palmistry.page.title": "手相解读",
   "palmistry.page.desc": "融合西方手相学（chiromancy）、印度手相学（Hast Rekha Shastra）与中国传统掌相之说的解读。",
   "palmistry.page.disclaimer": "这是民间传说与灵性传统，并非科学定论——请将其当作一种自我反思的引子，而非预言。",
-  "palmistry.tool.photo_label": "拍摄或上传一张你的手掌照片（可选）",
+  "palmistry.tool.photo_label": "上传你手掌的照片（可选）",
   "palmistry.tool.photo_placeholder": "点击拍照，或从设备中选择一张照片",
   "palmistry.tool.photo_note": "你的照片只保存在本设备上——绝不会被上传或存储到任何地方。",
   "palmistry.tool.hand_label": "看哪只手？",
@@ -1098,5 +1098,6 @@
   "horoscope.sign_page.title": "{name}今日运势",
   "horoscope.result.no_horoscope": "未找到运势信息。",
   "horoscope.result.read_today_link": "查看今日运势 →",
-  "horoscope.result.see_full_page": "查看{name}完整页面 →"
+  "horoscope.result.see_full_page": "查看{name}完整页面 →",
+  "palmistry.tool.photo_placeholder_upload": "点击从设备中选择照片"
 }
