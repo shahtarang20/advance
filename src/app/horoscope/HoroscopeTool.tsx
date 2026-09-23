@@ -14,6 +14,7 @@ export function HoroscopeTool() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
   const [dob, setDob] = useState("");
   const [dobError, setDobError] = useState<string | null>(null);
+  const [showPicker, setShowPicker] = useState(false);
   const { checkinHoroscope, recordAction } = useGamification();
   const { t } = useTranslation();
 
@@ -30,6 +31,7 @@ export function HoroscopeTool() {
     setDobError(error);
     if (error) return;
     setSelected(getZodiacByDob(dob).sign);
+    setShowPicker(true);
   };
 
   const info = selected ? getZodiacInfo(selected) : null;
@@ -69,23 +71,27 @@ export function HoroscopeTool() {
         </div>
         {dobError && <p className="mb-4 text-xs text-amber-600">{dobError}</p>}
 
-        <h2 className="mb-3 mt-6 text-xs font-semibold uppercase tracking-widest text-muted-soft">{t("horoscope.tool.or_pick")}</h2>
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
-          {ZODIAC_SIGNS.map((z) => (
-            <button
-              key={z.sign}
-              onClick={() => setSelected(z.sign)}
-              className={`btn-tap accent-ring flex flex-col items-center gap-1 rounded-2xl border p-3 text-sm transition ${
-                selected === z.sign
-                  ? "border-purple-400 bg-purple-500/20"
-                  : "border-[var(--surface-border)] bg-[var(--surface)] hover:bg-[var(--surface-strong)]"
-              }`}
-            >
-              <span className="text-2xl">{z.glyph}</span>
-              {t(`zodiac.${z.sign}`)}
-            </button>
-          ))}
-        </div>
+        {showPicker && (
+          <>
+            <h2 className="mb-3 mt-6 text-xs font-semibold uppercase tracking-widest text-muted-soft">{t("horoscope.tool.or_pick")}</h2>
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+              {ZODIAC_SIGNS.map((z) => (
+                <button
+                  key={z.sign}
+                  onClick={() => setSelected(z.sign)}
+                  className={`btn-tap accent-ring flex flex-col items-center gap-1 rounded-2xl border p-3 text-sm transition ${
+                    selected === z.sign
+                      ? "border-purple-400 bg-purple-500/20"
+                      : "border-[var(--surface-border)] bg-[var(--surface)] hover:bg-[var(--surface-strong)]"
+                  }`}
+                >
+                  <span className="text-2xl">{z.glyph}</span>
+                  {t(`zodiac.${z.sign}`)}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </GlassCard>
 
       {info && horoscope && (
