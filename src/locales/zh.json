@@ -897,5 +897,6 @@
   "palmistry.tool.photo_check_failed": "无法检查这张照片——请尝试其他照片，或直接跳过上传照片。",
   "palmistry.tool.use_camera": "📷 拍照",
   "palmistry.tool.upload_photo": "上传照片",
-  "palmistry.tool.camera_unavailable": "无法访问摄像头——请检查浏览器的摄像头权限，或改为上传照片。"
+  "palmistry.tool.camera_unavailable": "无法访问摄像头——请检查浏览器的摄像头权限，或改为上传照片。",
+  "palmistry.tool.camera_blank_frame": "这张照片是空白的——请给相机一点时间对焦后再试一次。"
 }

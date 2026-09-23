@@ -77,7 +77,15 @@ export function PalmistryTool() {
     void validateAndSetPhoto(dataUrl);
   };
 
-  const handleCameraError = () => {
+  const handleCameraError = (reason: "camera_unavailable" | "blank_frame") => {
+    if (reason === "blank_frame") {
+      setPhotoError(
+        t("palmistry.tool.camera_blank_frame", {
+          defaultValue: "That shot came out blank — give the camera a second to focus and try again.",
+        })
+      );
+      return;
+    }
     setPhotoError(
       t("palmistry.tool.camera_unavailable", {
         defaultValue: "Couldn't access the camera — check your browser's camera permission, or upload a photo instead.",

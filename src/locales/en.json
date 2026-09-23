@@ -897,5 +897,6 @@
   "palmistry.tool.photo_check_failed": "Couldn't check that photo — please try a different one, or skip the photo entirely.",
   "palmistry.tool.use_camera": "📷 Take Photo",
   "palmistry.tool.upload_photo": "Upload Photo",
-  "palmistry.tool.camera_unavailable": "Couldn't access the camera — check your browser's camera permission, or upload a photo instead."
+  "palmistry.tool.camera_unavailable": "Couldn't access the camera — check your browser's camera permission, or upload a photo instead.",
+  "palmistry.tool.camera_blank_frame": "That shot came out blank — give the camera a second to focus and try again."
 }

@@ -897,5 +897,6 @@
   "palmistry.tool.photo_check_failed": "Dieses Foto konnte nicht geprüft werden — bitte versuche ein anderes Foto oder überspringe das Foto ganz.",
   "palmistry.tool.use_camera": "📷 Foto aufnehmen",
   "palmistry.tool.upload_photo": "Foto hochladen",
-  "palmistry.tool.camera_unavailable": "Kein Zugriff auf die Kamera möglich — überprüfe die Kameraberechtigung deines Browsers oder lade stattdessen ein Foto hoch."
+  "palmistry.tool.camera_unavailable": "Kein Zugriff auf die Kamera möglich — überprüfe die Kameraberechtigung deines Browsers oder lade stattdessen ein Foto hoch.",
+  "palmistry.tool.camera_blank_frame": "Die Aufnahme ist leer geworden — gib der Kamera einen Moment zum Fokussieren und versuche es erneut."
 }
