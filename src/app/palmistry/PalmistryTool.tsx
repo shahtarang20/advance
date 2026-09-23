@@ -141,7 +141,7 @@ export function PalmistryTool() {
           {photoDataUrl && <img src={photoDataUrl} className="w-full h-full object-cover blur-md" alt="" />}
         </div>
         <div className="relative z-10 space-y-8 py-10">
-          <div className="mx-auto h-56 w-56 relative overflow-hidden rounded-full border-4 border-[var(--accent-solid)] shadow-[0_0_30px_rgba(var(--accent-solid-rgb),0.3)]">
+          <div className="mx-auto h-48 w-48 md:h-56 md:w-56 relative overflow-hidden rounded-full border-4 border-[var(--accent-solid)] shadow-[0_0_30px_rgba(var(--accent-solid-rgb),0.3)]">
             {photoDataUrl ? (
               <img src={photoDataUrl} className="w-full h-full object-cover" alt="" />
             ) : (

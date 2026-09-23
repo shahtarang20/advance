@@ -283,17 +283,27 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
             <h2 className="mb-6 text-lg font-semibold">
               <Trans tKey="palmistry.result.timeline_title" replacements={{ defaultValue: "Life Growth & Milestones Timeline" }} />
             </h2>
-            <div className="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[var(--surface-border)] before:to-transparent">
+            <div className="relative space-y-8 before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[var(--surface-border)] before:to-transparent">
               {reading.timeline.map((event, i) => (
-                <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[var(--background)] bg-[var(--accent-solid)] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 text-white font-bold text-xs">
-                    <Trans tKey="palmistry.result.timeline_age" replacements={{ defaultValue: `Age ${event.age}` }} />
+                <div key={i} className="relative flex items-center min-h-[3rem] md:justify-center md:odd:flex-row-reverse group is-active">
+                  
+                  {/* Card Content */}
+                  <div className="w-full pl-16 md:pl-0 md:w-[calc(50%-1.5rem)]">
+                    <div className="p-4 rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm transition hover:border-[var(--accent-solid)]">
+                      <p className="text-sm leading-relaxed text-muted">
+                        <Trans tKey={timelineEventKey(event.key)} replacements={{ defaultValue: event.defaultText }} />
+                      </p>
+                    </div>
                   </div>
-                  <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm transition hover:border-[var(--accent-solid)]">
-                    <p className="text-sm leading-relaxed text-muted">
-                      <Trans tKey={timelineEventKey(event.key)} replacements={{ defaultValue: event.defaultText }} />
-                    </p>
+
+                  {/* Circle Icon */}
+                  <div className="absolute left-0 md:static flex items-center justify-center w-12 h-12 rounded-full border-4 border-[var(--background)] bg-[var(--accent-solid)] shadow shrink-0 z-10 text-white font-bold text-[10px] sm:text-xs text-center leading-tight">
+                    <Trans tKey="palmistry.result.timeline_age" replacements={{ age: event.age.toString(), defaultValue: "Age {age}" }} />
                   </div>
+
+                  {/* Desktop Empty Space */}
+                  <div className="hidden md:block md:w-[calc(50%-1.5rem)]"></div>
+                  
                 </div>
               ))}
             </div>
