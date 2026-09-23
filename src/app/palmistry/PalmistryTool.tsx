@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { useTranslation } from "@/lib/I18nContext";
 import type { Hand } from "@/lib/palmistry";
-import { detectHandInImage, preloadHandDetector } from "@/lib/handDetector";
+import { detectHandInImage, prepareImageForDetection, preloadHandDetector } from "@/lib/handDetector";
 
 const PHOTO_SESSION_KEY = "cosmic-palm-photo";
 
@@ -21,15 +21,6 @@ const MIN_CHECK_DISPLAY_MS = 600;
 
 function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function loadImage(dataUrl: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Failed to load image"));
-    img.src = dataUrl;
-  });
 }
 
 export function PalmistryTool() {
@@ -65,8 +56,8 @@ export function PalmistryTool() {
     let hasHand = false;
     let failed = false;
     try {
-      const img = await loadImage(dataUrl);
-      hasHand = await detectHandInImage(img);
+      const canvas = await prepareImageForDetection(dataUrl);
+      hasHand = await detectHandInImage(canvas);
     } catch {
       failed = true;
     }
