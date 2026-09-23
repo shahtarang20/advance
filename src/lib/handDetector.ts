@@ -28,10 +28,14 @@ function createLandmarker(): Promise<HandLandmarker> {
       },
       runningMode: "IMAGE",
       numHands: 1,
-      // Deliberately strict — this is a hard gate ("reject anything that isn't clearly a hand"),
-      // not a best-guess score, so a higher threshold than the library's 0.5 default is correct
-      // here even though it means very ambiguous hand photos might occasionally need a retake.
-      minHandDetectionConfidence: 0.75,
+      // 0.5 is MediaPipe's own validated default, tuned across a huge range of real-world
+      // conditions. A stricter value (0.75) was tried to cut down false positives, but it also
+      // rejected genuine palm photos taken in ordinary phone-camera conditions (imperfect
+      // lighting/angle/focus) — worse than the problem it was meant to fix. Reliability against
+      // non-hand photos comes from the CPU delegate (see above) and the blank-frame guard in
+      // CameraCapture.tsx, not from an artificially inflated threshold here.
+      minHandDetectionConfidence: 0.5,
+      minHandPresenceConfidence: 0.5,
     })
   );
 }
