@@ -457,6 +457,26 @@ export const MOUNTS: Record<string, MountInfo> = {
   },
 };
 
+export const TIMELINE_EVENTS: Record<string, string> = {
+  career_breakthrough: "A significant breakthrough in your career path, where past efforts finally yield visible recognition and advancement.",
+  financial_growth: "A period of strong financial growth, marked by smart decisions and increased stability.",
+  deep_connection: "A profound emotional connection is formed or deepened, bringing great joy and support to your personal life.",
+  spiritual_awakening: "A time of deep inner growth and spiritual clarity, leading to a new perspective on your life's purpose.",
+  creative_peak: "A peak in creative energy and inspiration, resulting in successful projects and personal fulfillment.",
+  unexpected_opportunity: "An unexpected opportunity arises, pushing you to step outside your comfort zone and achieve new heights.",
+  leadership_role: "Stepping into a natural leadership role, guiding others and taking on greater responsibilities with confidence.",
+  major_milestone: "A major personal milestone is reached, bringing a sense of completion and setting the stage for the next chapter.",
+  inner_peace: "A profound sense of inner peace and acceptance is achieved, allowing for greater enjoyment of life's simple pleasures.",
+  community_impact: "Your actions begin to have a meaningful, positive impact on your wider community or chosen field.",
+};
+
+export interface TimelineEntry {
+  age: number;
+  key: string;
+  defaultText: string;
+}
+
+
 export interface PalmReading {
   hand: Hand;
   handShape: HandShape;
@@ -471,6 +491,7 @@ export interface PalmReading {
   sunLine: { key: string } & LineVariant;
   marriageLine: { key: string } & LineVariant;
   notableMount: { key: string } & MountInfo & { isProminent: boolean };
+  timeline: TimelineEntry[];
 }
 
 function hashSeed(seed: string): number {
@@ -535,6 +556,9 @@ export const mountNameKey = (key: string) => `palmistry.mount.${key}.name`;
 export const mountProminentKey = (key: string) => `palmistry.mount.${key}.prominent`;
 export const mountFlatKey = (key: string) => `palmistry.mount.${key}.flat`;
 
+export const timelineEventKey = (key: string) => `palmistry.timeline.${key}`;
+
+
 /** Deterministic, seedable palm reading so a reading can be encoded in a shareable URL and
  * reproduced exactly on revisit — the same pattern used for Tarot draws in this app. */
 export function getPalmReading(seed: string, hand: Hand): PalmReading {
@@ -546,6 +570,26 @@ export function getPalmReading(seed: string, hand: Hand): PalmReading {
   const mountKey = mountKeys[Math.floor(rand() * mountKeys.length)];
   const mount = MOUNTS[mountKey];
   const isProminent = rand() > 0.45;
+
+  // Generate 4 to 5 timeline events at different ages
+  const numEvents = Math.floor(rand() * 2) + 4; // 4 or 5
+  const timeline: TimelineEntry[] = [];
+  const eventKeys = Object.keys(TIMELINE_EVENTS);
+  let currentAge = 20 + Math.floor(rand() * 5); // Start between 20 and 24
+
+  // Shuffle event keys so we don't repeat easily
+  const shuffledEventKeys = [...eventKeys].sort(() => rand() - 0.5);
+
+  for (let i = 0; i < numEvents; i++) {
+    const key = shuffledEventKeys[i % shuffledEventKeys.length];
+    timeline.push({
+      age: currentAge,
+      key,
+      defaultText: TIMELINE_EVENTS[key],
+    });
+    // Jump forward between 5 and 12 years for the next event
+    currentAge += 5 + Math.floor(rand() * 8);
+  }
 
   return {
     hand,
@@ -561,5 +605,6 @@ export function getPalmReading(seed: string, hand: Hand): PalmReading {
     sunLine: pick(rand, SUN_LINE_VARIANTS),
     marriageLine: pick(rand, MARRIAGE_LINE_VARIANTS),
     notableMount: { key: mountKey, ...mount, isProminent },
+    timeline,
   };
 }

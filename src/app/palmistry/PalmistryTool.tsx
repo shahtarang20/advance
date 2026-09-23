@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { useTranslation } from "@/lib/I18nContext";
@@ -23,11 +24,22 @@ function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+const SCAN_PHASES = [
+  { key: "palmistry.scan.phase1", defaultText: "Analyzing hand geometry and elemental shape..." },
+  { key: "palmistry.scan.phase2", defaultText: "Isolating major line curvatures..." },
+  { key: "palmistry.scan.phase3", defaultText: "Measuring planetary mount prominences..." },
+  { key: "palmistry.scan.phase4", defaultText: "Cross-referencing algorithmic patterns..." },
+  { key: "palmistry.scan.phase5", defaultText: "Generating life growth timeline..." },
+];
+
+
 export function PalmistryTool() {
   const [hand, setHand] = useState<Hand>("right");
   const [photoDataUrl, setPhotoDataUrl] = useState<string | null>(null);
   const [checkingPhoto, setCheckingPhoto] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanPhase, setScanPhase] = useState(0);
   // Two separate <input type="file"> elements rather than an in-app getUserMedia camera view:
   // getUserMedia requires a secure (HTTPS/localhost) context and its own runtime permission
   // grant, and silently fails on plain-HTTP origins (e.g. testing over a LAN IP on a phone) —
@@ -100,7 +112,7 @@ export function PalmistryTool() {
     await validateAndSetPhoto(dataUrl);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const seed = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
     // The photo never leaves the browser — kept only in this tab's sessionStorage, purely so
     // the result page can show it back to you alongside the reading. Nothing is uploaded.
@@ -111,8 +123,54 @@ export function PalmistryTool() {
       // sessionStorage may be unavailable (private mode, quota) — the reading still works
       // without the photo preview.
     }
+
+    setIsScanning(true);
+    for (let i = 0; i < SCAN_PHASES.length; i++) {
+      setScanPhase(i);
+      await wait(800);
+    }
+    await wait(400); // Brief pause before redirect
+
     router.push(`/result/palmistry?seed=${seed}&hand=${hand}`);
   };
+
+  if (isScanning) {
+    return (
+      <GlassCard className="mx-auto max-w-xl p-8 text-center overflow-hidden relative">
+        <div className="absolute inset-0 z-0 opacity-10">
+          {photoDataUrl && <img src={photoDataUrl} className="w-full h-full object-cover blur-md" alt="" />}
+        </div>
+        <div className="relative z-10 space-y-8 py-10">
+          <div className="mx-auto h-56 w-56 relative overflow-hidden rounded-full border-4 border-[var(--accent-solid)] shadow-[0_0_30px_rgba(var(--accent-solid-rgb),0.3)]">
+            {photoDataUrl ? (
+              <img src={photoDataUrl} className="w-full h-full object-cover" alt="" />
+            ) : (
+              <div className="w-full h-full bg-[var(--surface-border)] flex items-center justify-center text-6xl">✋</div>
+            )}
+            
+            {/* Scanning Laser Animation */}
+            <motion.div
+              animate={{ top: ["0%", "100%", "0%"] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+              className="absolute left-0 right-0 h-1 bg-[var(--accent-solid)] shadow-[0_0_20px_4px_var(--accent-solid)] z-20"
+              style={{ top: 0 }}
+            />
+            {/* Grid overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none z-10 opacity-30 mix-blend-overlay"></div>
+          </div>
+          
+          <div>
+            <h3 className="text-xl font-bold animate-pulse text-[var(--accent-solid)] mb-3 tracking-wide uppercase text-sm">
+              {t("palmistry.scan.title", { defaultValue: "Deep Scan in Progress..." })}
+            </h3>
+            <p className="text-sm text-muted font-medium min-h-[1.5rem] transition-opacity duration-300">
+              {t(SCAN_PHASES[scanPhase].key, { defaultValue: SCAN_PHASES[scanPhase].defaultText })}
+            </p>
+          </div>
+        </div>
+      </GlassCard>
+    );
+  }
 
   return (
     <GlassCard className="mx-auto max-w-xl p-8">
