@@ -13,22 +13,35 @@ const MODEL_URL =
 
 let landmarkerPromise: Promise<HandLandmarker> | null = null;
 
+async function createLandmarker(delegate: "GPU" | "CPU"): Promise<HandLandmarker> {
+  const vision = await FilesetResolver.forVisionTasks(WASM_BASE);
+  return HandLandmarker.createFromOptions(vision, {
+    baseOptions: {
+      modelAssetPath: MODEL_URL,
+      delegate,
+    },
+    runningMode: "IMAGE",
+    numHands: 1,
+    minHandDetectionConfidence: 0.5,
+  });
+}
+
 function getLandmarker(): Promise<HandLandmarker> {
   if (!landmarkerPromise) {
-    landmarkerPromise = (async () => {
-      const vision = await FilesetResolver.forVisionTasks(WASM_BASE);
-      return HandLandmarker.createFromOptions(vision, {
-        baseOptions: {
-          modelAssetPath: MODEL_URL,
-          delegate: "CPU",
-        },
-        runningMode: "IMAGE",
-        numHands: 1,
-        minHandDetectionConfidence: 0.5,
-      });
-    })();
+    // GPU delegate runs noticeably faster (near-instant per-frame inference vs. CPU's heavier
+    // cost), which matters for keeping the tour feeling responsive — but it isn't supported in
+    // every browser/GPU combination, so fall back to CPU rather than fail outright.
+    landmarkerPromise = createLandmarker("GPU").catch(() => createLandmarker("CPU"));
   }
   return landmarkerPromise;
+}
+
+/** Kicks off loading the model in the background (WASM + weights) without waiting for it —
+ * call this as early as possible (e.g. on mount of the palm-reading tool) so that by the time
+ * the user actually takes or picks a photo, detection is instant instead of waiting on a cold
+ * model load. Safe to call multiple times; only the first call does any work. */
+export function preloadHandDetector(): void {
+  void getLandmarker();
 }
 
 /** Resolves true if at least one hand is detected in the given image element. */
