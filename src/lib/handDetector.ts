@@ -24,6 +24,17 @@ const MODEL_URL =
 // MediaPipe's own examples use for exactly this "detect on a gallery of images" case.
 let landmarkerPromise: Promise<HandLandmarker> | null = null;
 
+// A second, more lenient landmarker used only as a last resort when the primary (0.5-confidence,
+// MediaPipe's own default) landmarker rejects a photo on both the direct and padded attempts.
+// Confidence thresholds are fixed at model-creation time in MediaPipe, so relaxing them for one
+// retry means keeping a second instance around rather than reconfiguring the first. This only
+// ever runs after the strict pass has already failed twice, so it can't make the strict gate
+// itself easier to fool — it only rescues genuine palm photos that are borderline for reasons a
+// strict, general-purpose threshold doesn't account for (unusual angle, a ring or henna pattern
+// confusing the contour, mediocre indoor lighting) without loosening the check for anything that
+// isn't a hand at all.
+let lenientLandmarkerPromise: Promise<HandLandmarker> | null = null;
+
 // MediaPipe's compiled WASM module writes its own internal diagnostics (delegate creation,
 // OpenGL capability checks, calculator-graph notices) straight to stderr, which Emscripten
 // routes through console.error/console.warn — so Next's dev overlay shows them as if they were
@@ -97,12 +108,30 @@ function getLandmarker(): Promise<HandLandmarker> {
   return landmarkerPromise;
 }
 
+function getLenientLandmarker(): Promise<HandLandmarker> {
+  if (!lenientLandmarkerPromise) {
+    lenientLandmarkerPromise = withMediaPipeLogsFiltered(() =>
+      FilesetResolver.forVisionTasks(WASM_BASE).then((vision) =>
+        HandLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: MODEL_URL, delegate: "CPU" },
+          runningMode: "IMAGE",
+          numHands: 1,
+          minHandDetectionConfidence: 0.3,
+          minHandPresenceConfidence: 0.3,
+        })
+      )
+    );
+  }
+  return lenientLandmarkerPromise;
+}
+
 /** Kicks off creating the (single, reused) landmarker in the background without waiting for
  * it — call this as early as possible (e.g. on mount of the palm-reading tool) so that by the
  * time the user actually takes or picks a photo, detection is instant instead of waiting on a
  * cold WASM/model load. Safe to call multiple times; only the first call does any work. */
 export function preloadHandDetector(): void {
   void getLandmarker();
+  void getLenientLandmarker();
 }
 
 // Real phone-camera photos are nothing like the small, web-optimized stock images this was
@@ -112,11 +141,14 @@ export function preloadHandDetector(): void {
 // necessary) and less reliable: `new Image()` doesn't reliably honor EXIF orientation across
 // browsers/WebViews, so a photo can be handed to the model sideways or upside-down, which
 // meaningfully hurts a hand-landmark model's confidence even though a person looking at the
-// (correctly displayed) photo sees a normal palm. 640px is the size the stock test photos that
-// detect reliably well were already shot at — well above what the model's internal palm-crop
-// stage actually needs — so this is a real speed win (roughly 2.5x fewer pixels than the
-// previous 1024px cap) with no accuracy cost.
-const MAX_DETECTION_DIMENSION = 640;
+// (correctly displayed) photo sees a normal palm. This was briefly dropped to 640px for extra
+// speed, validated only against small stock test photos — but real phone palm photos started
+// failing to detect at all, because 640px throws away exactly the fine detail (finger creases,
+// contour) the first-stage palm detector relies on for a hand that's photographed at an angle,
+// under normal indoor lighting, or slightly off-center. 1024px is back to being the floor: still
+// a large reduction from a raw 12MP camera photo (speed win intact), but not so aggressive that
+// it costs real accuracy on real devices.
+const MAX_DETECTION_DIMENSION = 1024;
 
 /** Decodes a photo with EXIF orientation explicitly and correctly applied — `createImageBitmap`
  * with `imageOrientation: "from-image"` is the standards-based, explicit way to guarantee this
@@ -169,12 +201,24 @@ function padCanvas(source: HTMLCanvasElement, paddingRatio: number): HTMLCanvasE
  * (a face or a landscape doesn't become a hand just because it gained a gray border). */
 export async function detectHandInImage(image: HTMLCanvasElement): Promise<boolean> {
   const landmarker = await getLandmarker();
-  return withMediaPipeLogsFiltered(() => {
+  const padded = padCanvas(image, 0.18);
+
+  const strictHit = await withMediaPipeLogsFiltered(() => {
     const direct = landmarker.detect(image);
     if ((direct.handednesses?.length ?? 0) > 0) return true;
-
-    const padded = padCanvas(image, 0.18);
     const retry = landmarker.detect(padded);
+    return (retry.handednesses?.length ?? 0) > 0;
+  });
+  if (strictHit) return true;
+
+  // Both strict attempts failed — try once more with the lenient (0.3-confidence) landmarker
+  // before finally rejecting. This is what actually rescues real, genuine palm photos that the
+  // default threshold is too conservative for (see comment on lenientLandmarkerPromise above).
+  const lenient = await getLenientLandmarker();
+  return withMediaPipeLogsFiltered(() => {
+    const direct = lenient.detect(image);
+    if ((direct.handednesses?.length ?? 0) > 0) return true;
+    const retry = lenient.detect(padded);
     return (retry.handednesses?.length ?? 0) > 0;
   });
 }
