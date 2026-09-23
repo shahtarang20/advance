@@ -10,6 +10,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
 import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 export function HoroscopeTool() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
@@ -71,12 +72,21 @@ export function HoroscopeTool() {
             />
           </div>
           <button
+            data-tour="page-cta"
             onClick={handleDetect}
             className="btn-tap accent-ring w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface-strong)] px-5 py-3 text-sm font-semibold transition hover:bg-[var(--surface-strong)] sm:w-auto"
           >
             {t("horoscope.tool.detect_btn")}
           </button>
         </div>
+        <PageFeatureHint
+          pageKey="horoscope"
+          titleKey="page_hint.horoscope.title"
+          titleDefault="Find your sign"
+          bodyKey="page_hint.horoscope.body"
+          bodyDefault="Enter your birth date and tap here — or pick your zodiac sign directly below."
+          target='[data-tour="page-cta"]'
+        />
         {dobError && <p className="mb-4 text-xs text-amber-600">{dobError}</p>}
 
         {showPicker && (

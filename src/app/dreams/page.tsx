@@ -6,6 +6,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/lib/I18nContext";
 import { FeatureGate } from "@/components/FeatureGate";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 export default function DreamsPage() {
   const [dream, setDream] = useState("");
@@ -48,11 +49,19 @@ export default function DreamsPage() {
                   className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-[var(--accent-solid)] focus:outline-none resize-none"
                 />
               </div>
-              <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={dream.trim().length < 5}>
+              <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={dream.trim().length < 5}>
                 {t("dreams.tool.reveal", { defaultValue: "Analyze My Dream" })}
               </Button>
             </form>
           </GlassCard>
+          <PageFeatureHint
+            pageKey="dreams"
+            titleKey="page_hint.dreams.title"
+            titleDefault="Analyze your dream"
+            bodyKey="page_hint.dreams.body"
+            bodyDefault="Describe your dream above, then tap here to see what it might mean."
+            target='[data-tour="page-cta"]'
+          />
         </div>
       </FeatureGate>
     </div>

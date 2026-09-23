@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { useTranslation } from "@/lib/I18nContext";
 import { FeatureGate } from "@/components/FeatureGate";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 export default function BiorhythmPage() {
   const [dob, setDob] = useState("");
@@ -59,11 +60,19 @@ export default function BiorhythmPage() {
                   </p>
                 )}
               </div>
-              <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
+              <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
                 {t("biorhythm.tool.reveal", { defaultValue: "Calculate My Biorhythms" })}
               </Button>
             </form>
           </GlassCard>
+          <PageFeatureHint
+            pageKey="biorhythm"
+            titleKey="page_hint.biorhythm.title"
+            titleDefault="Calculate your biorhythms"
+            bodyKey="page_hint.biorhythm.body"
+            bodyDefault="Enter your birth date, then tap here to see your physical, emotional, and intellectual cycles."
+            target='[data-tour="page-cta"]'
+          />
         </div>
       </FeatureGate>
     </div>

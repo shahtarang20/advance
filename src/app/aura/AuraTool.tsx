@@ -7,6 +7,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { useTranslation } from "@/lib/I18nContext";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 export function AuraTool() {
   const [dob, setDob] = useState("");
@@ -48,11 +49,19 @@ export function AuraTool() {
               </p>
             )}
           </div>
-          <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
+          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
             {t("aura.tool.reveal", { defaultValue: "Reveal My Aura Color" })}
           </Button>
         </form>
       </GlassCard>
+      <PageFeatureHint
+        pageKey="aura"
+        titleKey="page_hint.aura.title"
+        titleDefault="Reveal your aura"
+        bodyKey="page_hint.aura.body"
+        bodyDefault="Enter your birth date, then tap here to reveal your aura color."
+        target='[data-tour="page-cta"]'
+      />
     </div>
   );
 }

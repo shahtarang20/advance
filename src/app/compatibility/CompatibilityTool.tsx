@@ -10,6 +10,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { Button } from "@/components/ui/Button";
 import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 export function CompatibilityTool() {
   const [nameA, setNameA] = useState("");
@@ -95,11 +96,19 @@ export function CompatibilityTool() {
               {touched && dobBError && <p className="mt-1.5 text-xs text-amber-600">{dobBError}</p>}
             </div>
           </div>
-          <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
+          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
             {t("comp.tool.check_btn")}
           </Button>
         </form>
       </GlassCard>
+      <PageFeatureHint
+        pageKey="compatibility"
+        titleKey="page_hint.compatibility.title"
+        titleDefault="Check your compatibility"
+        bodyKey="page_hint.compatibility.body"
+        bodyDefault="Enter both names and birth dates, then tap here to see your compatibility score."
+        target='[data-tour="page-cta"]'
+      />
 
       {result && (
         <div className="mt-10 space-y-6">

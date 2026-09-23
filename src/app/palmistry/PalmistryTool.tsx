@@ -8,6 +8,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { useTranslation } from "@/lib/I18nContext";
 import type { Hand } from "@/lib/palmistry";
 import { detectHandInImage, prepareImageForDetection, preloadHandDetector } from "@/lib/handDetector";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 const PHOTO_SESSION_KEY = "cosmic-palm-photo";
 
@@ -263,10 +264,18 @@ export function PalmistryTool() {
           </div>
         </div>
 
-        <Button onClick={handleSubmit} disabled={checkingPhoto} className="w-full disabled:cursor-not-allowed disabled:opacity-50">
+        <Button data-tour="page-cta" onClick={handleSubmit} disabled={checkingPhoto} className="w-full disabled:cursor-not-allowed disabled:opacity-50">
           {t("palmistry.tool.reveal", { defaultValue: "Reveal My Palm Reading" })}
         </Button>
       </div>
+      <PageFeatureHint
+        pageKey="palmistry"
+        titleKey="page_hint.palmistry.title"
+        titleDefault="Get your palm reading"
+        bodyKey="page_hint.palmistry.body"
+        bodyDefault="Optionally add a palm photo and pick a hand, then tap here to reveal your reading."
+        target='[data-tour="page-cta"]'
+      />
     </GlassCard>
   );
 }

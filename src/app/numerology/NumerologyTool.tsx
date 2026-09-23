@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
 import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 export function NumerologyTool() {
   const [name, setName] = useState("");
@@ -95,11 +96,19 @@ export function NumerologyTool() {
               </p>
             )}
           </div>
-          <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
+          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
             {t("numerology.tool.reveal_btn")}
           </Button>
         </form>
       </GlassCard>
+      <PageFeatureHint
+        pageKey="numerology"
+        titleKey="page_hint.numerology.title"
+        titleDefault="Reveal your numbers"
+        bodyKey="page_hint.numerology.body"
+        bodyDefault="Enter your name and birth date, then tap here to see your numerology profile."
+        target='[data-tour="page-cta"]'
+      />
 
       {submitted && (
         <div className="mt-10 space-y-6">

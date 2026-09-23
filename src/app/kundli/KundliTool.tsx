@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { useTranslation } from "@/lib/I18nContext";
 import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
+import { PageFeatureHint } from "@/components/PageFeatureHint";
 
 export function KundliTool() {
   const router = useRouter();
@@ -255,11 +256,19 @@ export function KundliTool() {
             )}
           </div>
 
-          <Button type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
+          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
             {t("kundli.tool.submit", { defaultValue: "Generate My Kundli →" })}
           </Button>
         </form>
       </GlassCard>
+      <PageFeatureHint
+        pageKey="kundli"
+        titleKey="page_hint.kundli.title"
+        titleDefault="Generate your Kundli"
+        bodyKey="page_hint.kundli.body"
+        bodyDefault="Fill in your birth details, then tap here for your full Kundli chart."
+        target='[data-tour="page-cta"]'
+      />
     </div>
   );
 }
