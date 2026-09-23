@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
     dreams: "🌙",
     tarot: "🃏",
     kundli: "🕉️",
+    palmistry: "🤚",
   };
   const big =
     searchParams.get("big") ??

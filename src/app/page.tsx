@@ -26,8 +26,8 @@ export default function HomePage() {
           {t("home.hero.desc")}
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Button href="/numerology" variant="primary">
-            {t("home.btn.calc")}
+          <Button href="/tarot" variant="primary">
+            {t("home.btn.tarot")}
           </Button>
           <Button href="/horoscope" variant="secondary">
             {t("home.btn.horoscope")}

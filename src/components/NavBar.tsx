@@ -10,6 +10,7 @@ import { useGamification, LockableFeature } from "@/lib/gamification";
 const emptySubscribe = () => () => {};
 
 const LINKS = [
+  { href: "/palmistry", labelKey: "nav.palmistry" },
   { href: "/tarot", labelKey: "nav.tarot" },
   { href: "/kundli", labelKey: "nav.kundli" },
   { href: "/horoscope", labelKey: "nav.horoscope" },
@@ -33,7 +34,7 @@ const LOCKABLE_HREFS: Record<string, LockableFeature> = {
 
 // Only the highest-traffic tools show inline on desktop; the rest live under "More" so the
 // header stays readable instead of cramming 9+ links into one row even on a laptop screen.
-const PRIMARY_HREFS = ["/numerology", "/horoscope", "/kundli", "/tarot"];
+const PRIMARY_HREFS = ["/palmistry", "/numerology", "/horoscope", "/kundli", "/tarot"];
 
 export function NavBar() {
   const { t } = useTranslation();
