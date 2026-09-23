@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { CameraCapture } from "@/components/ui/CameraCapture";
 import { useTranslation } from "@/lib/I18nContext";
 import type { Hand } from "@/lib/palmistry";
 import { detectHandInImage, preloadHandDetector } from "@/lib/handDetector";
@@ -38,8 +37,15 @@ export function PalmistryTool() {
   const [photoDataUrl, setPhotoDataUrl] = useState<string | null>(null);
   const [checkingPhoto, setCheckingPhoto] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
-  const [cameraOpen, setCameraOpen] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // Two separate <input type="file"> elements rather than an in-app getUserMedia camera view:
+  // getUserMedia requires a secure (HTTPS/localhost) context and its own runtime permission
+  // grant, and silently fails on plain-HTTP origins (e.g. testing over a LAN IP on a phone) —
+  // exactly the kind of environment where "Take Photo" would work for one person and not
+  // another. `capture="environment"` opens the device's native camera app directly, using the
+  // same OS-level mechanism "Upload Photo" already relies on, so both buttons are equally
+  // reliable everywhere. Both still go through the identical hand-detection validation below.
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -103,27 +109,6 @@ export function PalmistryTool() {
     await validateAndSetPhoto(dataUrl);
   };
 
-  const handleCameraCapture = (dataUrl: string) => {
-    setCameraOpen(false);
-    void validateAndSetPhoto(dataUrl);
-  };
-
-  const handleCameraError = (reason: "camera_unavailable" | "blank_frame") => {
-    if (reason === "blank_frame") {
-      setPhotoError(
-        t("palmistry.tool.camera_blank_frame", {
-          defaultValue: "That shot came out blank — give the camera a second to focus and try again.",
-        })
-      );
-      return;
-    }
-    setPhotoError(
-      t("palmistry.tool.camera_unavailable", {
-        defaultValue: "Couldn't access the camera — check your browser's camera permission, or upload a photo instead.",
-      })
-    );
-  };
-
   const handleSubmit = () => {
     const seed = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
     // The photo never leaves the browser — kept only in this tab's sessionStorage, purely so
@@ -145,63 +130,54 @@ export function PalmistryTool() {
           <p className="mb-2 text-sm font-medium text-muted">
             {t("palmistry.tool.photo_label", { defaultValue: "Take or upload a photo of your palm (optional)" })}
           </p>
-          {cameraOpen ? (
-            <CameraCapture onCapture={handleCameraCapture} onError={handleCameraError} onClose={() => setCameraOpen(false)} />
-          ) : (
-            <button
-              type="button"
-              onClick={() => (photoDataUrl || checkingPhoto ? undefined : fileInputRef.current?.click())}
-              disabled={checkingPhoto}
-              className={`flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed bg-[var(--surface)] transition hover:border-[var(--accent-solid)] ${
-                photoError ? "border-rose-500" : "border-[var(--surface-border)]"
-              }`}
-            >
-              {checkingPhoto ? (
-                <span className="px-6 text-center text-sm text-muted-soft">
-                  {t("palmistry.tool.photo_checking", { defaultValue: "Checking your photo…" })}
-                </span>
-              ) : photoDataUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element -- ephemeral client-only preview, never uploaded
-                <img src={photoDataUrl} alt="" className="h-full w-full object-cover" />
-              ) : (
-                <span className="px-6 text-center text-sm text-muted-soft">
-                  {t("palmistry.tool.photo_placeholder", { defaultValue: "Tap to take a photo or choose one from your device" })}
-                </span>
-              )}
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => (photoDataUrl || checkingPhoto ? undefined : galleryInputRef.current?.click())}
+            disabled={checkingPhoto}
+            className={`flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed bg-[var(--surface)] transition hover:border-[var(--accent-solid)] ${
+              photoError ? "border-rose-500" : "border-[var(--surface-border)]"
+            }`}
+          >
+            {checkingPhoto ? (
+              <span className="px-6 text-center text-sm text-muted-soft">
+                {t("palmistry.tool.photo_checking", { defaultValue: "Checking your photo…" })}
+              </span>
+            ) : photoDataUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element -- ephemeral client-only preview, never uploaded
+              <img src={photoDataUrl} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <span className="px-6 text-center text-sm text-muted-soft">
+                {t("palmistry.tool.photo_placeholder", { defaultValue: "Tap to take a photo or choose one from your device" })}
+              </span>
+            )}
+          </button>
           <input
-            ref={fileInputRef}
+            ref={cameraInputRef}
             type="file"
             accept="image/*"
             capture="environment"
             onChange={handleFileChange}
             className="hidden"
           />
-          {!cameraOpen && (
-            <div className="mt-3 flex gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setPhotoError(null);
-                  setPhotoDataUrl(null);
-                  setCameraOpen(true);
-                }}
-                disabled={checkingPhoto}
-                className="flex-1 rounded-xl border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-muted transition hover:border-[var(--accent-solid)] disabled:opacity-50"
-              >
-                {t("palmistry.tool.use_camera", { defaultValue: "📷 Take Photo" })}
-              </button>
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={checkingPhoto}
-                className="flex-1 rounded-xl border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-muted transition hover:border-[var(--accent-solid)] disabled:opacity-50"
-              >
-                {t("palmistry.tool.upload_photo", { defaultValue: "Upload Photo" })}
-              </button>
-            </div>
-          )}
+          <input ref={galleryInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+          <div className="mt-3 flex gap-3">
+            <button
+              type="button"
+              onClick={() => cameraInputRef.current?.click()}
+              disabled={checkingPhoto}
+              className="flex-1 rounded-xl border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-muted transition hover:border-[var(--accent-solid)] disabled:opacity-50"
+            >
+              {t("palmistry.tool.use_camera", { defaultValue: "📷 Take Photo" })}
+            </button>
+            <button
+              type="button"
+              onClick={() => galleryInputRef.current?.click()}
+              disabled={checkingPhoto}
+              className="flex-1 rounded-xl border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-muted transition hover:border-[var(--accent-solid)] disabled:opacity-50"
+            >
+              {t("palmistry.tool.upload_photo", { defaultValue: "Upload Photo" })}
+            </button>
+          </div>
           {photoError ? (
             <p className="mt-2 text-xs text-rose-500">{photoError}</p>
           ) : (
