@@ -13,25 +13,32 @@ const MODEL_URL =
 
 let landmarkerPromise: Promise<HandLandmarker> | null = null;
 
-async function createLandmarker(delegate: "GPU" | "CPU"): Promise<HandLandmarker> {
-  const vision = await FilesetResolver.forVisionTasks(WASM_BASE);
-  return HandLandmarker.createFromOptions(vision, {
-    baseOptions: {
-      modelAssetPath: MODEL_URL,
-      delegate,
-    },
-    runningMode: "IMAGE",
-    numHands: 1,
-    minHandDetectionConfidence: 0.5,
-  });
+function createLandmarker(): Promise<HandLandmarker> {
+  return FilesetResolver.forVisionTasks(WASM_BASE).then((vision) =>
+    HandLandmarker.createFromOptions(vision, {
+      baseOptions: {
+        modelAssetPath: MODEL_URL,
+        // CPU only: the GPU/WebGL delegate was tried briefly for speed, but it's noticeably
+        // less reliable on real devices — it let non-palm photos through that the CPU delegate
+        // correctly rejects. For a one-shot "is there a hand here" gate, correctness matters
+        // far more than the ~tens-of-milliseconds difference, and the real source of any
+        // sluggishness was the cold model load anyway, which `preloadHandDetector` below fixes
+        // regardless of which delegate is used.
+        delegate: "CPU",
+      },
+      runningMode: "IMAGE",
+      numHands: 1,
+      // Deliberately strict — this is a hard gate ("reject anything that isn't clearly a hand"),
+      // not a best-guess score, so a higher threshold than the library's 0.5 default is correct
+      // here even though it means very ambiguous hand photos might occasionally need a retake.
+      minHandDetectionConfidence: 0.75,
+    })
+  );
 }
 
 function getLandmarker(): Promise<HandLandmarker> {
   if (!landmarkerPromise) {
-    // GPU delegate runs noticeably faster (near-instant per-frame inference vs. CPU's heavier
-    // cost), which matters for keeping the tour feeling responsive — but it isn't supported in
-    // every browser/GPU combination, so fall back to CPU rather than fail outright.
-    landmarkerPromise = createLandmarker("GPU").catch(() => createLandmarker("CPU"));
+    landmarkerPromise = createLandmarker();
   }
   return landmarkerPromise;
 }

@@ -11,6 +11,19 @@ import { detectHandInImage, preloadHandDetector } from "@/lib/handDetector";
 
 const PHOTO_SESSION_KEY = "cosmic-palm-photo";
 
+// With the model preloaded, detection can resolve within a handful of milliseconds — fast
+// enough that the "checking" state update and the final result update can both happen inside
+// the same microtask flush, with no macrotask boundary for the browser to actually paint in
+// between. The result: React processes the state change, but the user's screen never shows
+// it — the "Checking your photo…" message effectively never renders. Enforcing a minimum
+// visible duration (a real setTimeout, i.e. a genuine macrotask) guarantees a paint happens,
+// and doubles as a deliberate, readable moment of feedback rather than an invisible flicker.
+const MIN_CHECK_DISPLAY_MS = 600;
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function loadImage(dataUrl: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -41,27 +54,38 @@ export function PalmistryTool() {
     setPhotoError(null);
     setPhotoDataUrl(null);
     setCheckingPhoto(true);
+    const startedAt = Date.now();
+
+    let hasHand = false;
+    let failed = false;
     try {
       const img = await loadImage(dataUrl);
-      const hasHand = await detectHandInImage(img);
-      if (hasHand) {
-        setPhotoDataUrl(dataUrl);
-      } else {
-        setPhotoError(
-          t("palmistry.tool.photo_no_hand", {
-            defaultValue: "We couldn't find a hand in that photo — please upload a clear photo of an open palm.",
-          })
-        );
-      }
+      hasHand = await detectHandInImage(img);
     } catch {
+      failed = true;
+    }
+
+    // Guarantee the "checking" state is actually visible for a moment, however fast the real
+    // work finished (see MIN_CHECK_DISPLAY_MS above for why this is necessary, not cosmetic).
+    const remaining = MIN_CHECK_DISPLAY_MS - (Date.now() - startedAt);
+    if (remaining > 0) await wait(remaining);
+
+    if (failed) {
       setPhotoError(
         t("palmistry.tool.photo_check_failed", {
           defaultValue: "Couldn't check that photo — please try a different one, or skip the photo entirely.",
         })
       );
-    } finally {
-      setCheckingPhoto(false);
+    } else if (hasHand) {
+      setPhotoDataUrl(dataUrl);
+    } else {
+      setPhotoError(
+        t("palmistry.tool.photo_no_hand", {
+          defaultValue: "We couldn't find a hand in that photo — please upload a clear photo of an open palm.",
+        })
+      );
     }
+    setCheckingPhoto(false);
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
