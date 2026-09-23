@@ -212,7 +212,39 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
         </div>
       </Reveal>
 
-      <Reveal delay={0.08}>
+      <Reveal delay={0.05}>
+        <GlassCard className="mb-10 p-6 sm:p-8">
+          <h2 className="mb-6 text-lg font-semibold">
+            <Trans tKey="palmistry.result.timeline_title" replacements={{ defaultValue: "Life Growth & Milestones Timeline" }} />
+          </h2>
+          <div className="relative space-y-8 before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[var(--surface-border)] before:to-transparent">
+            {reading.timeline.map((event, i) => (
+              <div key={i} className="relative flex items-center min-h-[3rem] md:justify-center md:odd:flex-row-reverse group is-active">
+                
+                {/* Card Content */}
+                <div className="w-full pl-16 md:pl-0 md:w-[calc(50%-1.5rem)]">
+                  <div className="p-4 rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm transition hover:border-[var(--accent-solid)]">
+                    <p className="text-sm leading-relaxed text-muted">
+                      <Trans tKey={timelineEventKey(event.key)} replacements={{ defaultValue: event.defaultText }} />
+                    </p>
+                  </div>
+                </div>
+
+                {/* Circle Icon */}
+                <div className="absolute left-0 md:static flex items-center justify-center w-12 h-12 rounded-full border-4 border-[var(--background)] bg-[var(--accent-solid)] shadow shrink-0 z-10 text-white font-bold text-[10px] sm:text-xs text-center leading-tight">
+                  <Trans tKey="palmistry.result.timeline_age" replacements={{ age: event.age.toString(), defaultValue: "Age {age}" }} />
+                </div>
+
+                {/* Desktop Empty Space */}
+                <div className="hidden md:block md:w-[calc(50%-1.5rem)]"></div>
+                
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </Reveal>
+
+      <Reveal delay={0.1}>
         <div className="mb-10">
           <h2 className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-muted-soft">
             <Trans tKey="palmistry.result.quick.section_title" replacements={{ defaultValue: "Your Reading at a Glance" }} />
@@ -278,37 +310,6 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
           </GlassCard>
         </Reveal>
 
-        <Reveal delay={0.35}>
-          <GlassCard className="p-6 sm:p-8">
-            <h2 className="mb-6 text-lg font-semibold">
-              <Trans tKey="palmistry.result.timeline_title" replacements={{ defaultValue: "Life Growth & Milestones Timeline" }} />
-            </h2>
-            <div className="relative space-y-8 before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[var(--surface-border)] before:to-transparent">
-              {reading.timeline.map((event, i) => (
-                <div key={i} className="relative flex items-center min-h-[3rem] md:justify-center md:odd:flex-row-reverse group is-active">
-                  
-                  {/* Card Content */}
-                  <div className="w-full pl-16 md:pl-0 md:w-[calc(50%-1.5rem)]">
-                    <div className="p-4 rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm transition hover:border-[var(--accent-solid)]">
-                      <p className="text-sm leading-relaxed text-muted">
-                        <Trans tKey={timelineEventKey(event.key)} replacements={{ defaultValue: event.defaultText }} />
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Circle Icon */}
-                  <div className="absolute left-0 md:static flex items-center justify-center w-12 h-12 rounded-full border-4 border-[var(--background)] bg-[var(--accent-solid)] shadow shrink-0 z-10 text-white font-bold text-[10px] sm:text-xs text-center leading-tight">
-                    <Trans tKey="palmistry.result.timeline_age" replacements={{ age: event.age.toString(), defaultValue: "Age {age}" }} />
-                  </div>
-
-                  {/* Desktop Empty Space */}
-                  <div className="hidden md:block md:w-[calc(50%-1.5rem)]"></div>
-                  
-                </div>
-              ))}
-            </div>
-          </GlassCard>
-        </Reveal>
 
         <Reveal delay={0.4}>
           <p className="mx-auto max-w-xl text-center text-xs text-muted-soft">
