@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PlayAudioButton } from "@/components/PlayAudioButton";
 import {
   getPalmReading,
   Hand,
@@ -288,7 +289,7 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
     },
   ];
 
-  const quickSections = [
+  const quickStats = [
     {
       key: "career",
       titleKey: "palmistry.result.quick.career_title",
@@ -331,6 +332,15 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
     },
   ];
 
+  const allAudioKeys = [
+    handShapeNameKey(reading.handShape),
+    handShapeTraitsKey(reading.handShape),
+    ...lines.flatMap(l => [l.variantTitleKey, l.meaningKey]),
+    ...minorLinesList.flatMap(l => [l.variantTitleKey, l.meaningKey]),
+    ...specificPredictionsList.flatMap(l => [l.variantTitleKey, l.meaningKey]),
+    ...chirognomyList.flatMap(l => [l.variantTitleKey, l.meaningKey])
+  ];
+
   return (
     <div className="mx-auto max-w-3xl px-6 pb-32 pt-16">
       <RecentActivityTracker
@@ -344,6 +354,9 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
 
       <Reveal>
         <div className="mb-12 text-center">
+          <div className="flex justify-center mb-6">
+            <PlayAudioButton tKeys={allAudioKeys} className="h-14 w-14" />
+          </div>
           <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-muted-soft">
             <Trans
               tKey={hand === "right" ? "palmistry.result.hand_label_right" : "palmistry.result.hand_label_left"}
@@ -562,7 +575,7 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
             />
           </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {quickSections.map((section) => (
+            {quickStats.map((section) => (
               <GlassCard key={section.key} className="p-5">
                 <h3 className="flex items-center gap-2 text-sm font-semibold">
                   <span className="text-lg">{section.icon}</span>

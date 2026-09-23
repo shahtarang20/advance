@@ -1698,5 +1698,12 @@
   "comp.verdict.excellent": "A rare, powerful match — your energies amplify each other beautifully.",
   "comp.verdict.good": "A strong, promising connection with real potential to grow.",
   "comp.verdict.average": "A workable match that needs communication to really thrive.",
-  "comp.verdict.challenging": "An unlikely pairing on paper — but numbers aren't the whole story."
+  "comp.verdict.challenging": "An unlikely pairing on paper — but numbers aren't the whole story.",
+  "pwa.install.title": "Install Cosmic Numbers",
+  "pwa.install.desc": "Add it to your home screen for the full app experience.",
+  "pwa.install.ios_hint": "Tap the Share button, then \"Add to Home Screen\".",
+  "pwa.install.button": "Install",
+  "pwa.install.dismiss": "Dismiss",
+  "audio.play": "Play Audio",
+  "audio.stop": "Stop Audio"
 }

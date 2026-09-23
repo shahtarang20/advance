@@ -3,10 +3,18 @@ import { FlipCard } from "@/components/ui/FlipCard";
 import { CompatibilityResult } from "@/lib/compatibility";
 import { useTranslation } from "@/lib/I18nContext";
 
+import { PlayAudioButton } from "@/components/PlayAudioButton";
+
 export function CompatibilityCard({ result }: { result: CompatibilityResult }) {
   const { t } = useTranslation();
+  
+  const audioText = `${t("comp.card.match", { nameA: result.nameA, nameB: result.nameB, percentage: result.percentage.toString() })}. ${t(result.verdict)}`;
+  
   return (
     <div className="space-y-6">
+      <div className="flex justify-center">
+        <PlayAudioButton textToRead={audioText} className="h-14 w-14" />
+      </div>
       <FlipCard
         ariaLabel={`${result.nameA} and ${result.nameB} compatibility: ${result.percentage}% match`}
         className="mx-auto max-w-sm"

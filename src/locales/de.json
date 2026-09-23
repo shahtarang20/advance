@@ -1698,5 +1698,12 @@
   "comp.verdict.excellent": "Ein seltenes, kraftvolles Match — eure Energien verstärken sich gegenseitig auf wunderschöne Weise.",
   "comp.verdict.good": "Eine starke, vielversprechende Verbindung mit echtem Wachstumspotenzial.",
   "comp.verdict.average": "Ein machbares Match, das Kommunikation braucht, um wirklich aufzublühen.",
-  "comp.verdict.challenging": "Auf dem Papier eine unwahrscheinliche Paarung — aber Zahlen sind nicht die ganze Geschichte."
+  "comp.verdict.challenging": "Auf dem Papier eine unwahrscheinliche Paarung — aber Zahlen sind nicht die ganze Geschichte.",
+  "pwa.install.title": "Cosmic Numbers installieren",
+  "pwa.install.desc": "Füge sie zu deinem Startbildschirm hinzu, für das volle App-Erlebnis.",
+  "pwa.install.ios_hint": "Tippe auf das Teilen-Symbol und dann auf \"Zum Home-Bildschirm\".",
+  "pwa.install.button": "Installieren",
+  "pwa.install.dismiss": "Schließen",
+  "audio.play": "Audio abspielen",
+  "audio.stop": "Audio stoppen"
 }

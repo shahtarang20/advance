@@ -1698,5 +1698,12 @@
   "comp.verdict.excellent": "极其罕见且强大的匹配——你们的能量完美地相互增强。",
   "comp.verdict.good": "一种强大而有前途的联系，具有真正的增长潜力。",
   "comp.verdict.average": "一个需要沟通才能真正繁荣的可行匹配。",
-  "comp.verdict.challenging": "纸面上不太可能的一对——但数字并不是全部。"
+  "comp.verdict.challenging": "纸面上不太可能的一对——但数字并不是全部。",
+  "pwa.install.title": "安装 Cosmic Numbers",
+  "pwa.install.desc": "将其添加到主屏幕，获得完整的应用体验。",
+  "pwa.install.ios_hint": "点击分享按钮，然后选择“添加到主屏幕”。",
+  "pwa.install.button": "安装",
+  "pwa.install.dismiss": "关闭",
+  "audio.play": "播放音频",
+  "audio.stop": "停止音频"
 }

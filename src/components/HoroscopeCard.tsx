@@ -1,5 +1,6 @@
 "use client";
 
+import { PlayAudioButton } from "@/components/PlayAudioButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FlipCard } from "@/components/ui/FlipCard";
 import {
@@ -42,8 +43,13 @@ export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope
     defaultValue: `${signLabel} is feeling ${mood.toLowerCase()} today. ${love}`,
   });
 
+  const fullReading = `${summary} ${t("horoscope.card.love")}: ${love} ${t("horoscope.card.career")}: ${career} ${t("horoscope.card.health")}: ${health}`;
+
   return (
     <div className="space-y-8">
+      <div className="flex justify-center">
+        <PlayAudioButton textToRead={fullReading} className="h-14 w-14" />
+      </div>
       <FlipCard
         ariaLabel={`${info.name} horoscope card`}
         className="mx-auto max-w-sm"

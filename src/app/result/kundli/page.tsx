@@ -107,8 +107,8 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
           <Trans tKey="kundli.result.heading" replacements={{ name: input.name, defaultValue: "{name}’s Janam Kundli" }} />
         </h1>
         <p className="mt-3 text-muted">
-          <Trans tKey="kundli.result.lagna_label" replacements={{ defaultValue: "Lagna:" }} /> <strong>{lagnaRashiEn}</strong> ·{" "}
-          <Trans tKey="kundli.result.moon_rashi_label" replacements={{ defaultValue: "Moon Rashi:" }} /> <strong>{moonRashiEn}</strong> ·{" "}
+          <Trans tKey="kundli.result.lagna_label" replacements={{ defaultValue: "Lagna:" }} /> <strong><Trans tKey={`zodiac.${lagnaRashiEn.toLowerCase()}`} replacements={{ defaultValue: lagnaRashiEn }} /></strong> ·{" "}
+          <Trans tKey="kundli.result.moon_rashi_label" replacements={{ defaultValue: "Moon Rashi:" }} /> <strong><Trans tKey={`zodiac.${moonRashiEn.toLowerCase()}`} replacements={{ defaultValue: moonRashiEn }} /></strong> ·{" "}
           <Trans tKey="kundli.result.nakshatra_label" replacements={{ defaultValue: "Nakshatra:" }} />{" "}
           <strong>{moonNakshatra.name}</strong> (
           <Trans tKey="kundli.result.pada_label" replacements={{ defaultValue: "Pada" }} /> {chart.moonNakshatraPada})
