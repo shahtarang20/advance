@@ -131,7 +131,17 @@ export interface DailyHoroscope {
   love: string;
   career: string;
   health: string;
+  loveIndex: number;
+  careerIndex: number;
+  healthIndex: number;
   summary: string;
+}
+
+/** Same as prng's `pick`, but also returns the chosen index so callers can build a stable
+ * translation key (`horoscope.love.<sign>.<index>`) alongside the English fallback text. */
+function pickIndexed<T>(rng: () => number, arr: T[]): { value: T; index: number } {
+  const index = Math.floor(rng() * arr.length) % arr.length;
+  return { value: arr[index], index };
 }
 
 export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): DailyHoroscope {
@@ -140,9 +150,9 @@ export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): Da
   const mood = pick(rng, MOODS);
   const luckyColor = pick(rng, COLORS);
   const luckyNumber = Math.floor(rng() * 9) + 1;
-  const love = pick(rng, LOVE[sign]);
-  const career = pick(rng, CAREER[sign]);
-  const health = pick(rng, HEALTH[sign]);
+  const loveP = pickIndexed(rng, LOVE[sign]);
+  const careerP = pickIndexed(rng, CAREER[sign]);
+  const healthP = pickIndexed(rng, HEALTH[sign]);
   const info = getZodiacInfo(sign);
 
   return {
@@ -151,9 +161,33 @@ export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): Da
     mood,
     luckyNumber,
     luckyColor,
-    love,
-    career,
-    health,
-    summary: `${info.name} is feeling ${mood.toLowerCase()} today. ${love}`,
+    love: loveP.value,
+    career: careerP.value,
+    health: healthP.value,
+    loveIndex: loveP.index,
+    careerIndex: careerP.index,
+    healthIndex: healthP.index,
+    summary: `${info.name} is feeling ${mood.toLowerCase()} today. ${loveP.value}`,
   };
 }
+
+// --- Translation key helpers ------------------------------------------------
+// Same pattern used across the app (kundliInterpretations.ts, aura.ts, palmistry.ts): keys into
+// src/locales/*.json, with the English content above passed as `defaultValue` so a locale that
+// hasn't translated a given key yet still renders correctly.
+
+export const moodKey = (mood: string) => `horoscope.mood.${mood.toLowerCase()}`;
+export const luckyColorKey = (color: string) => `horoscope.color.${color.toLowerCase()}`;
+export const elementKey = (element: string) => `horoscope.element.${element.toLowerCase()}`;
+export const modalityKey = (modality: string) => `horoscope.modality.${modality.toLowerCase()}`;
+export const rulingPlanetKey = (planet: string) => `horoscope.planet.${planet.toLowerCase()}`;
+export const symbolKey = (sign: ZodiacSign) => `horoscope.symbol.${sign}`;
+export const blurbKey = (sign: ZodiacSign) => `horoscope.blurb.${sign}`;
+export const aboutKey = (sign: ZodiacSign) => `horoscope.about.${sign}`;
+export const loveKey = (sign: ZodiacSign, index: number) => `horoscope.love.${sign}.${index}`;
+export const careerKey = (sign: ZodiacSign, index: number) => `horoscope.career.${sign}.${index}`;
+export const healthKey = (sign: ZodiacSign, index: number) => `horoscope.health.${sign}.${index}`;
+
+/** Builds the fully-translated summary sentence, since the English default concatenates the
+ * (already-translatable) sign name, mood, and love text together. */
+export const summaryTemplateKey = () => "horoscope.summary_template";

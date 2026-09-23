@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getDailyHoroscope, getZodiacInfo, ZODIAC_SIGNS, ZodiacSign } from "@/lib/horoscope";
 import { HoroscopeCard } from "@/components/HoroscopeCard";
-import { Button } from "@/components/ui/Button";
+import { Trans } from "@/components/Trans";
+import { SeeFullSignPageButton } from "./SeeFullSignPageButton";
 
 type SP = { sign?: string };
 
@@ -33,9 +34,11 @@ export default async function HoroscopeResultPage({ searchParams }: { searchPara
   if (!isValidSign(sign)) {
     return (
       <div className="px-6 py-24 text-center">
-        <p className="text-muted">No horoscope found.</p>
+        <p className="text-muted">
+          <Trans tKey="horoscope.result.no_horoscope" replacements={{ defaultValue: "No horoscope found." }} />
+        </p>
         <Link href="/horoscope" className="mt-4 inline-block text-purple-600 underline">
-          Read today&apos;s horoscope →
+          <Trans tKey="horoscope.result.read_today_link" replacements={{ defaultValue: "Read today's horoscope →" }} />
         </Link>
       </div>
     );
@@ -48,7 +51,7 @@ export default async function HoroscopeResultPage({ searchParams }: { searchPara
     <div className="mx-auto max-w-2xl px-6 pb-24 pt-16">
       <HoroscopeCard info={info} horoscope={horoscope} />
       <div className="mt-10 text-center">
-        <Button href={`/horoscope/${sign}`}>See Full {info.name} Page →</Button>
+        <SeeFullSignPageButton sign={info.sign} name={info.name} />
       </div>
     </div>
   );

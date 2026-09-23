@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getDailyHoroscope, getZodiacInfo, ZODIAC_SIGNS, ZodiacSign } from "@/lib/horoscope";
+import { getDailyHoroscope, getZodiacInfo, ZODIAC_SIGNS, ZodiacSign, blurbKey } from "@/lib/horoscope";
 import { HoroscopeCard } from "@/components/HoroscopeCard";
 import { SignCheckin } from "./SignCheckin";
+import { Trans } from "@/components/Trans";
+import { HoroscopeSignHeading } from "./HoroscopeSignHeading";
 
 export const revalidate = 3600; // refresh hourly so "today's" horoscope stays current
 
@@ -41,10 +43,10 @@ export default async function SignPage({ params }: { params: Promise<{ sign: str
   return (
     <div className="px-6 pb-24 pt-16">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          {info.name} Horoscope Today
-        </h1>
-        <p className="mt-4 text-muted">{info.blurb}</p>
+        <HoroscopeSignHeading sign={info.sign} name={info.name} />
+        <p className="mt-4 text-muted">
+          <Trans tKey={blurbKey(info.sign)} replacements={{ defaultValue: info.blurb }} />
+        </p>
       </div>
 
       <div className="mx-auto mt-12 max-w-3xl">
