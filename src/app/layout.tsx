@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { SITE_URL } from "@/lib/site";
+import { OfflineScreen } from "@/components/OfflineScreen";
 
 // Defaults to the real AdSense publisher ID. Override via NEXT_PUBLIC_ADSENSE_CLIENT_ID
 // in Vercel's env vars if this ever needs to change (Settings → Environment Variables).
@@ -70,6 +71,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content={ADSENSE_CLIENT_ID} />
+        <meta name="theme-color" content="#0a0a0a" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Cosmic" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -85,6 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <Providers>
+          <OfflineScreen />
           <div
             className="min-h-screen text-[var(--foreground)]"
             style={{

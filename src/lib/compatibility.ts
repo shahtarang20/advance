@@ -1,9 +1,10 @@
-import { getLifePathNumber } from "./numerology";
-import { seededRandom } from "./prng";
+import { getLifePathNumber, getDestinyNumber, getSoulUrgeNumber } from "./numerology";
+import { getZodiacByDob } from "./horoscope";
 
 export interface CompatibilityResult {
   percentage: number;
-  verdict: string;
+  verdict: string; // The translation key
+  englishVerdict: string; // The English fallback for metadata
   headline: string;
   nameA: string;
   nameB: string;
@@ -12,8 +13,7 @@ export interface CompatibilityResult {
 }
 
 // A simple, defensible "compatibility grid" between life path numbers (1-9, plus
-// master numbers collapsed to their base vibration for this purpose). Not meant
-// to be scientific — it's a fun, shareable numerology game.
+// master numbers collapsed to their base vibration for this purpose).
 const AFFINITY: Record<string, number> = {
   "1-1": 78, "1-2": 65, "1-3": 88, "1-4": 60, "1-5": 90, "1-6": 55, "1-7": 70, "1-8": 82, "1-9": 75,
   "2-2": 85, "2-3": 72, "2-4": 80, "2-5": 58, "2-6": 92, "2-7": 68, "2-8": 74, "2-9": 88,
@@ -34,63 +34,73 @@ function baseVibration(n: number): number {
 }
 
 function affinityLookup(a: number, b: number): number {
-  const x = Math.min(a, b);
-  const y = Math.max(a, b);
+  const x = Math.min(baseVibration(a), baseVibration(b));
+  const y = Math.max(baseVibration(a), baseVibration(b));
   return AFFINITY[`${x}-${y}`] ?? 70;
 }
 
-const VERDICTS: { min: number; texts: string[] }[] = [
-  {
-    min: 85,
-    texts: [
-      "A rare, powerful match — your numbers amplify each other beautifully.",
-      "This is the kind of connection that feels almost written in the stars.",
-      "Your energies fit together like they were designed as a pair.",
-    ],
-  },
-  {
-    min: 70,
-    texts: [
-      "A strong, promising connection with real potential to grow.",
-      "There's a solid foundation here — the effort you both put in will show.",
-      "Your differences complement each other more than they clash.",
-    ],
-  },
-  {
-    min: 55,
-    texts: [
-      "A workable match that needs communication to really thrive.",
-      "There's chemistry here, but it takes conscious effort to keep balanced.",
-      "You'll need patience with each other's differences, but it can pay off.",
-    ],
-  },
-  {
-    min: 0,
-    texts: [
-      "An unlikely pairing on paper — but numbers aren't the whole story.",
-      "This connection will take real work, but growth often comes from friction.",
-      "Opposites here create tension, but tension can turn into real passion.",
-    ],
-  },
-];
+// Zodiac Elemental Harmony
+// Fire (Aries, Leo, Sagittarius)
+// Earth (Taurus, Virgo, Capricorn)
+// Air (Gemini, Libra, Aquarius)
+// Water (Cancer, Scorpio, Pisces)
+// Same element = 100, Complementary (Fire/Air, Earth/Water) = 85, Others = 50 or 60.
+function getElementalHarmony(elementA: string, elementB: string): number {
+  if (elementA === elementB) return 100;
+  
+  const complementary: Record<string, string> = {
+    "Fire": "Air", "Air": "Fire",
+    "Earth": "Water", "Water": "Earth"
+  };
+  
+  if (complementary[elementA] === elementB) return 85;
+  return 60; // Neutral / Challenging
+}
 
 export function calculateCompatibility(nameA: string, dobA: string, nameB: string, dobB: string): CompatibilityResult {
+  // 1. Life Path Match (40%)
   const lifePathA = getLifePathNumber(dobA);
   const lifePathB = getLifePathNumber(dobB);
-  const base = affinityLookup(baseVibration(lifePathA), baseVibration(lifePathB));
-
-  // Deterministic small variance so the same pair always gets the same result,
-  // but it doesn't look too "clean" / robotic.
-  const rng = seededRandom(nameA.toLowerCase(), dobA, nameB.toLowerCase(), dobB);
-  const variance = Math.floor(rng() * 9) - 4;
-  const percentage = Math.max(35, Math.min(99, base + variance));
-
-  const bucket = VERDICTS.find((v) => percentage >= v.min) ?? VERDICTS[VERDICTS.length - 1];
-  const verdict = bucket.texts[Math.floor(rng() * bucket.texts.length)];
+  const lifePathScore = affinityLookup(lifePathA, lifePathB);
+  
+  // 2. Destiny Match (30%)
+  const destinyA = getDestinyNumber(nameA);
+  const destinyB = getDestinyNumber(nameB);
+  const destinyScore = affinityLookup(destinyA, destinyB);
+  
+  // 3. Soul Urge Match (20%)
+  const soulUrgeA = getSoulUrgeNumber(nameA);
+  const soulUrgeB = getSoulUrgeNumber(nameB);
+  const soulUrgeScore = affinityLookup(soulUrgeA, soulUrgeB);
+  
+  // 4. Zodiac Elemental Match (10%)
+  const zodiacA = getZodiacByDob(dobA);
+  const zodiacB = getZodiacByDob(dobB);
+  const elementScore = getElementalHarmony(zodiacA.element, zodiacB.element);
+  
+  // Combined Advanced Synastry Mathematical Score
+  const exactPercentage = (lifePathScore * 0.40) + (destinyScore * 0.30) + (soulUrgeScore * 0.20) + (elementScore * 0.10);
+  const percentage = Math.round(exactPercentage);
+  
+  // Select verdict translation key based on score
+  let verdictKey = "comp.verdict.challenging";
+  let englishVerdict = "An unlikely pairing on paper — but numbers aren't the whole story.";
+  
+  if (percentage >= 85) {
+    verdictKey = "comp.verdict.excellent";
+    englishVerdict = "A rare, powerful match — your energies amplify each other beautifully.";
+  } else if (percentage >= 70) {
+    verdictKey = "comp.verdict.good";
+    englishVerdict = "A strong, promising connection with real potential to grow.";
+  } else if (percentage >= 50) {
+    verdictKey = "comp.verdict.average";
+    englishVerdict = "A workable match that needs communication to really thrive.";
+  }
 
   return {
     percentage,
-    verdict,
+    verdict: verdictKey,
+    englishVerdict,
     headline: `${nameA} & ${nameB}: ${percentage}% Cosmic Match`,
     nameA,
     nameB,

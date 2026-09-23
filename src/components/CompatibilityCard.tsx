@@ -26,7 +26,7 @@ export function CompatibilityCard({ result }: { result: CompatibilityResult }) {
             <p className="text-xs uppercase tracking-widest text-muted-soft">
               {t("comp.card.match", { nameA: result.nameA, nameB: result.nameB, percentage: result.percentage.toString() })}
             </p>
-            <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-muted">{result.verdict}</p>
+            <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-muted">{t(result.verdict)}</p>
           </GlassCard>
         }
       />

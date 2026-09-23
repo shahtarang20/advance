@@ -104,7 +104,7 @@
   "comp.card.core_numbers": "Core Numbers",
   "comp.card.life_path": "{name}'s Life Path",
   "comp.card.why_score": "Why This Score?",
-  "comp.card.why_score_desc": "Your Life Path Numbers are compared against a traditional numerology affinity grid, then given a small amount of deterministic variance so no two names land on an identical score. This is a fun, shareable read on your numbers, not a scientific measurement of your relationship.",
+  "comp.card.why_score_desc": "Your compatibility is mathematically derived from a deep Synastry Engine combining 4 metrics: Life Path Match (40%), Destiny Number Match (30%), Soul Urge Match (20%), and Zodiac Elemental Harmony (10%).",
   "nak.grid.search": "Search by name or deity…",
   "nak.grid.showing": "Showing {start}–{end} of {total} nakshatras",
   "nak.grid.ruler": "Ruler: {planet}",
@@ -1688,5 +1688,15 @@
   "tarot.name.77": "King of Pentacles (Earth)",
   "tarot.upright.77": "Leadership, authority, or external power",
   "tarot.reversed.77": "Blocked: leadership, authority, or external power",
-  "tarot.desc.77": "I am looking at the King of Pentacles (Earth). In the realm of career, money, and material wealth, this card strongly indicates leadership, authority, or external power. Pay close attention to this area of your life right now."
+  "tarot.desc.77": "I am looking at the King of Pentacles (Earth). In the realm of career, money, and material wealth, this card strongly indicates leadership, authority, or external power. Pay close attention to this area of your life right now.",
+  "pwa.offline.title": "You're Offline",
+  "pwa.offline.desc": "Cosmic Numbers requires an active internet connection to calculate your readings. Please reconnect to continue.",
+  "tarot.sub.card_of_day": "Your energy for today",
+  "tarot.sub.past": "What led you to this moment",
+  "tarot.sub.present": "Where you are right now",
+  "tarot.sub.future": "Where this path is taking you",
+  "comp.verdict.excellent": "A rare, powerful match — your energies amplify each other beautifully.",
+  "comp.verdict.good": "A strong, promising connection with real potential to grow.",
+  "comp.verdict.average": "A workable match that needs communication to really thrive.",
+  "comp.verdict.challenging": "An unlikely pairing on paper — but numbers aren't the whole story."
 }
