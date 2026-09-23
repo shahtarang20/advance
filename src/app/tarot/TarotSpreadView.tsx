@@ -24,11 +24,22 @@ export function TarotSpreadView({
     return "";
   };
 
+  const getSpreadSubtitle = (index: number) => {
+    if (spreadType === "daily") return t("tarot.sub.card_of_day", { defaultValue: "Your energy for today" });
+    if (index === 0) return t("tarot.sub.past", { defaultValue: "What led you to this moment" });
+    if (index === 1) return t("tarot.sub.present", { defaultValue: "Where you are right now" });
+    if (index === 2) return t("tarot.sub.future", { defaultValue: "Where this path is taking you" });
+    return "";
+  };
+
   return (
     <div className={`grid gap-8 w-full ${spread.length === 1 ? "grid-cols-1 max-w-sm mx-auto" : "grid-cols-1 md:grid-cols-3"}`}>
       {spread.map((item, i) => (
         <div key={i} className="flex flex-col gap-4 text-center">
-          <h3 className="text-xl font-medium tracking-tight text-[var(--accent-solid)]">{getSpreadLabel(i)}</h3>
+          <div>
+            <h3 className="text-xl font-medium tracking-tight text-[var(--accent-solid)]">{getSpreadLabel(i)}</h3>
+            <p className="text-xs text-muted-soft mt-1 tracking-wider uppercase">{getSpreadSubtitle(i)}</p>
+          </div>
           <FlipCard
             ariaLabel={`Tarot Card: ${item.card.name}`}
             heightClassName="h-[450px]"
