@@ -1099,5 +1099,6 @@
   "horoscope.result.no_horoscope": "未找到运势信息。",
   "horoscope.result.read_today_link": "查看今日运势 →",
   "horoscope.result.see_full_page": "查看{name}完整页面 →",
-  "palmistry.tool.photo_placeholder_upload": "点击从设备中选择照片"
+  "palmistry.tool.photo_placeholder_upload": "点击从设备中选择照片",
+  "home.recent.title": "从上次离开的地方继续"
 }

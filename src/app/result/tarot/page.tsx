@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { ShareButtons } from "@/components/ShareButtons";
 import { SITE_URL } from "@/lib/site";
 import { TarotSpreadView, TarotSpreadType } from "@/app/tarot/TarotSpreadView";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { seed?: string; type?: string };
 
@@ -65,6 +66,13 @@ export default async function TarotResultPage({ searchParams }: { searchParams: 
 
   return (
     <div className="px-6 pb-24 pt-16">
+      <RecentActivityTracker
+        id="tarot"
+        href={`/result/tarot?seed=${seed}&type=${type}`}
+        labelKey="nav.tarot"
+        labelDefault="Tarot"
+        icon="🃏"
+      />
       <div className="mx-auto max-w-2xl text-center mb-12">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
           <Trans tKey="tarot.title" replacements={{ defaultValue: "Daily Tarot Reading" }} />

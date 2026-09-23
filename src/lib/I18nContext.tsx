@@ -6,6 +6,7 @@ import hiDict from "../locales/hi.json";
 import deDict from "../locales/de.json";
 import zhDict from "../locales/zh.json";
 import guDict from "../locales/gu.json";
+import { LANGUAGE_CHANGED_EVENT } from "./onboarding";
 
 type Language = "en" | "hi" | "de" | "zh" | "gu";
 
@@ -53,7 +54,15 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguageState] = useState<Language>(getInitialLanguage);
 
   const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
+    setLanguageState((prev) => {
+      // Only a genuine change (not re-selecting the already-active language) should count as
+      // the user actively switching languages — OnboardingTour listens for this to decide
+      // whether to run the guided tour again.
+      if (prev !== lang && typeof window !== "undefined") {
+        window.dispatchEvent(new Event(LANGUAGE_CHANGED_EVENT));
+      }
+      return lang;
+    });
     try {
       window.localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
     } catch {

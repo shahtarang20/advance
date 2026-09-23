@@ -29,6 +29,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { SITE_URL } from "@/lib/site";
 import { Trans } from "@/components/Trans";
 import { PalmPhotoPreview } from "./PalmPhotoPreview";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { seed?: string; hand?: string };
 
@@ -130,6 +131,13 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
 
   return (
     <div className="mx-auto max-w-3xl px-6 pb-32 pt-16">
+      <RecentActivityTracker
+        id="palmistry"
+        href={`/result/palmistry?seed=${seed}&hand=${hand}`}
+        labelKey="nav.palmistry"
+        labelDefault="Palm Reading"
+        icon="🤚"
+      />
       <PalmPhotoPreview />
 
       <Reveal>

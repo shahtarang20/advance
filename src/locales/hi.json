@@ -1099,5 +1099,6 @@
   "horoscope.result.no_horoscope": "कोई राशिफल नहीं मिला।",
   "horoscope.result.read_today_link": "आज का राशिफल पढ़ें →",
   "horoscope.result.see_full_page": "पूरा {name} पेज देखें →",
-  "palmistry.tool.photo_placeholder_upload": "अपने डिवाइस से फ़ोटो चुनने के लिए टैप करें"
+  "palmistry.tool.photo_placeholder_upload": "अपने डिवाइस से फ़ोटो चुनने के लिए टैप करें",
+  "home.recent.title": "जहाँ छोड़ा था वहीं से जारी रखें"
 }

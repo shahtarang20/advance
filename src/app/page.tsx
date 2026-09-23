@@ -9,6 +9,7 @@ import { AdSlot } from "@/components/ui/AdSlot";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
+import { RecentActivity } from "@/components/RecentActivity";
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -34,6 +35,8 @@ export default function HomePage() {
           </Button>
         </div>
       </section>
+
+      <RecentActivity />
 
       <div className="mx-auto mt-20 max-w-2xl space-y-6">
         <MoonWidget />

@@ -4,6 +4,7 @@ import { getDailyHoroscope, getZodiacInfo, ZODIAC_SIGNS, ZodiacSign } from "@/li
 import { HoroscopeCard } from "@/components/HoroscopeCard";
 import { Trans } from "@/components/Trans";
 import { SeeFullSignPageButton } from "./SeeFullSignPageButton";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { sign?: string };
 
@@ -49,6 +50,7 @@ export default async function HoroscopeResultPage({ searchParams }: { searchPara
 
   return (
     <div className="mx-auto max-w-2xl px-6 pb-24 pt-16">
+      <RecentActivityTracker id="horoscope" href={`/result/horoscope?sign=${sign}`} labelKey="nav.horoscope" labelDefault="Horoscope" icon="🌙" />
       <HoroscopeCard info={info} horoscope={horoscope} />
       <div className="mt-10 text-center">
         <SeeFullSignPageButton sign={info.sign} name={info.name} />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { calculateNumerologyProfile } from "@/lib/numerology";
 import { NumerologyCard } from "@/components/NumerologyCard";
 import { Button } from "@/components/ui/Button";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { name?: string; dob?: string };
 
@@ -42,6 +43,13 @@ export default async function NumerologyResultPage({ searchParams }: { searchPar
 
   return (
     <div className="mx-auto max-w-2xl px-6 pb-24 pt-16">
+      <RecentActivityTracker
+        id="numerology"
+        href={`/result/numerology?name=${encodeURIComponent(name)}&dob=${dob}`}
+        labelKey="nav.numerology"
+        labelDefault="Numerology"
+        icon="🔢"
+      />
       <NumerologyCard name={name} profile={profile} />
       <div className="mt-10 text-center">
         <Button href="/numerology">Get Your Own Reading →</Button>

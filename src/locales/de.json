@@ -1099,5 +1099,6 @@
   "horoscope.result.no_horoscope": "Kein Horoskop gefunden.",
   "horoscope.result.read_today_link": "Heutiges Horoskop lesen →",
   "horoscope.result.see_full_page": "Vollständige {name}-Seite ansehen →",
-  "palmistry.tool.photo_placeholder_upload": "Tippen, um ein Foto von deinem Gerät auszuwählen"
+  "palmistry.tool.photo_placeholder_upload": "Tippen, um ein Foto von deinem Gerät auszuwählen",
+  "home.recent.title": "Weitermachen, wo du aufgehört hast"
 }

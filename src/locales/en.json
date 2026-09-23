@@ -1099,5 +1099,6 @@
   "horoscope.result.no_horoscope": "No horoscope found.",
   "horoscope.result.read_today_link": "Read today's horoscope →",
   "horoscope.result.see_full_page": "See Full {name} Page →",
-  "palmistry.tool.photo_placeholder_upload": "Tap to choose a photo from your device"
+  "palmistry.tool.photo_placeholder_upload": "Tap to choose a photo from your device",
+  "home.recent.title": "Continue where you left off"
 }

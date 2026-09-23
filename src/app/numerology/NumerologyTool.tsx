@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { calculateNumerologyProfile, NumerologyProfile } from "@/lib/numerology";
 import { validateDob, validateName } from "@/lib/validation";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -10,6 +10,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { Button } from "@/components/ui/Button";
 import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
+import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 
 export function NumerologyTool() {
   const [name, setName] = useState("");
@@ -18,6 +19,14 @@ export function NumerologyTool() {
   const [submitted, setSubmitted] = useState<{ name: string; profile: NumerologyProfile } | null>(null);
   const { recordAction } = useGamification();
   const { t } = useTranslation();
+
+  // Prefill from a previously-saved birth profile (if any) — done after mount, not as the
+  // initial state, so the server-rendered and first-client-rendered markup still match.
+  useEffect(() => {
+    const saved = loadBirthProfile();
+    if (saved.name) setName(saved.name);
+    if (saved.dob) setDob(saved.dob);
+  }, []);
 
   const nameError = validateName(name);
   const dobError = validateDob(dob);
@@ -29,6 +38,7 @@ export function NumerologyTool() {
     if (!canSubmit) return;
     const profile = calculateNumerologyProfile(name, dob);
     setSubmitted({ name: name.trim(), profile });
+    saveBirthProfile({ name: name.trim(), dob });
     recordAction("numerology_calc");
     recordAction("chaldean_view");
     recordAction("personal_year_view");

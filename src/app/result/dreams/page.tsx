@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Trans } from "@/components/Trans";
 import { ShareButtons } from "@/components/ShareButtons";
 import { SITE_URL } from "@/lib/site";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { q?: string };
 
@@ -54,6 +55,13 @@ export default async function DreamsResultPage({ searchParams }: { searchParams:
 
   return (
     <div className="px-6 pb-32 pt-16 mx-auto max-w-4xl">
+      <RecentActivityTracker
+        id="dreams"
+        href={`/result/dreams?q=${encodeURIComponent(q)}`}
+        labelKey="nav.dreams"
+        labelDefault="Dream Symbolism"
+        icon="🌙"
+      />
       <Reveal>
         <div className="text-center mb-16">
           <p className="text-sm font-semibold tracking-widest text-muted-soft uppercase mb-2">

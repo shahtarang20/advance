@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CITY_GROUPS, type CityInfo } from "@/data/cities";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { useTranslation } from "@/lib/I18nContext";
+import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 
 export function KundliTool() {
   const router = useRouter();
@@ -21,6 +22,35 @@ export function KundliTool() {
   const [customOffset, setCustomOffset] = useState("5.5");
   const [touched, setTouched] = useState(false);
   const { t } = useTranslation();
+
+  // Prefill from a previously-saved birth profile (from this tool or Numerology/Horoscope), if
+  // any — done after mount, not as the initial state, so the server-rendered and first-client-
+  // rendered markup still match.
+  useEffect(() => {
+    const saved = loadBirthProfile();
+    if (saved.name) setName(saved.name);
+    if (saved.dob) setDob(saved.dob);
+    if (saved.time) setTime(saved.time);
+    if (saved.place) {
+      if (saved.place.mode === "city") {
+        setSelectedCity({
+          name: saved.place.cityName ?? "",
+          state: saved.place.cityState ?? "",
+          country: saved.place.cityCountry ?? "",
+          lat: saved.place.lat,
+          lng: saved.place.lng,
+          tz: saved.place.tz ?? "",
+        });
+      } else {
+        setShowCustom(true);
+        setCustomLat(String(saved.place.lat));
+        setCustomLng(String(saved.place.lng));
+        if (saved.place.utcOffsetMinutes !== undefined) {
+          setCustomOffset(String(saved.place.utcOffsetMinutes / 60));
+        }
+      }
+    }
+  }, []);
 
   const groupedFilteredCities = useMemo(() => {
     if (!citySearch.trim()) return [];
@@ -57,6 +87,22 @@ export function KundliTool() {
       lat: String(place.lat),
       lng: String(place.lng),
       ...locationParams,
+    });
+    saveBirthProfile({
+      name: name.trim(),
+      dob,
+      time,
+      place: showCustom
+        ? { mode: "custom", lat: place.lat, lng: place.lng, utcOffsetMinutes: (place as { utcOffsetMinutes: number }).utcOffsetMinutes }
+        : {
+            mode: "city",
+            lat: place.lat,
+            lng: place.lng,
+            tz: (place as { tz: string }).tz,
+            cityName: selectedCity?.name,
+            cityState: selectedCity?.state,
+            cityCountry: selectedCity?.country,
+          },
     });
     router.push(`/result/kundli?${params.toString()}`);
   };

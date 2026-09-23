@@ -9,6 +9,7 @@ import { HoroscopeCard } from "@/components/HoroscopeCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
+import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 
 export function HoroscopeTool() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
@@ -17,6 +18,12 @@ export function HoroscopeTool() {
   const [showPicker, setShowPicker] = useState(false);
   const { checkinHoroscope, recordAction } = useGamification();
   const { t } = useTranslation();
+
+  // Prefill from a previously-saved birth profile, if the user has one from Kundli/Numerology.
+  useEffect(() => {
+    const saved = loadBirthProfile();
+    if (saved.dob) setDob(saved.dob);
+  }, []);
 
   useEffect(() => {
     if (selected) {
@@ -32,6 +39,7 @@ export function HoroscopeTool() {
     if (error) return;
     setSelected(getZodiacByDob(dob).sign);
     setShowPicker(true);
+    saveBirthProfile({ dob });
   };
 
   const info = selected ? getZodiacInfo(selected) : null;

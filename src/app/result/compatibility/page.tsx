@@ -3,6 +3,7 @@ import Link from "next/link";
 import { calculateCompatibility } from "@/lib/compatibility";
 import { CompatibilityCard } from "@/components/CompatibilityCard";
 import { Button } from "@/components/ui/Button";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { nameA?: string; dobA?: string; nameB?: string; dobB?: string };
 
@@ -44,6 +45,13 @@ export default async function CompatibilityResultPage({ searchParams }: { search
 
   return (
     <div className="mx-auto max-w-2xl px-6 pb-24 pt-16">
+      <RecentActivityTracker
+        id="compatibility"
+        href={`/result/compatibility?nameA=${encodeURIComponent(nameA)}&dobA=${dobA}&nameB=${encodeURIComponent(nameB)}&dobB=${dobB}`}
+        labelKey="nav.compatibility"
+        labelDefault="Compatibility"
+        icon="💫"
+      />
       <CompatibilityCard result={result} />
       <div className="mt-10 text-center">
         <Button href="/compatibility">Check Your Own Compatibility →</Button>

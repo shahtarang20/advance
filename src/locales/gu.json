@@ -1099,5 +1099,6 @@
   "horoscope.result.no_horoscope": "કોઈ રાશિફળ મળ્યું નથી.",
   "horoscope.result.read_today_link": "આજનું રાશિફળ વાંચો →",
   "horoscope.result.see_full_page": "સંપૂર્ણ {name} પેજ જુઓ →",
-  "palmistry.tool.photo_placeholder_upload": "તમારા ડિવાઇસમાંથી ફોટો પસંદ કરવા ટેપ કરો"
+  "palmistry.tool.photo_placeholder_upload": "તમારા ડિવાઇસમાંથી ફોટો પસંદ કરવા ટેપ કરો",
+  "home.recent.title": "તમે જ્યાં છોડ્યું હતું ત્યાંથી ચાલુ રાખો"
 }

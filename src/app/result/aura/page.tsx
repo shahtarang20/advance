@@ -15,6 +15,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ShareButtons } from "@/components/ShareButtons";
 import { SITE_URL } from "@/lib/site";
 import { Trans } from "@/components/Trans";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { dob?: string };
 
@@ -71,6 +72,7 @@ export default async function AuraResultPage({ searchParams }: { searchParams: P
 
   return (
     <div className="relative min-h-screen overflow-hidden px-6 pb-32 pt-16">
+      <RecentActivityTracker id="aura" href={`/result/aura?dob=${dob}`} labelKey="nav.aura" labelDefault="Aura" icon="🔮" />
       {/* Animated Glowing Aura Background */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px] opacity-30 animate-pulse pointer-events-none"

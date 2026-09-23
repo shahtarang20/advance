@@ -3,7 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { useTranslation } from "@/lib/I18nContext";
-import { hasSeenOnboarding, markOnboardingSeen } from "@/lib/onboarding";
+import {
+  hasSeenOnboarding,
+  markOnboardingSeen,
+  hasSeenLanguageChangeTour,
+  markLanguageChangeTourSeen,
+  LANGUAGE_CHANGED_EVENT,
+} from "@/lib/onboarding";
 
 interface TourStep {
   id: string;
@@ -122,6 +128,21 @@ export function OnboardingTour() {
     if (hasSeenOnboarding()) return;
     const timer = setTimeout(() => setActive(true), 600);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Run the tour again — once — the very first time a returning user actively switches
+  // languages. They may have originally gone through it in a language they don't read well, so
+  // this gives them one more guided pass in the language they actually picked.
+  useEffect(() => {
+    const onLanguageChanged = () => {
+      if (!hasSeenOnboarding() || hasSeenLanguageChangeTour()) return;
+      markLanguageChangeTourSeen();
+      setStepIndex(0);
+      setDirection(1);
+      setActive(true);
+    };
+    window.addEventListener(LANGUAGE_CHANGED_EVENT, onLanguageChanged);
+    return () => window.removeEventListener(LANGUAGE_CHANGED_EVENT, onLanguageChanged);
   }, []);
 
   // Resolve (and keep updated) the position of the current step's target element.

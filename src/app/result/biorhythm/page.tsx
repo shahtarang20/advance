@@ -8,6 +8,7 @@ import { Trans } from "@/components/Trans";
 import { ShareButtons } from "@/components/ShareButtons";
 import { SITE_URL } from "@/lib/site";
 import { BiorhythmChart } from "@/app/biorhythm/BiorhythmChart";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
 type SP = { dob?: string };
 
@@ -48,6 +49,13 @@ export default async function BiorhythmResultPage({ searchParams }: { searchPara
 
   return (
     <div className="mx-auto max-w-5xl px-6 pb-32 pt-16">
+      <RecentActivityTracker
+        id="biorhythm"
+        href={`/result/biorhythm?dob=${dob}`}
+        labelKey="nav.biorhythm"
+        labelDefault="Biorhythm"
+        icon="📈"
+      />
       <Reveal>
         <div className="text-center mb-12">
           <p className="text-sm font-semibold tracking-widest text-muted-soft uppercase mb-2">

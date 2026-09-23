@@ -14,6 +14,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { KundliChartGrid } from "@/components/KundliChartGrid";
 import { KundliResultTracker } from "./KundliResultTracker";
+import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 import { GrahaInRashiLine } from "./GrahaInRashiLine";
 import { ShareButtons } from "@/components/ShareButtons";
 import { Trans } from "@/components/Trans";
@@ -100,6 +101,7 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
   return (
     <div className="mx-auto max-w-3xl px-6 pb-24 pt-16">
       <KundliResultTracker />
+      <RecentActivityTracker id="kundli" href={shareUrl} labelKey="nav.kundli" labelDefault="Kundli" icon="🕉️" />
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
           <Trans tKey="kundli.result.heading" replacements={{ name: input.name, defaultValue: "{name}’s Janam Kundli" }} />
