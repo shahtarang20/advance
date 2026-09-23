@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useLayoutEffect, ReactNode } from "react";
 import enDict from "../locales/en.json";
 import hiDict from "../locales/hi.json";
 import deDict from "../locales/de.json";
@@ -37,21 +37,34 @@ function isLanguage(value: string | null): value is Language {
   return !!value && value in DICTS;
 }
 
-/** Reads the saved language synchronously (no effect, no network) so the very first client
- * render already uses it — this runs during hydration itself rather than in a useEffect after
- * the page has already painted in English, which was the second source of the visible "flash". */
-function getInitialLanguage(): Language {
-  if (typeof window === "undefined") return "en";
+function readSavedLanguage(): Language | null {
   try {
     const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    return isLanguage(saved) ? saved : "en";
+    return isLanguage(saved) ? saved : null;
   } catch {
-    return "en";
+    return null;
   }
 }
 
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  // Always starts as "en" — on both the server and the client's very first render — so
+  // hydration never has anything to mismatch on. A previous version read localStorage directly
+  // in the initial state (via a lazy useState initializer) to avoid a visible flash when
+  // switching languages, but that meant the client's first render could already differ from
+  // the server-rendered HTML (e.g. Gujarati vs. English), which is exactly what triggers
+  // React's "Hydration failed" error — a real regression, not a cosmetic one.
+  const [language, setLanguageState] = useState<Language>("en");
+
+  // useLayoutEffect (not useEffect) runs synchronously right after the DOM commits but before
+  // the browser paints — so switching to the real saved language here still happens before the
+  // user's eyes ever see the English version, with no visible flash, while the *initial*
+  // render (the one hydration checks) stays consistently "en" on both sides. Same technique
+  // next-themes uses for exactly this class of problem.
+  useLayoutEffect(() => {
+    const saved = readSavedLanguage();
+    if (saved && saved !== "en") setLanguageState(saved);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- read once, on mount only
+  }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState((prev) => {

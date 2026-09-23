@@ -283,6 +283,124 @@ export const MARRIAGE_LINE_VARIANTS: Record<string, LineVariant> = {
   },
 };
 
+// Quick-read summary sections — Career, Growth, Money, Marriage & Relationships. Shown at the
+// top of the result page as a fast, skimmable "headline" before the detailed line-by-line
+// reading further down. Drawn from the same three traditions as the rest of this file (mainly
+// the Fate/Sun/Marriage lines and the Jupiter/Saturn/Mercury/Venus mounts), just written as
+// self-contained two-sentence summaries rather than requiring the reader to piece together
+// several line entries themselves. Same folklore framing, same seeded determinism.
+export const CAREER_SUMMARY_VARIANTS: Record<string, LineVariant> = {
+  steady_climb: {
+    title: "A steady, self-built climb",
+    meaning:
+      "Traditionally read as a career built through consistent effort rather than a single lucky break — progress that compounds quietly year over year. Recognition tends to arrive a little after the work that earned it, not before.",
+  },
+  late_bloomer: {
+    title: "Direction that clarifies later",
+    meaning:
+      "Traditionally read as a path that takes longer to settle into focus, often after an earlier phase of searching or trying different things. Once it clicks, it tends to be pursued with real conviction.",
+  },
+  reinvention: {
+    title: "More than one chapter",
+    meaning:
+      "Traditionally read as a career that changes direction at least once, not from instability but from genuine range — skills from an earlier chapter often resurface usefully in a later one. Adaptability is the throughline, not any single job title.",
+  },
+  leadership: {
+    title: "A pull toward leading",
+    meaning:
+      "Traditionally read as a natural draw toward responsibility and being the one others look to for direction. This tends to show up early, even in informal settings, well before any official title catches up to it.",
+  },
+  craft_focused: {
+    title: "Depth over breadth",
+    meaning:
+      "Traditionally read as fulfillment found in going deep on a single craft or specialty rather than spreading across many roles. Mastery, in this reading, matters more than visibility.",
+  },
+};
+
+export const GROWTH_SUMMARY_VARIANTS: Record<string, LineVariant> = {
+  through_challenge: {
+    title: "Growth through what tests you",
+    meaning:
+      "Traditionally read as a person who develops most in periods of real difficulty rather than comfort — the hard chapters tend to be the ones that reshape you the most. Ease is welcome, but rarely where the biggest change happens.",
+  },
+  steady_maturing: {
+    title: "Quiet, steady maturing",
+    meaning:
+      "Traditionally read as gradual, consistent inner development rather than sudden transformation — the kind of growth that's hard to notice week to week but is unmistakable looking back a few years.",
+  },
+  turning_point: {
+    title: "A defining turning point",
+    meaning:
+      "Traditionally read as a life shaped around one or two pivotal moments that genuinely changed its direction, rather than many small shifts. You likely already know, or will recognize, when it happens.",
+  },
+  self_taught: {
+    title: "Growth through self-direction",
+    meaning:
+      "Traditionally read as someone who grows more through their own initiative — reading, reflecting, trying things alone — than through formal guidance. Self-trust is both the challenge and the reward here.",
+  },
+  through_others: {
+    title: "Growth through relationships",
+    meaning:
+      "Traditionally read as a person shaped significantly by the people closest to them — mentors, partners, close friends — more than by solitary experience. Who you spend time with matters more than usual for how you develop.",
+  },
+};
+
+export const MONEY_SUMMARY_VARIANTS: Record<string, LineVariant> = {
+  builder: {
+    title: "Wealth built, not inherited",
+    meaning:
+      "Traditionally read as financial security earned gradually through effort and patience rather than windfalls — steady accumulation over any single big win. Discipline with money tends to matter more than income itself.",
+  },
+  cautious: {
+    title: "Careful, protective instincts",
+    meaning:
+      "Traditionally read as a cautious, security-minded relationship with money — a preference for saving and stability over risk. This reading favors preparation over chasing opportunity.",
+  },
+  feast_famine: {
+    title: "Uneven, but resilient",
+    meaning:
+      "Traditionally read as financial fortunes that move in cycles rather than a flat, predictable line — genuine highs and real tight periods both. Resilience through the lean stretches is the actual skill this placement points to.",
+  },
+  generous: {
+    title: "Open-handed with resources",
+    meaning:
+      "Traditionally read as someone who holds money loosely — generous with others, sometimes to their own detriment. Learning when to hold on is the growth edge this reading suggests.",
+  },
+  entrepreneurial: {
+    title: "Independent income instincts",
+    meaning:
+      "Traditionally read as a pull toward earning on your own terms — business, freelance work, or ventures outside a conventional single employer. Traditionally linked to the Mount of Mercury's business instincts.",
+  },
+};
+
+export const MARRIAGE_SUMMARY_VARIANTS: Record<string, LineVariant> = {
+  one_deep_bond: {
+    title: "One deep, defining bond",
+    meaning:
+      "Traditionally read as a life organized around one especially significant partnership rather than several — depth and permanence read as more important here than variety.",
+  },
+  later_marriage: {
+    title: "Commitment that comes later",
+    meaning:
+      "Traditionally read as a relationship history where serious commitment tends to arrive later than average, often after independence has been firmly established first. Traditionally seen as a strength, not a delay.",
+  },
+  early_strong: {
+    title: "Early clarity in love",
+    meaning:
+      "Traditionally read as someone who recognizes serious partnership early and commits with real conviction once they do. Second-guessing tends not to be the pattern here.",
+  },
+  companionable: {
+    title: "Friendship-first partnership",
+    meaning:
+      "Traditionally read as relationships that grow out of genuine friendship and shared life rather than sudden passion — steady companionship read as the strongest foundation for this hand.",
+  },
+  several_significant: {
+    title: "Several meaningful chapters",
+    meaning:
+      "Traditionally read as an emotionally rich relationship history with more than one significant partnership, each genuinely meaningful rather than any one being a 'placeholder' for the next.",
+  },
+};
+
 // The seven classical mounts — fleshy pads at the base of each finger and along the palm edge,
 // each named for a planet. This is the clearest cross-cultural overlap in palmistry: Western
 // tradition and Hast Rekha Shastra both use the same seven-planet mapping (the Vedic system
@@ -342,6 +460,10 @@ export const MOUNTS: Record<string, MountInfo> = {
 export interface PalmReading {
   hand: Hand;
   handShape: HandShape;
+  career: { key: string } & LineVariant;
+  growth: { key: string } & LineVariant;
+  money: { key: string } & LineVariant;
+  marriageSummary: { key: string } & LineVariant;
   heartLine: { key: string } & LineVariant;
   headLine: { key: string } & LineVariant;
   lifeLine: { key: string } & LineVariant;
@@ -400,6 +522,15 @@ export const sunLineMeaningKey = (key: string) => lineMeaningKey("sunLine", key)
 export const marriageLineTitleKey = (key: string) => lineTitleKey("marriageLine", key);
 export const marriageLineMeaningKey = (key: string) => lineMeaningKey("marriageLine", key);
 
+export const careerTitleKey = (key: string) => lineTitleKey("career", key);
+export const careerMeaningKey = (key: string) => lineMeaningKey("career", key);
+export const growthTitleKey = (key: string) => lineTitleKey("growth", key);
+export const growthMeaningKey = (key: string) => lineMeaningKey("growth", key);
+export const moneyTitleKey = (key: string) => lineTitleKey("money", key);
+export const moneyMeaningKey = (key: string) => lineMeaningKey("money", key);
+export const marriageSummaryTitleKey = (key: string) => lineTitleKey("marriageSummary", key);
+export const marriageSummaryMeaningKey = (key: string) => lineMeaningKey("marriageSummary", key);
+
 export const mountNameKey = (key: string) => `palmistry.mount.${key}.name`;
 export const mountProminentKey = (key: string) => `palmistry.mount.${key}.prominent`;
 export const mountFlatKey = (key: string) => `palmistry.mount.${key}.flat`;
@@ -419,6 +550,10 @@ export function getPalmReading(seed: string, hand: Hand): PalmReading {
   return {
     hand,
     handShape,
+    career: pick(rand, CAREER_SUMMARY_VARIANTS),
+    growth: pick(rand, GROWTH_SUMMARY_VARIANTS),
+    money: pick(rand, MONEY_SUMMARY_VARIANTS),
+    marriageSummary: pick(rand, MARRIAGE_SUMMARY_VARIANTS),
     heartLine: pick(rand, HEART_LINE_VARIANTS),
     headLine: pick(rand, HEAD_LINE_VARIANTS),
     lifeLine: pick(rand, LIFE_LINE_VARIANTS),

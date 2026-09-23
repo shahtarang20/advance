@@ -18,6 +18,14 @@ import {
   sunLineMeaningKey,
   marriageLineTitleKey,
   marriageLineMeaningKey,
+  careerTitleKey,
+  careerMeaningKey,
+  growthTitleKey,
+  growthMeaningKey,
+  moneyTitleKey,
+  moneyMeaningKey,
+  marriageSummaryTitleKey,
+  marriageSummaryMeaningKey,
   mountNameKey,
   mountProminentKey,
   mountFlatKey,
@@ -129,6 +137,49 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
     },
   ];
 
+  const quickSections = [
+    {
+      key: "career",
+      titleKey: "palmistry.result.quick.career_title",
+      titleDefault: "Career",
+      icon: "💼",
+      variantTitleKey: careerTitleKey(reading.career.key),
+      variantTitleDefault: reading.career.title,
+      meaningKey: careerMeaningKey(reading.career.key),
+      meaningDefault: reading.career.meaning,
+    },
+    {
+      key: "growth",
+      titleKey: "palmistry.result.quick.growth_title",
+      titleDefault: "Growth",
+      icon: "🌱",
+      variantTitleKey: growthTitleKey(reading.growth.key),
+      variantTitleDefault: reading.growth.title,
+      meaningKey: growthMeaningKey(reading.growth.key),
+      meaningDefault: reading.growth.meaning,
+    },
+    {
+      key: "money",
+      titleKey: "palmistry.result.quick.money_title",
+      titleDefault: "Money",
+      icon: "💰",
+      variantTitleKey: moneyTitleKey(reading.money.key),
+      variantTitleDefault: reading.money.title,
+      meaningKey: moneyMeaningKey(reading.money.key),
+      meaningDefault: reading.money.meaning,
+    },
+    {
+      key: "marriageSummary",
+      titleKey: "palmistry.result.quick.marriage_title",
+      titleDefault: "Marriage & Relationships",
+      icon: "💞",
+      variantTitleKey: marriageSummaryTitleKey(reading.marriageSummary.key),
+      variantTitleDefault: reading.marriageSummary.title,
+      meaningKey: marriageSummaryMeaningKey(reading.marriageSummary.key),
+      meaningDefault: reading.marriageSummary.meaning,
+    },
+  ];
+
   return (
     <div className="mx-auto max-w-3xl px-6 pb-32 pt-16">
       <RecentActivityTracker
@@ -157,6 +208,36 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
               replacements={{ defaultValue: HAND_SHAPES[reading.handShape].traits }}
             />
           </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.08}>
+        <div className="mb-10">
+          <h2 className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-muted-soft">
+            <Trans tKey="palmistry.result.quick.section_title" replacements={{ defaultValue: "Your Reading at a Glance" }} />
+          </h2>
+          <p className="mx-auto mb-5 max-w-md text-center text-xs text-muted-soft">
+            <Trans
+              tKey="palmistry.result.quick.section_note"
+              replacements={{ defaultValue: "A quick read on each area — the full line-by-line reading follows below." }}
+            />
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {quickSections.map((section) => (
+              <GlassCard key={section.key} className="p-5">
+                <h3 className="flex items-center gap-2 text-sm font-semibold">
+                  <span className="text-lg">{section.icon}</span>
+                  <Trans tKey={section.titleKey} replacements={{ defaultValue: section.titleDefault }} />
+                </h3>
+                <p className="mt-2 text-sm font-medium text-[var(--accent-solid)]">
+                  <Trans tKey={section.variantTitleKey} replacements={{ defaultValue: section.variantTitleDefault }} />
+                </p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
+                  <Trans tKey={section.meaningKey} replacements={{ defaultValue: section.meaningDefault }} />
+                </p>
+              </GlassCard>
+            ))}
+          </div>
         </div>
       </Reveal>
 
