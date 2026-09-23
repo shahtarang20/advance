@@ -898,5 +898,19 @@
   "palmistry.tool.use_camera": "📷 फ़ोटो लें",
   "palmistry.tool.upload_photo": "फ़ोटो अपलोड करें",
   "palmistry.tool.camera_unavailable": "कैमरे तक पहुँच नहीं हो सकी — अपने ब्राउज़र की कैमरा अनुमति जाँचें, या इसके बजाय फ़ोटो अपलोड करें।",
-  "palmistry.tool.camera_blank_frame": "वह फ़ोटो खाली आई — कैमरे को फ़ोकस होने के लिए एक क्षण दें और फिर से प्रयास करें।"
+  "palmistry.tool.camera_blank_frame": "वह फ़ोटो खाली आई — कैमरे को फ़ोकस होने के लिए एक क्षण दें और फिर से प्रयास करें।",
+  "onboarding.welcome.title": "कॉस्मिक नंबर्स में आपका स्वागत है ✦",
+  "onboarding.welcome.body": "आइए 30 सेकंड का एक छोटा दौरा करते हैं ताकि आपको हर चीज़ का सही पता चल जाए।",
+  "onboarding.nav.title": "हर सुविधा, यहीं मौजूद है",
+  "onboarding.nav.body": "पाम रीडिंग, टैरो, कुंडली, राशिफल और भी बहुत कुछ इसी मेनू में मिलेगा।",
+  "onboarding.language.title": "अपनी भाषा में पढ़ें",
+  "onboarding.language.body": "यहाँ से कभी भी पूरी साइट की भाषा बदलें — हिंदी, गुजराती, जर्मन, चीनी और भी कई भाषाएँ।",
+  "onboarding.theme.title": "हल्का या गहरा — आपकी पसंद",
+  "onboarding.theme.body": "जब चाहें लाइट और डार्क थीम के बीच स्विच करें।",
+  "onboarding.finish.title": "अब आप तैयार हैं 🎉",
+  "onboarding.finish.body": "बेझिझक घूमें — स्ट्रीक शुरू करने और और भी सुविधाएँ अनलॉक करने के लिए आज का राशिफल देखें।",
+  "onboarding.skip": "टूर छोड़ें",
+  "onboarding.back": "पीछे",
+  "onboarding.next": "आगे",
+  "onboarding.finish_btn": "शुरू करें"
 }

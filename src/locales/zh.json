@@ -898,5 +898,19 @@
   "palmistry.tool.use_camera": "📷 拍照",
   "palmistry.tool.upload_photo": "上传照片",
   "palmistry.tool.camera_unavailable": "无法访问摄像头——请检查浏览器的摄像头权限，或改为上传照片。",
-  "palmistry.tool.camera_blank_frame": "这张照片是空白的——请给相机一点时间对焦后再试一次。"
+  "palmistry.tool.camera_blank_frame": "这张照片是空白的——请给相机一点时间对焦后再试一次。",
+  "onboarding.welcome.title": "欢迎来到 Cosmic Numbers ✦",
+  "onboarding.welcome.body": "我们花30秒快速了解一下，这样你就知道该去哪里找每个功能了。",
+  "onboarding.nav.title": "所有功能都在这里",
+  "onboarding.nav.body": "手相解读、塔罗牌、命理盘、每日运势等等，都在这个菜单里。",
+  "onboarding.language.title": "用你的语言阅读",
+  "onboarding.language.body": "随时在这里切换整个网站的语言——印地语、古吉拉特语、德语、中文等等。",
+  "onboarding.theme.title": "浅色还是深色——由你决定",
+  "onboarding.theme.body": "随时在浅色模式和深色模式之间切换。",
+  "onboarding.finish.title": "一切准备就绪 🎉",
+  "onboarding.finish.body": "尽情探索吧——查看今日运势，开始连续打卡，解锁更多功能。",
+  "onboarding.skip": "跳过导览",
+  "onboarding.back": "上一步",
+  "onboarding.next": "下一步",
+  "onboarding.finish_btn": "开始使用"
 }

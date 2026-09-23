@@ -898,5 +898,19 @@
   "palmistry.tool.use_camera": "📷 ફોટો લો",
   "palmistry.tool.upload_photo": "ફોટો અપલોડ કરો",
   "palmistry.tool.camera_unavailable": "કેમેરા સુધી પહોંચી શકાયું નહીં — તમારા બ્રાઉઝરની કેમેરા પરવાનગી તપાસો, અથવા તેના બદલે ફોટો અપલોડ કરો.",
-  "palmistry.tool.camera_blank_frame": "એ ફોટો ખાલી આવ્યો — કેમેરાને ફોકસ થવા માટે થોડી ક્ષણ આપો અને ફરી પ્રયાસ કરો."
+  "palmistry.tool.camera_blank_frame": "એ ફોટો ખાલી આવ્યો — કેમેરાને ફોકસ થવા માટે થોડી ક્ષણ આપો અને ફરી પ્રયાસ કરો.",
+  "onboarding.welcome.title": "કોસ્મિક નંબર્સમાં તમારું સ્વાગત છે ✦",
+  "onboarding.welcome.body": "ચાલો 30 સેકન્ડની ટૂંકી ટૂર કરીએ જેથી તમને દરેક વસ્તુ ક્યાં મળશે તેની ખબર પડે.",
+  "onboarding.nav.title": "દરેક સુવિધા, અહીં જ છે",
+  "onboarding.nav.body": "પામ રીડિંગ, ટેરોટ, કુંડળી, રાશિફળ અને બીજું ઘણું બધું આ જ મેનૂમાં મળશે.",
+  "onboarding.language.title": "તમારી ભાષામાં વાંચો",
+  "onboarding.language.body": "અહીંથી ગમે ત્યારે આખી સાઇટની ભાષા બદલો — હિન્દી, ગુજરાતી, જર્મન, ચાઈનીઝ અને વધુ.",
+  "onboarding.theme.title": "લાઇટ કે ડાર્ક — તમારી પસંદગી",
+  "onboarding.theme.body": "જ્યારે ઇચ્છો ત્યારે લાઇટ અને ડાર્ક થીમ વચ્ચે સ્વિચ કરો.",
+  "onboarding.finish.title": "તમે તૈયાર છો 🎉",
+  "onboarding.finish.body": "મુક્તપણે શોધખોળ કરો — સ્ટ્રીક શરૂ કરવા અને વધુ સુવિધાઓ અનલૉક કરવા આજનું રાશિફળ તપાસો.",
+  "onboarding.skip": "ટૂર છોડો",
+  "onboarding.back": "પાછળ",
+  "onboarding.next": "આગળ",
+  "onboarding.finish_btn": "શરૂ કરો"
 }

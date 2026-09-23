@@ -898,5 +898,19 @@
   "palmistry.tool.use_camera": "📷 Foto aufnehmen",
   "palmistry.tool.upload_photo": "Foto hochladen",
   "palmistry.tool.camera_unavailable": "Kein Zugriff auf die Kamera möglich — überprüfe die Kameraberechtigung deines Browsers oder lade stattdessen ein Foto hoch.",
-  "palmistry.tool.camera_blank_frame": "Die Aufnahme ist leer geworden — gib der Kamera einen Moment zum Fokussieren und versuche es erneut."
+  "palmistry.tool.camera_blank_frame": "Die Aufnahme ist leer geworden — gib der Kamera einen Moment zum Fokussieren und versuche es erneut.",
+  "onboarding.welcome.title": "Willkommen bei Cosmic Numbers ✦",
+  "onboarding.welcome.body": "Machen wir eine 30-sekündige Tour, damit du genau weißt, wo du alles findest.",
+  "onboarding.nav.title": "Jedes Tool, direkt hier",
+  "onboarding.nav.body": "Handlesen, Tarot, Kundli, Horoskop und mehr findest du alle in diesem Menü.",
+  "onboarding.language.title": "Lies es in deiner Sprache",
+  "onboarding.language.body": "Wechsle jederzeit von hier aus die Sprache der gesamten Seite — Hindi, Gujarati, Deutsch, Chinesisch und mehr.",
+  "onboarding.theme.title": "Hell oder dunkel — du entscheidest",
+  "onboarding.theme.body": "Wechsle jederzeit zwischen hellem und dunklem Modus.",
+  "onboarding.finish.title": "Du bist startklar 🎉",
+  "onboarding.finish.body": "Entdecke alles frei — sieh dir das heutige Horoskop an, um eine Serie zu starten und noch mehr Funktionen freizuschalten.",
+  "onboarding.skip": "Tour überspringen",
+  "onboarding.back": "Zurück",
+  "onboarding.next": "Weiter",
+  "onboarding.finish_btn": "Loslegen"
 }

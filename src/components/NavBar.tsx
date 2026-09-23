@@ -63,7 +63,7 @@ export function NavBar() {
         <Link href="/" className="flex items-center gap-1.5 text-base font-semibold tracking-tight text-[var(--foreground)] sm:text-lg">
           <span className="text-[var(--accent-solid)]">✦</span> {t("nav.title")}
         </Link>
-        <div className="hidden items-center gap-6 lg:flex">
+        <div data-tour="nav-links" className="hidden items-center gap-6 lg:flex">
           {primaryLinks.map((l) => (
             <Link key={l.href} href={l.href} className="text-[15px] font-medium text-muted transition-colors hover:text-[var(--foreground)]">
               {t(l.labelKey)}
@@ -99,8 +99,11 @@ export function NavBar() {
           )}
         </div>
         <div className="flex items-center gap-2">
-          <LanguageToggle />
+          <div data-tour="language-toggle">
+            <LanguageToggle />
+          </div>
           <button
+            data-tour="theme-toggle"
             aria-label={mounted ? (isDark ? t("theme.switch.light") : t("theme.switch.dark")) : t("theme.toggle")}
             onClick={() => setTheme(isDark ? "light" : "dark")}
             className="btn-tap accent-ring surface-glass flex h-11 w-11 items-center justify-center rounded-full border text-base"
@@ -108,6 +111,7 @@ export function NavBar() {
             {mounted ? (isDark ? "☀️" : "🌙") : "•"}
           </button>
           <button
+            data-tour="menu-button"
             aria-label={menuOpen ? t("menu.close") : t("menu.open")}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}

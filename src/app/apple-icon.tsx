@@ -17,7 +17,13 @@ export default function AppleIcon() {
           background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #d4a017 100%)",
         }}
       >
-        <span style={{ fontSize: 96, color: "#fff", fontWeight: 700, lineHeight: 1 }}>✦</span>
+        {/* Drawn as SVG rather than the "✦" text glyph — see icon.tsx for why. */}
+        <svg width="96" height="96" viewBox="0 0 100 100" fill="none">
+          <path
+            d="M50 5 C54 40 60 46 95 50 C60 54 54 60 50 95 C46 60 40 54 5 50 C40 46 46 40 50 5 Z"
+            fill="#fff"
+          />
+        </svg>
       </div>
     ),
     { ...size }

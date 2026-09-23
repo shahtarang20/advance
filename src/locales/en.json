@@ -898,5 +898,19 @@
   "palmistry.tool.use_camera": "📷 Take Photo",
   "palmistry.tool.upload_photo": "Upload Photo",
   "palmistry.tool.camera_unavailable": "Couldn't access the camera — check your browser's camera permission, or upload a photo instead.",
-  "palmistry.tool.camera_blank_frame": "That shot came out blank — give the camera a second to focus and try again."
+  "palmistry.tool.camera_blank_frame": "That shot came out blank — give the camera a second to focus and try again.",
+  "onboarding.welcome.title": "Welcome to Cosmic Numbers ✦",
+  "onboarding.welcome.body": "Let's take a 30-second tour so you know exactly where to find everything.",
+  "onboarding.nav.title": "Every tool, right here",
+  "onboarding.nav.body": "Palm Reading, Tarot, Kundli, Horoscope, and more all live in this menu.",
+  "onboarding.language.title": "Read it in your language",
+  "onboarding.language.body": "Switch the entire site's language anytime from here — Hindi, Gujarati, German, Chinese, and more.",
+  "onboarding.theme.title": "Light or dark — your call",
+  "onboarding.theme.body": "Toggle between light and dark mode whenever you like.",
+  "onboarding.finish.title": "You're all set 🎉",
+  "onboarding.finish.body": "Explore freely — check today's horoscope to start a streak and unlock even more features along the way.",
+  "onboarding.skip": "Skip tour",
+  "onboarding.back": "Back",
+  "onboarding.next": "Next",
+  "onboarding.finish_btn": "Get Started"
 }
