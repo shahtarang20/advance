@@ -46,7 +46,7 @@ export function HoroscopeTool() {
     <div className="mx-auto max-w-3xl">
       <GlassCard className="p-8">
         <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-soft">{t("horoscope.tool.find_sign")}</h2>
-        <div className="mb-2 flex flex-wrap items-end gap-4">
+        <div className="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
           <div className="flex-1">
             <label htmlFor="horoscope-dob" className="mb-1.5 block text-sm text-muted">
               {t("horoscope.tool.dont_know")}
@@ -64,7 +64,7 @@ export function HoroscopeTool() {
           </div>
           <button
             onClick={handleDetect}
-            className="btn-tap accent-ring rounded-xl border border-[var(--surface-border)] bg-[var(--surface-strong)] px-5 py-3 text-sm font-semibold transition hover:bg-[var(--surface-strong)]"
+            className="btn-tap accent-ring w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface-strong)] px-5 py-3 text-sm font-semibold transition hover:bg-[var(--surface-strong)] sm:w-auto"
           >
             {t("horoscope.tool.detect_btn")}
           </button>
