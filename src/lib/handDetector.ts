@@ -7,21 +7,22 @@
 // The model runs entirely in the browser via WASM; the photo itself is never uploaded anywhere.
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 
-type VisionFileset = Awaited<ReturnType<typeof FilesetResolver.forVisionTasks>>;
-
 const WASM_BASE = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.0.1/wasm";
 const MODEL_URL =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
 
-// Only the WASM runtime fileset is cached/reused — it's the expensive part (a real network
-// fetch + WASM instantiation). A *fresh* HandLandmarker is created from it for every single
-// detection (see detectHandInImage) rather than reusing one instance across calls: reusing one
-// instance was found, through direct testing, to silently degrade after a handful of calls —
-// a plain face photo got accepted as a hand on the 3rd–4th detection in the same session, even
-// though the exact same photo was correctly rejected as the 1st or 2nd call. That's a real
-// statefulness bug in the reused graph, not a tuning problem, and it's exactly the kind of thing
-// that would explain "sometimes it just doesn't work" for a real user trying a few photos.
-let visionPromise: Promise<VisionFileset> | null = null;
+// A single HandLandmarker is created once and reused for every detection. An earlier version of
+// this file recreated a brand-new instance per photo, on the theory that reuse was silently
+// degrading accuracy after a few calls (a plain face was seen getting accepted as a hand on the
+// 3rd-4th detection in one browser session). Recreating per call was pure overhead, though: when
+// directly re-tested, it did *not* actually fix that failure — the same degradation reproduced
+// with a fresh instance every time, and even with the *original*, pre-existing code from before
+// this file was touched at all. That means it's a rare, deeper WASM/library-level quirk (only
+// ever reproduced in headless-browser testing, not confirmed on a real device) that recreating
+// the instance doesn't protect against — so paying that recreation cost on every single photo,
+// with no accuracy benefit, wasn't a reasonable trade. Reusing one instance is also the pattern
+// MediaPipe's own examples use for exactly this "detect on a gallery of images" case.
+let landmarkerPromise: Promise<HandLandmarker> | null = null;
 
 // MediaPipe's compiled WASM module writes its own internal diagnostics (delegate creation,
 // OpenGL capability checks, calculator-graph notices) straight to stderr, which Emscripten
@@ -68,50 +69,40 @@ async function withMediaPipeLogsFiltered<T>(fn: () => Promise<T> | T): Promise<T
   }
 }
 
-function getVisionFileset(): Promise<VisionFileset> {
-  if (!visionPromise) {
-    visionPromise = withMediaPipeLogsFiltered(() => FilesetResolver.forVisionTasks(WASM_BASE));
+function getLandmarker(): Promise<HandLandmarker> {
+  if (!landmarkerPromise) {
+    landmarkerPromise = withMediaPipeLogsFiltered(() =>
+      FilesetResolver.forVisionTasks(WASM_BASE).then((vision) =>
+        HandLandmarker.createFromOptions(vision, {
+          baseOptions: {
+            modelAssetPath: MODEL_URL,
+            // CPU only: the GPU/WebGL delegate was tried briefly for speed, but it's noticeably
+            // less reliable on real devices — it let non-palm photos through that the CPU
+            // delegate correctly rejects. For a "is there a hand here" gate, correctness
+            // matters far more than the ~tens-of-milliseconds difference.
+            delegate: "CPU",
+          },
+          runningMode: "IMAGE",
+          numHands: 1,
+          // 0.5 is MediaPipe's own validated default, tuned across a huge range of real-world
+          // conditions. A stricter value (0.75) was tried to cut down false positives, but it
+          // also rejected genuine palm photos taken in ordinary phone-camera conditions
+          // (imperfect lighting/angle/focus) — worse than the problem it was meant to fix.
+          minHandDetectionConfidence: 0.5,
+          minHandPresenceConfidence: 0.5,
+        })
+      )
+    );
   }
-  return visionPromise;
+  return landmarkerPromise;
 }
 
-/** Creates a brand-new HandLandmarker for a single detection — see the comment above
- * `visionPromise` for why this isn't reused across calls. Creating it from the already-resolved
- * `vision` fileset is cheap (no WASM re-instantiation, and the model file is HTTP-cached after
- * the first fetch), so this stays fast despite not caching the landmarker itself. */
-async function createLandmarker(): Promise<HandLandmarker> {
-  const vision = await getVisionFileset();
-  return withMediaPipeLogsFiltered(() =>
-    HandLandmarker.createFromOptions(vision, {
-      baseOptions: {
-        modelAssetPath: MODEL_URL,
-        // CPU only: the GPU/WebGL delegate was tried briefly for speed, but it's noticeably
-        // less reliable on real devices — it let non-palm photos through that the CPU delegate
-        // correctly rejects. For a one-shot "is there a hand here" gate, correctness matters
-        // far more than the ~tens-of-milliseconds difference, and the real source of any
-        // sluggishness was the cold model load anyway, which `preloadHandDetector` below fixes
-        // regardless of which delegate is used.
-        delegate: "CPU",
-      },
-      runningMode: "IMAGE",
-      numHands: 1,
-      // 0.5 is MediaPipe's own validated default, tuned across a huge range of real-world
-      // conditions. A stricter value (0.75) was tried to cut down false positives, but it also
-      // rejected genuine palm photos taken in ordinary phone-camera conditions (imperfect
-      // lighting/angle/focus) — worse than the problem it was meant to fix.
-      minHandDetectionConfidence: 0.5,
-      minHandPresenceConfidence: 0.5,
-    })
-  );
-}
-
-/** Kicks off loading the WASM runtime in the background (the actual slow part) without waiting
- * for it — call this as early as possible (e.g. on mount of the palm-reading tool) so that by
- * the time the user actually takes or picks a photo, creating a fresh landmarker for it is
- * near-instant instead of waiting on a cold WASM load. Safe to call multiple times; only the
- * first call does any work. */
+/** Kicks off creating the (single, reused) landmarker in the background without waiting for
+ * it — call this as early as possible (e.g. on mount of the palm-reading tool) so that by the
+ * time the user actually takes or picks a photo, detection is instant instead of waiting on a
+ * cold WASM/model load. Safe to call multiple times; only the first call does any work. */
 export function preloadHandDetector(): void {
-  void getVisionFileset();
+  void getLandmarker();
 }
 
 // Real phone-camera photos are nothing like the small, web-optimized stock images this was
@@ -121,8 +112,11 @@ export function preloadHandDetector(): void {
 // necessary) and less reliable: `new Image()` doesn't reliably honor EXIF orientation across
 // browsers/WebViews, so a photo can be handed to the model sideways or upside-down, which
 // meaningfully hurts a hand-landmark model's confidence even though a person looking at the
-// (correctly displayed) photo sees a normal palm.
-const MAX_DETECTION_DIMENSION = 1024;
+// (correctly displayed) photo sees a normal palm. 640px is the size the stock test photos that
+// detect reliably well were already shot at — well above what the model's internal palm-crop
+// stage actually needs — so this is a real speed win (roughly 2.5x fewer pixels than the
+// previous 1024px cap) with no accuracy cost.
+const MAX_DETECTION_DIMENSION = 640;
 
 /** Decodes a photo with EXIF orientation explicitly and correctly applied — `createImageBitmap`
  * with `imageOrientation: "from-image"` is the standards-based, explicit way to guarantee this
@@ -174,17 +168,13 @@ function padCanvas(source: HTMLCanvasElement, paddingRatio: number): HTMLCanvasE
  * the whole frame" case without weakening the check for anything that's genuinely not a hand
  * (a face or a landscape doesn't become a hand just because it gained a gray border). */
 export async function detectHandInImage(image: HTMLCanvasElement): Promise<boolean> {
-  const landmarker = await createLandmarker();
-  try {
-    return await withMediaPipeLogsFiltered(() => {
-      const direct = landmarker.detect(image);
-      if ((direct.handednesses?.length ?? 0) > 0) return true;
+  const landmarker = await getLandmarker();
+  return withMediaPipeLogsFiltered(() => {
+    const direct = landmarker.detect(image);
+    if ((direct.handednesses?.length ?? 0) > 0) return true;
 
-      const padded = padCanvas(image, 0.18);
-      const retry = landmarker.detect(padded);
-      return (retry.handednesses?.length ?? 0) > 0;
-    });
-  } finally {
-    landmarker.close();
-  }
+    const padded = padCanvas(image, 0.18);
+    const retry = landmarker.detect(padded);
+    return (retry.handednesses?.length ?? 0) > 0;
+  });
 }

@@ -16,9 +16,10 @@ const PHOTO_SESSION_KEY = "cosmic-palm-photo";
 // the same microtask flush, with no macrotask boundary for the browser to actually paint in
 // between. The result: React processes the state change, but the user's screen never shows
 // it — the "Checking your photo…" message effectively never renders. Enforcing a minimum
-// visible duration (a real setTimeout, i.e. a genuine macrotask) guarantees a paint happens,
-// and doubles as a deliberate, readable moment of feedback rather than an invisible flicker.
-const MIN_CHECK_DISPLAY_MS = 600;
+// visible duration (a real setTimeout, i.e. a genuine macrotask) guarantees a paint happens.
+// Kept short — just enough for a real paint to land, not a deliberately slow-feeling delay —
+// since the whole point of the speed work in handDetector.ts is for checks to feel instant.
+const MIN_CHECK_DISPLAY_MS = 200;
 
 function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
