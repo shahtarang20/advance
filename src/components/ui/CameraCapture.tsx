@@ -126,7 +126,11 @@ export function CameraCapture({
 
   return (
     <div className="flex h-48 w-full flex-col overflow-hidden rounded-2xl border-2 border-[var(--accent-solid)] bg-black">
-      <div className="relative flex-1">
+      {/* min-h-0 is load-bearing: a <video>'s intrinsic size otherwise refuses to shrink below
+          its own content size inside a flex column (the classic flexbox min-height:auto gotcha),
+          which pushed the shutter/close button bar below entirely out of the h-48 box — visually
+          clipped away by overflow-hidden, so the camera looked like it had no controls at all. */}
+      <div className="relative min-h-0 flex-1">
         {/* eslint-disable-next-line jsx-a11y/media-has-caption -- live camera preview, no audio track */}
         <video ref={videoRef} playsInline muted className="h-full w-full object-cover" />
       </div>
