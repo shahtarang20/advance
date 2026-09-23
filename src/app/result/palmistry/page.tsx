@@ -30,6 +30,16 @@ import {
   mountProminentKey,
   mountFlatKey,
   timelineEventKey,
+  specificTitleKey,
+  specificMeaningKey,
+  minorLineTitleKey,
+  minorLineMeaningKey,
+  chirognomyTitleKey,
+  chirognomyMeaningKey,
+  mysticMarkTitleKey,
+  mysticMarkMeaningKey,
+  biometricTitleKey,
+  biometricMeaningKey,
 } from "@/lib/palmistry";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
@@ -135,6 +145,146 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
       variantTitleDefault: reading.marriageLine.title,
       meaningKey: marriageLineMeaningKey(reading.marriageLine.key),
       meaningDefault: reading.marriageLine.meaning,
+    },
+  ];
+
+  const specificPredictionsList = [
+    {
+      key: "marriage",
+      category: "marriage",
+      titleDefault: "Marriage & Partnership",
+      icon: "💍",
+      variantTitleKey: specificTitleKey("marriage", reading.specificPredictions.marriage.key),
+      variantTitleDefault: reading.specificPredictions.marriage.title,
+      meaningKey: specificMeaningKey("marriage", reading.specificPredictions.marriage.key),
+      meaningDefault: reading.specificPredictions.marriage.meaning,
+    },
+    {
+      key: "children",
+      category: "children",
+      titleDefault: "Children & Family",
+      icon: "👶",
+      variantTitleKey: specificTitleKey("children", reading.specificPredictions.children.key),
+      variantTitleDefault: reading.specificPredictions.children.title,
+      meaningKey: specificMeaningKey("children", reading.specificPredictions.children.key),
+      meaningDefault: reading.specificPredictions.children.meaning,
+    },
+    {
+      key: "house",
+      category: "house",
+      titleDefault: "House & Property",
+      icon: "🏡",
+      variantTitleKey: specificTitleKey("house", reading.specificPredictions.house.key),
+      variantTitleDefault: reading.specificPredictions.house.title,
+      meaningKey: specificMeaningKey("house", reading.specificPredictions.house.key),
+      meaningDefault: reading.specificPredictions.house.meaning,
+    },
+  ];
+
+  const minorLinesList = [
+    {
+      key: "health",
+      titleKey: "palmistry.result.health_line_title",
+      titleDefault: "Line of Health",
+      variantTitleKey: minorLineTitleKey("health", reading.minorLines.health.key),
+      variantTitleDefault: reading.minorLines.health.title,
+      meaningKey: minorLineMeaningKey("health", reading.minorLines.health.key),
+      meaningDefault: reading.minorLines.health.meaning,
+    },
+    {
+      key: "intuition",
+      titleKey: "palmistry.result.intuition_line_title",
+      titleDefault: "Line of Intuition",
+      variantTitleKey: minorLineTitleKey("intuition", reading.minorLines.intuition.key),
+      variantTitleDefault: reading.minorLines.intuition.title,
+      meaningKey: minorLineMeaningKey("intuition", reading.minorLines.intuition.key),
+      meaningDefault: reading.minorLines.intuition.meaning,
+    },
+    {
+      key: "travel",
+      titleKey: "palmistry.result.travel_line_title",
+      titleDefault: "Travel Lines",
+      variantTitleKey: minorLineTitleKey("travel", reading.minorLines.travel.key),
+      variantTitleDefault: reading.minorLines.travel.title,
+      meaningKey: minorLineMeaningKey("travel", reading.minorLines.travel.key),
+      meaningDefault: reading.minorLines.travel.meaning,
+    },
+    {
+      key: "girdle",
+      titleKey: "palmistry.result.girdle_line_title",
+      titleDefault: "Girdle of Venus",
+      variantTitleKey: minorLineTitleKey("girdle", reading.minorLines.girdle.key),
+      variantTitleDefault: reading.minorLines.girdle.title,
+      meaningKey: minorLineMeaningKey("girdle", reading.minorLines.girdle.key),
+      meaningDefault: reading.minorLines.girdle.meaning,
+    },
+  ];
+
+  const chirognomyList = [
+    {
+      key: "fingerShape",
+      titleKey: "palmistry.result.fingers_title",
+      titleDefault: "Finger Shape",
+      variantTitleKey: chirognomyTitleKey("shape", reading.chirognomy.fingerShape.key),
+      variantTitleDefault: reading.chirognomy.fingerShape.title,
+      meaningKey: chirognomyMeaningKey("shape", reading.chirognomy.fingerShape.key),
+      meaningDefault: reading.chirognomy.fingerShape.meaning,
+    },
+    {
+      key: "thumb",
+      titleKey: "palmistry.result.thumb_title",
+      titleDefault: "The Thumb",
+      variantTitleKey: chirognomyTitleKey("thumb", reading.chirognomy.thumb.key),
+      variantTitleDefault: reading.chirognomy.thumb.title,
+      meaningKey: chirognomyMeaningKey("thumb", reading.chirognomy.thumb.key),
+      meaningDefault: reading.chirognomy.thumb.meaning,
+    },
+  ];
+
+  const biometricsList = [
+    {
+      key: "phi",
+      category: "phi",
+      titleKey: "palmistry.result.biometrics.phi_title",
+      titleDefault: "Golden Ratio Alignment",
+      value: `${reading.biometrics.phi.value}%`,
+      variantTitleKey: biometricTitleKey("phi", reading.biometrics.phi.key),
+      variantTitleDefault: reading.biometrics.phi.title,
+      meaningKey: biometricMeaningKey("phi", reading.biometrics.phi.key),
+      meaningDefault: reading.biometrics.phi.meaning,
+    },
+    {
+      key: "digitRatio",
+      category: "digit_ratio",
+      titleKey: "palmistry.result.biometrics.digit_ratio_title",
+      titleDefault: "2D:4D Digit Ratio",
+      value: reading.biometrics.digitRatio.value.toString(),
+      variantTitleKey: biometricTitleKey("digit_ratio", reading.biometrics.digitRatio.key),
+      variantTitleDefault: reading.biometrics.digitRatio.title,
+      meaningKey: biometricMeaningKey("digit_ratio", reading.biometrics.digitRatio.key),
+      meaningDefault: reading.biometrics.digitRatio.meaning,
+    },
+    {
+      key: "thumbAngle",
+      category: "thumb_angle",
+      titleKey: "palmistry.result.biometrics.thumb_angle_title",
+      titleDefault: "Thumb Resting Angle",
+      value: `${reading.biometrics.thumbAngle.value}°`,
+      variantTitleKey: biometricTitleKey("thumb_angle", reading.biometrics.thumbAngle.key),
+      variantTitleDefault: reading.biometrics.thumbAngle.title,
+      meaningKey: biometricMeaningKey("thumb_angle", reading.biometrics.thumbAngle.key),
+      meaningDefault: reading.biometrics.thumbAngle.meaning,
+    },
+    {
+      key: "triangleAngle",
+      category: "triangle_angle",
+      titleKey: "palmistry.result.biometrics.triangle_angle_title",
+      titleDefault: "Wealth Triangle Angle",
+      value: `${reading.biometrics.triangleAngle.value}°`,
+      variantTitleKey: biometricTitleKey("triangle_angle", reading.biometrics.triangleAngle.key),
+      variantTitleDefault: reading.biometrics.triangleAngle.title,
+      meaningKey: biometricMeaningKey("triangle_angle", reading.biometrics.triangleAngle.key),
+      meaningDefault: reading.biometrics.triangleAngle.meaning,
     },
   ];
 
@@ -292,22 +442,159 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
         ))}
 
         <Reveal delay={0.3}>
-          <GlassCard className="p-6 sm:p-8">
-            <h2 className="text-lg font-semibold">
-              <Trans tKey="palmistry.result.mount_title" replacements={{ defaultValue: "A Notable Mount" }} /> —{" "}
-              <span className="text-[var(--accent-solid)]">
-                <Trans tKey={mountNameKey(reading.notableMount.key)} replacements={{ defaultValue: reading.notableMount.name }} />
-              </span>
+          <div className="mb-10">
+            <h2 className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-muted-soft">
+              <Trans tKey="palmistry.result.specific_predictions_title" replacements={{ defaultValue: "Deep Predictions" }} />
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted">
+            <p className="mx-auto mb-5 max-w-md text-center text-xs text-muted-soft">
               <Trans
-                tKey={reading.notableMount.isProminent ? mountProminentKey(reading.notableMount.key) : mountFlatKey(reading.notableMount.key)}
-                replacements={{
-                  defaultValue: reading.notableMount.isProminent ? reading.notableMount.prominent : reading.notableMount.flat,
-                }}
+                tKey="palmistry.result.specific_predictions_note"
+                replacements={{ defaultValue: "Highly specific outcomes derived from traditional line combinations." }}
               />
             </p>
-          </GlassCard>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {specificPredictionsList.map((section) => (
+                <GlassCard key={section.key} className="p-5">
+                  <h3 className="flex items-center gap-2 text-sm font-semibold">
+                    <span className="text-lg">{section.icon}</span>
+                    <Trans tKey={`palmistry.result.specific.${section.category}`} replacements={{ defaultValue: section.titleDefault }} />
+                  </h3>
+                  <p className="mt-2 text-sm font-medium text-[var(--accent-solid)]">
+                    <Trans tKey={section.variantTitleKey} replacements={{ defaultValue: section.variantTitleDefault }} />
+                  </p>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
+                    <Trans tKey={section.meaningKey} replacements={{ defaultValue: section.meaningDefault }} />
+                  </p>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.32}>
+          <div className="mb-10">
+            <h2 className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-muted-soft">
+              <Trans tKey="palmistry.result.biometrics_title" replacements={{ defaultValue: "Biometric Proportions & Sacred Geometry" }} />
+            </h2>
+            <p className="mx-auto mb-5 max-w-md text-center text-xs text-muted-soft">
+              <Trans
+                tKey="palmistry.result.biometrics_note"
+                replacements={{ defaultValue: "Simulated mathematical analysis of hand geometry." }}
+              />
+            </p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {biometricsList.map((bio) => (
+                <GlassCard key={bio.key} className="p-5 flex flex-col justify-between border-[rgba(var(--accent-solid-rgb),0.2)] bg-[rgba(var(--accent-solid-rgb),0.02)]">
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="text-xs uppercase tracking-widest font-semibold text-muted-soft">
+                        <Trans tKey={bio.titleKey} replacements={{ defaultValue: bio.titleDefault }} />
+                      </h3>
+                      <span className="font-mono text-lg font-bold text-[var(--accent-solid)]">
+                        {bio.value}
+                      </span>
+                    </div>
+                    <p className="text-sm font-medium mb-1">
+                      <Trans tKey={bio.variantTitleKey} replacements={{ defaultValue: bio.variantTitleDefault }} />
+                    </p>
+                    <p className="text-[13px] leading-relaxed text-muted">
+                      <Trans tKey={bio.meaningKey} replacements={{ defaultValue: bio.meaningDefault }} />
+                    </p>
+                  </div>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.35}>
+          <div className="mb-10">
+            <h2 className="mb-4 text-center text-lg font-semibold">
+              <Trans tKey="palmistry.result.chirognomy_title" replacements={{ defaultValue: "Chirognomy (Fingers & Thumb)" }} />
+            </h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {chirognomyList.map((item) => (
+                <GlassCard key={item.key} className="p-6">
+                  <h3 className="text-md font-semibold">
+                    <Trans tKey={item.titleKey} replacements={{ defaultValue: item.titleDefault }} /> —{" "}
+                    <span className="text-[var(--accent-solid)]">
+                      <Trans tKey={item.variantTitleKey} replacements={{ defaultValue: item.variantTitleDefault }} />
+                    </span>
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">
+                    <Trans tKey={item.meaningKey} replacements={{ defaultValue: item.meaningDefault }} />
+                  </p>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.4}>
+          <div className="mb-10">
+            <h2 className="mb-4 text-center text-lg font-semibold">
+              <Trans tKey="palmistry.result.minor_lines_title" replacements={{ defaultValue: "The Minor Lines" }} />
+            </h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {minorLinesList.map((line) => (
+                <GlassCard key={line.key} className="p-6">
+                  <h3 className="text-md font-semibold">
+                    <Trans tKey={line.titleKey} replacements={{ defaultValue: line.titleDefault }} /> —{" "}
+                    <span className="text-[var(--accent-solid)]">
+                      <Trans tKey={line.variantTitleKey} replacements={{ defaultValue: line.variantTitleDefault }} />
+                    </span>
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">
+                    <Trans tKey={line.meaningKey} replacements={{ defaultValue: line.meaningDefault }} />
+                  </p>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.45}>
+          <div className="mb-10">
+            <h2 className="mb-4 text-center text-lg font-semibold">
+              <Trans tKey="palmistry.result.all_mounts_title" replacements={{ defaultValue: "The Seven Planetary Mounts" }} />
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Object.values(reading.allMounts).map((mount) => (
+                <GlassCard key={mount.key} className={`p-5 ${mount.isProminent ? 'border-[var(--accent-solid)] shadow-sm' : ''}`}>
+                  <h3 className="text-sm font-semibold flex justify-between items-center">
+                    <Trans tKey={mountNameKey(mount.key)} replacements={{ defaultValue: mount.name }} />
+                    {mount.isProminent && <span className="text-[10px] uppercase tracking-wider text-[var(--accent-solid)] font-bold px-2 py-0.5 rounded-full bg-[rgba(var(--accent-solid-rgb),0.1)]">Prominent</span>}
+                  </h3>
+                  <p className="mt-2 text-xs leading-relaxed text-muted">
+                    <Trans
+                      tKey={mount.isProminent ? mountProminentKey(mount.key) : mountFlatKey(mount.key)}
+                      replacements={{ defaultValue: mount.isProminent ? mount.prominent : mount.flat }}
+                    />
+                  </p>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.5}>
+          <div className="mb-10">
+            <h2 className="mb-4 text-center text-lg font-semibold">
+              <Trans tKey="palmistry.result.mystic_marks_title" replacements={{ defaultValue: "Mystic Marks & Symbols" }} />
+            </h2>
+            <div className="space-y-4 max-w-2xl mx-auto">
+              {reading.mysticMarks.map((mark) => (
+                <GlassCard key={mark.key} className="p-6">
+                  <h3 className="text-md font-semibold text-[var(--accent-solid)]">
+                    <Trans tKey={mysticMarkTitleKey(mark.key)} replacements={{ defaultValue: mark.title }} />
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    <Trans tKey={mysticMarkMeaningKey(mark.key)} replacements={{ defaultValue: mark.meaning }} />
+                  </p>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
         </Reveal>
 
 

@@ -470,6 +470,89 @@ export const TIMELINE_EVENTS: Record<string, string> = {
   community_impact: "Your actions begin to have a meaningful, positive impact on your wider community or chosen field.",
 };
 
+// --- NEW IN-DEPTH DICTIONARIES ---
+
+export const SPECIFIC_PREDICTIONS: Record<string, Record<string, LineVariant>> = {
+  marriage: {
+    foreigner: { title: "Marriage from Afar", meaning: "Your Fate Line alignment traditionally suggests a significant partnership with someone from a different cultural background, foreign land, or outside your usual social circle." },
+    childhood: { title: "Deep-Rooted Connection", meaning: "A strong connection between your Heart and Life lines early on indicates marriage or long-term partnership with someone known from youth, or who deeply shares your core roots." },
+    sudden: { title: "Sudden Commitment", meaning: "A distinct mark near the relationship lines suggests a sudden, unexpected, but deeply significant commitment that changes your life trajectory rapidly." },
+    steady: { title: "Gradual Alignment", meaning: "Your relationships are shown to build on steady companionship. Traditional readings suggest your most significant partnership is built over years of friendship and shared goals." }
+  },
+  children: {
+    two_phases: { title: "Two Distinct Phases", meaning: "Traditional reading of the lines beneath Mercury, combined with a strong Venus mount, points to two distinct phases of family expansion or significant periods of raising/mentoring children." },
+    large_family: { title: "Abundant Family Energy", meaning: "A wide, sweeping Life Line encircling a prominent Venus mount is classically interpreted as a strong inclination toward a large, bustling family life." },
+    focused: { title: "Focused Nurturing", meaning: "A single, deep line in the traditional 'children' area suggests a life focused intensely on nurturing one or two significant dependents, whether biological children or deeply adopted causes." }
+  },
+  house: {
+    early_property: { title: "Early Foundation", meaning: "An upward branch from the early part of your Life Line toward Jupiter traditionally marks the successful purchase or building of a significant home at a relatively young age." },
+    multiple_homes: { title: "Multiple Residences", meaning: "Travel lines combined with a strong Fate Line suggest owning property in more than one location or living between different major residences." },
+    later_settlement: { title: "The Dream Home Later", meaning: "A steady, unbroken Life Line that anchors deeply at the base suggests that while you may move frequently early on, you will acquire a 'forever home' that brings immense peace later in life." }
+  }
+};
+
+export const MINOR_LINES_VARIANTS: Record<string, Record<string, LineVariant>> = {
+  health: {
+    clear: { title: "Line of Health (Hepatica): Clear", meaning: "A clear Health line traditionally indicates strong digestion and physical resilience, suggesting a body that recovers quickly from stress." },
+    absent: { title: "Line of Health: Absent", meaning: "The absence of a Health line is actually considered excellent in traditional palmistry, denoting a robust constitution free from chronic physical nervous tension." },
+  },
+  intuition: {
+    crescent: { title: "Line of Intuition: Present", meaning: "A crescent line on the outer edge of the palm points to high emotional intelligence, vivid dreams, and a 'gut feeling' that is rarely wrong." },
+    faint: { title: "Line of Intuition: Subtle", meaning: "Your intuition works best when you are quiet and grounded, rather than through sudden flashes. You read people accurately but process it logically." }
+  },
+  travel: {
+    strong: { title: "Travel Lines: Strong", meaning: "Clear horizontal lines on the Mount of the Moon traditionally indicate significant time spent living abroad or life-changing international travel." },
+    local: { title: "Travel Lines: Faint", meaning: "You are deeply rooted in your local community. While you may travel for pleasure, your true foundation and success are found close to home." }
+  },
+  girdle: {
+    present: { title: "Girdle of Venus: Present", meaning: "A curve above the Heart Line indicating intense passion, high emotional sensitivity, and a deeply artistic or romantic temperament." },
+    absent: { title: "Girdle of Venus: Absent", meaning: "You process emotions with a steady, even keel, avoiding the dramatic highs and lows that characterize more volatile temperaments." }
+  }
+};
+
+export const FINGERS_VARIANTS: Record<string, Record<string, LineVariant>> = {
+  shape: {
+    pointed: { title: "Pointed Fingers", meaning: "Your finger shape suggests a highly idealistic, intuitive nature. You are sensitive to your environment and often driven by inspiration rather than strict logic." },
+    conic: { title: "Conic Fingers", meaning: "A conic finger shape points to creativity, quick thinking, and a reliance on instinct. You adapt quickly and charm others easily." },
+    square: { title: "Square Fingers", meaning: "Square fingertips indicate a practical, organized, and grounded personality. You value order, routine, and tangible results over abstraction." },
+    spatulate: { title: "Spatulate Fingers", meaning: "Flared, spatulate fingertips suggest boundless energy and a need for action. You are an unconventional thinker who loves physical or intellectual exploration." }
+  },
+  thumb: {
+    willpower: { title: "Thumb: Strong Willpower", meaning: "Your top thumb phalange is dominant, indicating immense willpower and determination. When you set your mind to a goal, you rarely back down." },
+    logic: { title: "Thumb: Strong Logic", meaning: "The second phalange of your thumb is longer, showing that reason and logic rule your decisions. You plan carefully before taking action." },
+    flexible: { title: "Thumb: Flexible", meaning: "A thumb that bends back easily reveals a highly adaptable, generous, and spontaneous nature, willing to go with the flow." },
+    stiff: { title: "Thumb: Stiff", meaning: "A stiff, straight thumb traditionally denotes a strong sense of purpose, reliability, and sometimes a stubborn streak when your principles are challenged." }
+  }
+};
+
+export const MYSTIC_MARKS_VARIANTS: Record<string, LineVariant> = {
+  mystic_cross: { title: "The Mystic Cross", meaning: "A distinct cross between your Head and Heart lines. This ancient mark points to a natural affinity for the occult, psychology, and reading the unseen motives of others." },
+  ring_of_solomon: { title: "Ring of Solomon", meaning: "A rare curve under your index finger indicating deep wisdom, authority, and a natural ability to counsel and teach others." },
+  star_apollo: { title: "Star of Apollo", meaning: "A star formation on the Mount of the Sun, traditionally heralding a sudden and brilliant burst of fame, recognition, or immense creative success." },
+  triangle_life: { title: "Triangle on the Life Line", meaning: "A triangle resting on your Life Line is a highly auspicious mark, indicating a period of significant intellectual achievement or sudden financial gain." },
+  healers_mark: { title: "The Healer's Mark", meaning: "Several fine vertical lines under the pinky finger. Traditionally associated with those who have a calming, healing influence on people or animals." }
+};
+
+export const BIOMETRICS_VARIANTS: Record<string, Record<string, LineVariant>> = {
+  phi: {
+    high: { title: "High Golden Ratio Alignment", meaning: "Mathematically, your palm and phalanges strongly align with Phi (1.618), the mathematical signature of natural balance. Traditionally, this indicates an innate aesthetic sense and a life pulled naturally toward harmony." },
+    moderate: { title: "Practical Proportions", meaning: "Your hand favors practical proportions over strict Phi alignment. Mathematically, this correlates to a pragmatic, utility-driven mindset where function matters more than aesthetics." }
+  },
+  digit_ratio: {
+    ring_longer: { title: "Apollo Dominance (Ring > Index)", meaning: "In classic chirognomy, a longer ring finger mathematically correlates with higher risk tolerance, spatial awareness, and a strong drive for financial success and competition." },
+    index_longer: { title: "Jupiter Dominance (Index > Ring)", meaning: "A mathematically longer index finger traditionally points to strong leadership, high verbal intelligence, and a natural authority over others." },
+    equal: { title: "Balanced Digits", meaning: "Your index and ring fingers are mathematically equal, a rare equilibrium suggesting a personality that easily balances ambition with social harmony." }
+  },
+  thumb_angle: {
+    wide: { title: "Wide Angle (Approaching 90°)", meaning: "Your thumb rests at a wide geometric angle from the palm. This mathematically signifies extreme independence, a love of personal freedom, and a refusal to be micromanaged." },
+    narrow: { title: "Narrow Angle (< 45°)", meaning: "A narrow resting angle indicates a cautious, deliberate, and protective mindset. You prefer secure, proven paths over sudden risks." }
+  },
+  triangle_angle: {
+    acute: { title: "Tight Acute Angle (< 60°)", meaning: "The geometric intersection forming the 'Money Triangle' is extremely tight. Mathematically, this signifies excellent wealth retention and a highly strategic approach to saving." },
+    obtuse: { title: "Open Angle (> 80°)", meaning: "An open geometric intersection indicates that resources flow through your hands freely—money is seen as a tool for experience rather than hoarding." }
+  }
+};
+
 export interface TimelineEntry {
   age: number;
   key: string;
@@ -491,6 +574,29 @@ export interface PalmReading {
   sunLine: { key: string } & LineVariant;
   marriageLine: { key: string } & LineVariant;
   notableMount: { key: string } & MountInfo & { isProminent: boolean };
+  allMounts: { [key: string]: { key: string } & MountInfo & { isProminent: boolean } };
+  minorLines: {
+    health: { key: string } & LineVariant;
+    intuition: { key: string } & LineVariant;
+    travel: { key: string } & LineVariant;
+    girdle: { key: string } & LineVariant;
+  };
+  chirognomy: {
+    fingerShape: { key: string } & LineVariant;
+    thumb: { key: string } & LineVariant;
+  };
+  mysticMarks: ({ key: string } & LineVariant)[];
+  specificPredictions: {
+    marriage: { key: string } & LineVariant;
+    children: { key: string } & LineVariant;
+    house: { key: string } & LineVariant;
+  };
+  biometrics: {
+    phi: { key: string; value: number } & LineVariant;
+    digitRatio: { key: string; value: number } & LineVariant;
+    thumbAngle: { key: string; value: number } & LineVariant;
+    triangleAngle: { key: string; value: number } & LineVariant;
+  };
   timeline: TimelineEntry[];
 }
 
@@ -558,6 +664,21 @@ export const mountFlatKey = (key: string) => `palmistry.mount.${key}.flat`;
 
 export const timelineEventKey = (key: string) => `palmistry.timeline.${key}`;
 
+export const specificTitleKey = (category: string, key: string) => `palmistry.specific.${category}.${key}.title`;
+export const specificMeaningKey = (category: string, key: string) => `palmistry.specific.${category}.${key}.meaning`;
+
+export const minorLineTitleKey = (category: string, key: string) => `palmistry.minorLine.${category}.${key}.title`;
+export const minorLineMeaningKey = (category: string, key: string) => `palmistry.minorLine.${category}.${key}.meaning`;
+
+export const chirognomyTitleKey = (category: string, key: string) => `palmistry.chirognomy.${category}.${key}.title`;
+export const chirognomyMeaningKey = (category: string, key: string) => `palmistry.chirognomy.${category}.${key}.meaning`;
+
+export const mysticMarkTitleKey = (key: string) => `palmistry.mysticMark.${key}.title`;
+export const mysticMarkMeaningKey = (key: string) => `palmistry.mysticMark.${key}.meaning`;
+
+export const biometricTitleKey = (category: string, key: string) => `palmistry.biometric.${category}.${key}.title`;
+export const biometricMeaningKey = (category: string, key: string) => `palmistry.biometric.${category}.${key}.meaning`;
+
 
 /** Deterministic, seedable palm reading so a reading can be encoded in a shareable URL and
  * reproduced exactly on revisit — the same pattern used for Tarot draws in this app. */
@@ -567,9 +688,25 @@ export function getPalmReading(seed: string, hand: Hand): PalmReading {
   const handShape = handShapeKeys[Math.floor(rand() * handShapeKeys.length)];
 
   const mountKeys = Object.keys(MOUNTS);
-  const mountKey = mountKeys[Math.floor(rand() * mountKeys.length)];
-  const mount = MOUNTS[mountKey];
-  const isProminent = rand() > 0.45;
+  const notableMountKey = mountKeys[Math.floor(rand() * mountKeys.length)];
+  const notableMount = MOUNTS[notableMountKey];
+  const isNotableProminent = rand() > 0.45;
+
+  const allMounts: Record<string, { key: string } & MountInfo & { isProminent: boolean }> = {};
+  for (const mKey of mountKeys) {
+    allMounts[mKey] = {
+      key: mKey,
+      ...MOUNTS[mKey],
+      isProminent: rand() > 0.5,
+    };
+  }
+  // Ensure the notable mount matches
+  allMounts[notableMountKey].isProminent = isNotableProminent;
+
+  // Pick 1 to 2 mystic marks
+  const mysticKeys = Object.keys(MYSTIC_MARKS_VARIANTS).sort(() => rand() - 0.5);
+  const numMarks = rand() > 0.7 ? 2 : 1;
+  const mysticMarks = mysticKeys.slice(0, numMarks).map(k => ({ key: k, ...MYSTIC_MARKS_VARIANTS[k] }));
 
   // Generate 4 to 5 timeline events at different ages
   const numEvents = Math.floor(rand() * 2) + 4; // 4 or 5
@@ -591,6 +728,25 @@ export function getPalmReading(seed: string, hand: Hand): PalmReading {
     currentAge += 5 + Math.floor(rand() * 8);
   }
 
+  // --- Calculate Math/Biometrics ---
+  // Phi (1.618)
+  const phiValue = 88 + Math.floor(rand() * 10); // e.g. 88% to 98%
+  const phiKey = phiValue > 93 ? "high" : "moderate";
+
+  // Digit Ratio (2D:4D)
+  const digitValue = 0.90 + (rand() * 0.15); // e.g. 0.90 to 1.05
+  let digitKey = "equal";
+  if (digitValue < 0.98) digitKey = "ring_longer";
+  else if (digitValue > 1.02) digitKey = "index_longer";
+
+  // Thumb Angle
+  const thumbValue = 40 + Math.floor(rand() * 55); // e.g. 40 to 95 degrees
+  const thumbKey = thumbValue > 70 ? "wide" : "narrow";
+
+  // Triangle Angle
+  const triValue = 45 + Math.floor(rand() * 45); // e.g. 45 to 90 degrees
+  const triKey = triValue < 65 ? "acute" : "obtuse";
+
   return {
     hand,
     handShape,
@@ -604,7 +760,30 @@ export function getPalmReading(seed: string, hand: Hand): PalmReading {
     fateLine: pick(rand, FATE_LINE_VARIANTS),
     sunLine: pick(rand, SUN_LINE_VARIANTS),
     marriageLine: pick(rand, MARRIAGE_LINE_VARIANTS),
-    notableMount: { key: mountKey, ...mount, isProminent },
+    notableMount: { key: notableMountKey, ...notableMount, isProminent: isNotableProminent },
+    allMounts,
+    minorLines: {
+      health: pick(rand, MINOR_LINES_VARIANTS.health),
+      intuition: pick(rand, MINOR_LINES_VARIANTS.intuition),
+      travel: pick(rand, MINOR_LINES_VARIANTS.travel),
+      girdle: pick(rand, MINOR_LINES_VARIANTS.girdle),
+    },
+    chirognomy: {
+      fingerShape: pick(rand, FINGERS_VARIANTS.shape),
+      thumb: pick(rand, FINGERS_VARIANTS.thumb),
+    },
+    mysticMarks,
+    specificPredictions: {
+      marriage: pick(rand, SPECIFIC_PREDICTIONS.marriage),
+      children: pick(rand, SPECIFIC_PREDICTIONS.children),
+      house: pick(rand, SPECIFIC_PREDICTIONS.house),
+    },
+    biometrics: {
+      phi: { value: phiValue, key: phiKey, ...BIOMETRICS_VARIANTS.phi[phiKey] },
+      digitRatio: { value: parseFloat(digitValue.toFixed(2)), key: digitKey, ...BIOMETRICS_VARIANTS.digit_ratio[digitKey] },
+      thumbAngle: { value: thumbValue, key: thumbKey, ...BIOMETRICS_VARIANTS.thumb_angle[thumbKey] },
+      triangleAngle: { value: triValue, key: triKey, ...BIOMETRICS_VARIANTS.triangle_angle[triKey] },
+    },
     timeline,
   };
 }
