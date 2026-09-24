@@ -1721,7 +1721,7 @@
   "share_prompt.copied": "Link kopiert!",
   "footer.share_app": "App teilen",
   "footer.link_copied": "Link kopiert — füge ihn in deine Instagram-Story oder Bio ein!",
-  "pwa.install.generic_hint": "Tippe auf das Menü deines Browsers (⋮ oder das Symbol in der Adressleiste) und wähle \"App installieren\" oder \"Zum Startbildschirm hinzufügen\".",
+  "pwa.install.generic_hint": "Tippe auf das Menü deines Browsers (⋮ oder das Symbol in der Adressleiste) und wähle \"App installieren\", falls verfügbar — das gibt dir das echte App-Symbol und die Vollbild-Erfahrung. Nutze \"Zum Home-Bildschirm hinzufügen\" nur, wenn \"App installieren\" nicht angeboten wird.",
   "pwa.install.show_me": "Zeig mir wie",
   "ios_guide.step1.title": "Tippe auf das Teilen-Symbol",
   "ios_guide.step1.body": "Du findest es in Safaris Symbolleiste — normalerweise am unteren Bildschirmrand.",

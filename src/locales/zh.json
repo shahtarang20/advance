@@ -1721,7 +1721,7 @@
   "share_prompt.copied": "链接已复制！",
   "footer.share_app": "分享应用",
   "footer.link_copied": "链接已复制——粘贴到你的 Instagram 故事或简介中吧！",
-  "pwa.install.generic_hint": "点击浏览器菜单（⋮ 或地址栏中的图标），然后选择“安装应用”或“添加到主屏幕”。",
+  "pwa.install.generic_hint": "点击浏览器菜单（⋮ 或地址栏中的图标），如果出现“安装应用”选项请选择它——这样才能获得真正的应用图标和全屏体验。只有在没有“安装应用”选项时才选择“添加到主屏幕”。",
   "pwa.install.show_me": "演示给我看",
   "ios_guide.step1.title": "点击分享图标",
   "ios_guide.step1.body": "在 Safari 的工具栏中找到它——通常在屏幕底部。",

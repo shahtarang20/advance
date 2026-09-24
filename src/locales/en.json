@@ -1721,7 +1721,7 @@
   "share_prompt.copied": "Link Copied!",
   "footer.share_app": "Share App",
   "footer.link_copied": "Link copied — paste it into your Instagram Story or Bio!",
-  "pwa.install.generic_hint": "Tap your browser's menu (⋮ or the icon in the address bar) and choose \"Install app\" or \"Add to Home Screen\".",
+  "pwa.install.generic_hint": "Tap your browser's menu (⋮ or the icon in the address bar) and choose \"Install app\" if it's offered — that gives you the real app icon and full-screen experience. Only use \"Add to Home Screen\" if \"Install app\" isn't available.",
   "pwa.install.show_me": "Show Me",
   "ios_guide.step1.title": "Tap the Share icon",
   "ios_guide.step1.body": "Find it in Safari's toolbar — usually at the bottom of your screen.",
