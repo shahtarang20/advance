@@ -44,8 +44,20 @@ const nextConfig: NextConfig = {
             // injected markup redirects form submissions to an attacker's server.
             // frame-ancestors 'none': the modern CSP equivalent of X-Frame-Options, kept
             // alongside it as defense-in-depth for browsers that only honor one or the other.
+            //
+            // script-src previously allowed any `https:` origin at all — meaning that if an
+            // attacker ever did find an injection point, they could load a script from literally
+            // anywhere and serve fraudulent ads/malware from it. This replaces that wildcard with
+            // an explicit allowlist of only the origins this app genuinely loads scripts from:
+            // Google AdSense's actual serving domains (its ad-serving infrastructure legitimately
+            // spans several Google-owned hostnames, not just the one that loads the initial
+            // adsbygoogle.js) and nothing else. Any other origin — including one an attacker
+            // controls — is now rejected by the browser itself, even if an injection point were
+            // ever found. connect-src is tightened the same way for the same reason, covering
+            // MediaPipe's own CDN/model fetches (src/lib/handDetector.ts) instead of a blanket
+            // https: allowance.
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' data: blob: https:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.googleadservices.com https://*.google.com https://*.doubleclick.net https://*.googletagservices.com https://*.gstatic.com https://*.adtrafficquality.google https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://*.gstatic.com https://*.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://*.gstatic.com; connect-src 'self' data: blob: https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://*.googleadservices.com https://*.adtrafficquality.google https://cdn.jsdelivr.net https://storage.googleapis.com; frame-src 'self' https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;",
           },
           {
             key: "Permissions-Policy",
