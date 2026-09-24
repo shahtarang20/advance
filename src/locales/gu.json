@@ -91,10 +91,10 @@
   "numerology.card.challenge": "પડકાર",
   "numerology.card.tap_reveal": "અર્થ જોવા માટે ટેપ કરો ✦",
   "comp.tool.your_name": "તમારું નામ",
-  "comp.tool.your_name_ph": "દા.ત. તરંગ",
+  "comp.tool.your_name_ph": "તમારું નામ ઉમેરો",
   "comp.tool.your_dob": "તમારી જન્મ તારીખ",
   "comp.tool.their_name": "તેમનું નામ",
-  "comp.tool.their_name_ph": "દા.ત. અદિતિ",
+  "comp.tool.their_name_ph": "તમારા પાર્ટનરનું નામ ઉમેરો",
   "comp.tool.their_dob": "તેમની જન્મ તારીખ",
   "comp.tool.check_btn": "મેળાપ તપાસો",
   "comp.tool.same_person": "લાગે છે કે તમે એક જ નામ અને જન્મ તારીખ બે વાર દાખલ કરી છે — તો પણ નંબરો શું કહે છે તે જુઓ.",
@@ -1716,5 +1716,9 @@
   "in_app_browser.facebook": "ફેસબુક",
   "in_app_browser.title": "તમે આ {appName} ની અંદર જોઈ રહ્યા છો",
   "in_app_browser.desc": "સંપૂર્ણ અનુભવ માટે (એપ ઇન્સ્ટોલ કરવા સહિત), ઉપર ⋯ અથવા મેનૂ આઇકન પર ટેપ કરો અને \"બ્રાઉઝરમાં ખોલો\" પસંદ કરો.",
-  "in_app_browser.dismiss": "બંધ કરો"
+  "in_app_browser.dismiss": "બંધ કરો",
+  "share_prompt.instagram": "ઇન્સ્ટાગ્રામ પર શેર કરો",
+  "share_prompt.copied": "લિંક કૉપિ થઈ ગઈ!",
+  "footer.share_app": "એપ શેર કરો",
+  "footer.link_copied": "લિંક કૉપિ થઈ ગઈ — તેને તમારી ઇન્સ્ટાગ્રામ સ્ટોરી અથવા બાયોમાં પેસ્ટ કરો!"
 }

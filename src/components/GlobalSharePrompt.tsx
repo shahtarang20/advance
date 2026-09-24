@@ -11,6 +11,7 @@ export function GlobalSharePrompt() {
   const pathname = usePathname();
   const { t } = useTranslation();
   const [show, setShow] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -57,6 +58,20 @@ export function GlobalSharePrompt() {
     handleDismiss();
   };
 
+  const handleInstagram = async () => {
+    try {
+      await navigator.clipboard.writeText(`${decodeURIComponent(shareText)} ${decodeURIComponent(shareUrl)}`);
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+        handleDismiss();
+      }, 2000);
+    } catch {
+      // fallback if clipboard fails
+      handleDismiss();
+    }
+  };
+
   return (
     <AnimatePresence>
       {show && (
@@ -88,6 +103,11 @@ export function GlobalSharePrompt() {
               </Button>
               <Button variant="facebook" onClick={handleFacebook} className="w-full justify-center">
                 {t("share_prompt.facebook", { defaultValue: "Share on Facebook" })}
+              </Button>
+              <Button variant="instagram" onClick={handleInstagram} className="w-full justify-center">
+                {copied
+                  ? t("share_prompt.copied", { defaultValue: "Link Copied!" })
+                  : t("share_prompt.instagram", { defaultValue: "Share on Instagram" })}
               </Button>
               <button
                 onClick={handleDismiss}

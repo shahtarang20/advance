@@ -91,10 +91,10 @@
   "numerology.card.challenge": "Challenge",
   "numerology.card.tap_reveal": "Tap to reveal meaning ✦",
   "comp.tool.your_name": "Your Name",
-  "comp.tool.your_name_ph": "e.g. Tarang",
+  "comp.tool.your_name_ph": "Add your name",
   "comp.tool.your_dob": "Your DOB",
   "comp.tool.their_name": "Their Name",
-  "comp.tool.their_name_ph": "e.g. Aanya",
+  "comp.tool.their_name_ph": "Add your partner's name",
   "comp.tool.their_dob": "Their DOB",
   "comp.tool.check_btn": "Check Your Match",
   "comp.tool.same_person": "Looks like you entered the same name and date of birth twice — here's what the numbers say about that anyway.",
@@ -1716,5 +1716,9 @@
   "in_app_browser.facebook": "Facebook",
   "in_app_browser.title": "You're viewing this inside {appName}",
   "in_app_browser.desc": "For the full experience (including installing the app), tap ⋯ or the menu icon above and choose \"Open in Browser\".",
-  "in_app_browser.dismiss": "Dismiss"
+  "in_app_browser.dismiss": "Dismiss",
+  "share_prompt.instagram": "Share on Instagram",
+  "share_prompt.copied": "Link Copied!",
+  "footer.share_app": "Share App",
+  "footer.link_copied": "Link copied — paste it into your Instagram Story or Bio!"
 }

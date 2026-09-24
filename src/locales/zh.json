@@ -91,10 +91,10 @@
   "numerology.card.challenge": "挑战",
   "numerology.card.tap_reveal": "点击以揭示意涵 ✦",
   "comp.tool.your_name": "你的名字",
-  "comp.tool.your_name_ph": "例如：Tarang",
+  "comp.tool.your_name_ph": "输入你的名字",
   "comp.tool.your_dob": "你的生日",
   "comp.tool.their_name": "他/她的名字",
-  "comp.tool.their_name_ph": "例如：Aanya",
+  "comp.tool.their_name_ph": "输入对方的名字",
   "comp.tool.their_dob": "他/她的生日",
   "comp.tool.check_btn": "查看缘分配对",
   "comp.tool.same_person": "看起来您输入了两次相同的姓名和出生日期——这里是数字命理学对此的看法。",
@@ -1716,5 +1716,9 @@
   "in_app_browser.facebook": "Facebook",
   "in_app_browser.title": "您正在 {appName} 内查看此内容",
   "in_app_browser.desc": "要获得完整体验（包括安装应用），请点击上方的 ⋯ 或菜单图标，然后选择“在浏览器中打开”。",
-  "in_app_browser.dismiss": "关闭"
+  "in_app_browser.dismiss": "关闭",
+  "share_prompt.instagram": "分享到 Instagram",
+  "share_prompt.copied": "链接已复制！",
+  "footer.share_app": "分享应用",
+  "footer.link_copied": "链接已复制——粘贴到你的 Instagram 故事或简介中吧！"
 }

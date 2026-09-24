@@ -91,10 +91,10 @@
   "numerology.card.challenge": "चुनौती",
   "numerology.card.tap_reveal": "अर्थ जानने के लिए टैप करें ✦",
   "comp.tool.your_name": "आपका नाम",
-  "comp.tool.your_name_ph": "जैसे तरंग",
+  "comp.tool.your_name_ph": "अपना नाम डालें",
   "comp.tool.your_dob": "आपकी जन्म तिथि",
   "comp.tool.their_name": "उनका नाम",
-  "comp.tool.their_name_ph": "जैसे आन्या",
+  "comp.tool.their_name_ph": "अपने पार्टनर का नाम डालें",
   "comp.tool.their_dob": "उनकी जन्म तिथि",
   "comp.tool.check_btn": "मिलान जांचें",
   "comp.tool.same_person": "ऐसा लगता है कि आपने एक ही नाम और जन्म तिथि दो बार दर्ज की है - फिर भी देखें कि संख्याएँ इस बारे में क्या कहती हैं।",
@@ -1716,5 +1716,9 @@
   "in_app_browser.facebook": "फेसबुक",
   "in_app_browser.title": "आप इसे {appName} के अंदर देख रहे हैं",
   "in_app_browser.desc": "पूरे अनुभव के लिए (ऐप इंस्टॉल करने सहित), ऊपर ⋯ या मेनू आइकन पर टैप करें और \"ब्राउज़र में खोलें\" चुनें।",
-  "in_app_browser.dismiss": "बंद करें"
+  "in_app_browser.dismiss": "बंद करें",
+  "share_prompt.instagram": "इंस्टाग्राम पर साझा करें",
+  "share_prompt.copied": "लिंक कॉपी हो गया!",
+  "footer.share_app": "ऐप साझा करें",
+  "footer.link_copied": "लिंक कॉपी हो गया — इसे अपनी इंस्टाग्राम स्टोरी या बायो में पेस्ट करें!"
 }

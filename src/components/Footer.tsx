@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ZODIAC_SIGNS } from "@/lib/horoscope";
 import { useTranslation } from "@/lib/I18nContext";
@@ -7,9 +8,29 @@ import { SITE_URL } from "@/lib/site";
 
 export function Footer() {
   const { t } = useTranslation();
-  
+  const [copied, setCopied] = useState(false);
+
   const shareText = encodeURIComponent("Check out Cosmic Numbers - A free numerology calculator & daily horoscope app!");
   const shareUrl = encodeURIComponent(SITE_URL);
+
+  // Instagram has no public share-link API (unlike WhatsApp's wa.me or Facebook's sharer.php),
+  // so copy-to-clipboard + "paste it yourself" is the only thing that actually works everywhere.
+  // `navigator.clipboard` can be missing (insecure/http context, older browsers) and
+  // `writeText` can reject (permission denied) — awaiting it and only flipping `copied` inside
+  // the try block means the confirmation only ever shows when the copy genuinely succeeded,
+  // instead of claiming success unconditionally regardless of what actually happened.
+  const handleInstagramShare = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      if (!navigator.clipboard) throw new Error("Clipboard API unavailable");
+      await navigator.clipboard.writeText(`${decodeURIComponent(shareText)} ${decodeURIComponent(shareUrl)}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Nothing to show on failure beyond leaving the label as-is — the user can still select
+      // and copy the link manually from the address bar.
+    }
+  };
 
   return (
     <footer className="mt-32 border-t border-[var(--surface-border)] bg-[var(--surface)] py-16">
@@ -24,7 +45,7 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="mb-4 text-base font-semibold text-[var(--foreground)]">Share App</h3>
+            <h3 className="mb-4 text-base font-semibold text-[var(--foreground)]">{t("footer.share_app", { defaultValue: "Share App" })}</h3>
             <ul className="space-y-2.5 text-sm text-muted">
               <li>
                 <a href={`https://wa.me/?text=${shareText}%20${shareUrl}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#25D366] transition-colors">
@@ -35,6 +56,19 @@ export function Footer() {
                 <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#1877F2] transition-colors">
                   <span className="text-[#1877F2]">Facebook</span>
                 </a>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={handleInstagramShare}
+                  className="flex items-center gap-2 hover:text-[#E1306C] transition-colors"
+                >
+                  {copied ? (
+                    <span className="text-muted">{t("footer.link_copied", { defaultValue: "Link copied — paste it into your Instagram Story or Bio!" })}</span>
+                  ) : (
+                    <span className="text-transparent bg-clip-text bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888]">Instagram</span>
+                  )}
+                </button>
               </li>
             </ul>
           </div>
