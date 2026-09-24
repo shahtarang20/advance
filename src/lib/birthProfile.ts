@@ -42,11 +42,18 @@ export function loadBirthProfile(): BirthProfile {
 /** Merges the given fields into the stored profile — callers only pass the fields their form
  * actually collects, so e.g. Numerology (name + dob) never clobbers a previously-saved Kundli
  * birth time/place, and vice versa. */
+/** Fired whenever the birth profile is saved/updated — lets anything mounted once at the root
+ * (like NavBar, whose birth-date-dependent state such as the Love Match highlight otherwise only
+ * ever gets evaluated on its very first mount) react to a profile saved later in the same
+ * session, instead of only picking it up after a full page reload. */
+export const BIRTH_PROFILE_SAVED_EVENT = "cosmic:birth-profile-saved";
+
 export function saveBirthProfile(fields: Partial<BirthProfile>): void {
   if (typeof window === "undefined") return;
   try {
     const next = { ...loadBirthProfile(), ...fields };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    window.dispatchEvent(new Event(BIRTH_PROFILE_SAVED_EVENT));
   } catch {
     // localStorage may be unavailable (private mode, quota) — the form still works this
     // session, it just won't be remembered next time.

@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { useTranslation } from "@/lib/I18nContext";
 import { LanguageToggle } from "./LanguageToggle";
 import { useGamification, LockableFeature } from "@/lib/gamification";
+import { useLoveMatchHighlight, markLoveMatchSeen } from "@/lib/loveMatchHighlight";
+import { hasSeenOnboarding } from "@/lib/onboarding";
 
 const emptySubscribe = () => () => {};
 
@@ -39,14 +41,54 @@ const PRIMARY_HREFS = ["/palmistry", "/numerology", "/horoscope", "/kundli", "/t
 export function NavBar() {
   const { t } = useTranslation();
   const { isFeatureUnlocked } = useGamification();
+  const showLoveMatchHighlight = useLoveMatchHighlight();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [hamburgerHighlight, setHamburgerHighlight] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
     () => false
   );
+
+  // Waits for the site-wide welcome tour to be dismissed before showing its own highlight ring
+  // on the hamburger button — that tour already spotlights this exact button in its "nav" step,
+  // so on a genuinely first-time visitor both used to render their own pulsing ring on it at
+  // once (the tour's spotlight plus this persistent CSS highlight), which looked redundant.
+  // Polling for `hasSeenOnboarding()` (same pattern as PageFeatureHint) means this simply waits,
+  // however long that takes, until the tour is out of the way before showing its own nudge.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.localStorage.getItem("cosmic-seen-hamburger")) return;
+
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const attempt = () => {
+      if (!hasSeenOnboarding()) return false;
+      setHamburgerHighlight(true);
+      return true;
+    };
+    const initial = setTimeout(() => {
+      if (attempt()) return;
+      interval = setInterval(() => {
+        if (attempt() && interval) clearInterval(interval);
+      }, 400);
+    }, 500);
+    return () => {
+      clearTimeout(initial);
+      if (interval) clearInterval(interval);
+    };
+  }, []);
+
+  const handleHamburgerClick = () => {
+    setMenuOpen((v) => !v);
+    if (hamburgerHighlight) {
+      setHamburgerHighlight(false);
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("cosmic-seen-hamburger", "1");
+      }
+    }
+  };
 
   const isDark = mounted && (theme === "dark" || resolvedTheme === "dark");
 
@@ -65,7 +107,14 @@ export function NavBar() {
         </Link>
         <div data-tour="nav-links" className="hidden items-center gap-6 lg:flex">
           {primaryLinks.map((l) => (
-            <Link key={l.href} href={l.href} className="text-[15px] font-medium text-muted transition-colors hover:text-[var(--foreground)]">
+            <Link 
+              key={l.href} 
+              href={l.href} 
+              onClick={() => { if (l.href === "/compatibility") markLoveMatchSeen(); }}
+              className={`text-[15px] font-medium text-muted transition-colors hover:text-[var(--foreground)] ${
+                l.href === "/compatibility" && showLoveMatchHighlight ? "feature-highlight-pulse rounded-md px-2 py-1" : ""
+              }`}
+            >
               {t(l.labelKey)}
             </Link>
           ))}
@@ -87,8 +136,13 @@ export function NavBar() {
                   <Link
                     key={l.href}
                     href={l.href}
-                    onClick={() => setMoreOpen(false)}
-                    className="block rounded-xl px-3 py-2.5 text-sm text-muted transition hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
+                    onClick={() => {
+                      setMoreOpen(false);
+                      if (l.href === "/compatibility") markLoveMatchSeen();
+                    }}
+                    className={`block rounded-xl px-3 py-2.5 text-sm text-muted transition hover:bg-[var(--surface)] hover:text-[var(--foreground)] ${
+                      l.href === "/compatibility" && showLoveMatchHighlight ? "feature-highlight-pulse" : ""
+                    }`}
                   >
                     {t(l.labelKey)}
                   </Link>
@@ -114,8 +168,10 @@ export function NavBar() {
             data-tour="menu-button"
             aria-label={menuOpen ? t("menu.close") : t("menu.open")}
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
-            className="btn-tap accent-ring surface-glass flex h-11 w-11 items-center justify-center rounded-full border text-sm lg:hidden"
+            onClick={handleHamburgerClick}
+            className={`btn-tap accent-ring surface-glass flex h-11 w-11 items-center justify-center rounded-full border text-sm lg:hidden ${
+              hamburgerHighlight ? "feature-highlight-pulse" : ""
+            }`}
           >
             {menuOpen ? "✕" : "☰"}
           </button>
@@ -128,8 +184,13 @@ export function NavBar() {
               <Link
                 key={l.href}
                 href={l.href}
-                onClick={() => setMenuOpen(false)}
-                className="flex min-h-[44px] items-center rounded-xl px-3 py-2.5 text-sm text-muted transition hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
+                onClick={() => {
+                  setMenuOpen(false);
+                  if (l.href === "/compatibility") markLoveMatchSeen();
+                }}
+                className={`flex min-h-[44px] items-center rounded-xl px-3 py-2.5 text-sm text-muted transition hover:bg-[var(--surface)] hover:text-[var(--foreground)] ${
+                  l.href === "/compatibility" && showLoveMatchHighlight ? "feature-highlight-pulse" : ""
+                }`}
               >
                 {t(l.labelKey)}
               </Link>

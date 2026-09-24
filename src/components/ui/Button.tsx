@@ -4,7 +4,7 @@ import Link from "next/link";
 import { HTMLMotionProps, motion } from "framer-motion";
 import { ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "whatsapp";
+type Variant = "primary" | "secondary" | "whatsapp" | "facebook";
 
 const VARIANT_CLASS: Record<Variant, string> = {
   primary:
@@ -12,6 +12,7 @@ const VARIANT_CLASS: Record<Variant, string> = {
   secondary:
     "border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-[var(--accent-solid)]",
   whatsapp: "bg-[#25D366] text-black",
+  facebook: "bg-[#1877F2] text-white",
 };
 
 const press = {

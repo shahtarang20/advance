@@ -1705,5 +1705,16 @@
   "pwa.install.button": "安装",
   "pwa.install.dismiss": "关闭",
   "audio.play": "播放音频",
-  "audio.stop": "停止音频"
+  "audio.stop": "停止音频",
+  "share.facebook": "Facebook",
+  "share_prompt.title": "喜欢这个应用吗？",
+  "share_prompt.desc": "和朋友分享这份美好吧！这能帮助我们让 Cosmic Numbers 继续保持免费并不断成长。",
+  "share_prompt.whatsapp": "分享到 WhatsApp",
+  "share_prompt.facebook": "分享到 Facebook",
+  "share_prompt.dismiss": "以后再说",
+  "in_app_browser.instagram": "Instagram",
+  "in_app_browser.facebook": "Facebook",
+  "in_app_browser.title": "您正在 {appName} 内查看此内容",
+  "in_app_browser.desc": "要获得完整体验（包括安装应用），请点击上方的 ⋯ 或菜单图标，然后选择“在浏览器中打开”。",
+  "in_app_browser.dismiss": "关闭"
 }

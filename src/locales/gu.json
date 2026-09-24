@@ -1705,5 +1705,16 @@
   "pwa.install.button": "ઇન્સ્ટોલ કરો",
   "pwa.install.dismiss": "બંધ કરો",
   "audio.play": "ઑડિયો ચલાવો",
-  "audio.stop": "ઑડિયો બંધ કરો"
+  "audio.stop": "ઑડિયો બંધ કરો",
+  "share.facebook": "ફેસબુક",
+  "share_prompt.title": "એપ ગમે છે?",
+  "share_prompt.desc": "તમારા મિત્રો સાથે આ જાદુ શેર કરો! તે અમને કોસ્મિક નંબર્સને બધા માટે મફત અને વધતું રાખવામાં મદદ કરે છે.",
+  "share_prompt.whatsapp": "વોટ્સએપ પર શેર કરો",
+  "share_prompt.facebook": "ફેસબુક પર શેર કરો",
+  "share_prompt.dismiss": "કદાચ પછી",
+  "in_app_browser.instagram": "ઇન્સ્ટાગ્રામ",
+  "in_app_browser.facebook": "ફેસબુક",
+  "in_app_browser.title": "તમે આ {appName} ની અંદર જોઈ રહ્યા છો",
+  "in_app_browser.desc": "સંપૂર્ણ અનુભવ માટે (એપ ઇન્સ્ટોલ કરવા સહિત), ઉપર ⋯ અથવા મેનૂ આઇકન પર ટેપ કરો અને \"બ્રાઉઝરમાં ખોલો\" પસંદ કરો.",
+  "in_app_browser.dismiss": "બંધ કરો"
 }

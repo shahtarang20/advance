@@ -26,6 +26,11 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
     window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
   };
 
+  const handleFacebook = () => {
+    recordAction("share_click");
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank", "noopener,noreferrer");
+  };
+
   const handleDownload = async () => {
     setDownloadError(null);
     setDownloading(true);
@@ -54,6 +59,9 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
       <div className="flex flex-wrap gap-3">
         <Button variant="whatsapp" onClick={handleWhatsApp}>
           {t("share.whatsapp")}
+        </Button>
+        <Button variant="facebook" onClick={handleFacebook}>
+          {t("share.facebook", { defaultValue: "Facebook" })}
         </Button>
         <Button
           variant="secondary"

@@ -1705,5 +1705,16 @@
   "pwa.install.button": "Installieren",
   "pwa.install.dismiss": "Schließen",
   "audio.play": "Audio abspielen",
-  "audio.stop": "Audio stoppen"
+  "audio.stop": "Audio stoppen",
+  "share.facebook": "Facebook",
+  "share_prompt.title": "Gefällt dir die App?",
+  "share_prompt.desc": "Teile die Magie mit deinen Freunden! Das hilft uns, Cosmic Numbers für alle kostenlos zu halten und weiter wachsen zu lassen.",
+  "share_prompt.whatsapp": "Auf WhatsApp teilen",
+  "share_prompt.facebook": "Auf Facebook teilen",
+  "share_prompt.dismiss": "Vielleicht später",
+  "in_app_browser.instagram": "Instagram",
+  "in_app_browser.facebook": "Facebook",
+  "in_app_browser.title": "Du siehst dies innerhalb von {appName}",
+  "in_app_browser.desc": "Für das volle Erlebnis (einschließlich der App-Installation) tippe oben auf ⋯ oder das Menüsymbol und wähle \"Im Browser öffnen\".",
+  "in_app_browser.dismiss": "Schließen"
 }

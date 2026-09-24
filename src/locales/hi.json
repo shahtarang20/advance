@@ -1705,5 +1705,16 @@
   "pwa.install.button": "इंस्टॉल करें",
   "pwa.install.dismiss": "बंद करें",
   "audio.play": "ऑडियो चलाएं",
-  "audio.stop": "ऑडियो रोकें"
+  "audio.stop": "ऑडियो रोकें",
+  "share.facebook": "फेसबुक",
+  "share_prompt.title": "ऐप पसंद आ रहा है?",
+  "share_prompt.desc": "अपने दोस्तों के साथ यह जादू साझा करें! इससे हमें लौकिक संख्याएँ को सभी के लिए मुफ़्त और बढ़ता रखने में मदद मिलती है।",
+  "share_prompt.whatsapp": "व्हाट्सएप पर साझा करें",
+  "share_prompt.facebook": "फेसबुक पर साझा करें",
+  "share_prompt.dismiss": "शायद बाद में",
+  "in_app_browser.instagram": "इंस्टाग्राम",
+  "in_app_browser.facebook": "फेसबुक",
+  "in_app_browser.title": "आप इसे {appName} के अंदर देख रहे हैं",
+  "in_app_browser.desc": "पूरे अनुभव के लिए (ऐप इंस्टॉल करने सहित), ऊपर ⋯ या मेनू आइकन पर टैप करें और \"ब्राउज़र में खोलें\" चुनें।",
+  "in_app_browser.dismiss": "बंद करें"
 }

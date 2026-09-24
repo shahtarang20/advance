@@ -1,3 +1,5 @@
+import { MoonPhase as AstroMoonPhase } from "astronomy-engine";
+
 export type MoonPhase = {
   id: string;
   name: string;
@@ -66,17 +68,14 @@ const PHASES: MoonPhase[] = [
 ];
 
 export function getCurrentMoonPhase(date: Date = new Date()): MoonPhase {
-  // Known New Moon: Jan 6, 2000, 12:24:01 UTC
-  const LUNAR_MONTH = 29.53058867; // Days
-  const knownNewMoon = new Date("2000-01-06T12:24:01Z").getTime();
+  // Use professional astronomical ephemeris algorithms for 100% precision
+  // MoonPhase returns the exact ecliptic phase angle from 0 to 360 degrees.
+  const phaseAngle = AstroMoonPhase(date);
   
-  const diffMs = date.getTime() - knownNewMoon;
-  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  // Convert 360 degrees to a ratio between 0 and 1
+  const phaseRatio = phaseAngle / 360;
   
-  const phaseDays = diffDays % LUNAR_MONTH;
-  const phaseRatio = (phaseDays + LUNAR_MONTH) % LUNAR_MONTH / LUNAR_MONTH; 
-  
-  // 8 phases, each taking up ~1/8th of the cycle (0.125)
+  // Map into 8 distinct phases, each covering exactly 45 degrees of the cycle
   let index = Math.round(phaseRatio * 8);
   if (index >= 8) index = 0;
   

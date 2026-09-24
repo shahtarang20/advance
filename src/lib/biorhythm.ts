@@ -15,30 +15,35 @@ export type BiorhythmData = {
 export function calculateBiorhythms(dobString: string): BiorhythmData | null {
   if (!dobString) return null;
   
-  const dob = new Date(dobString);
-  if (isNaN(dob.getTime())) return null;
+  // Extract pure YYYY-MM-DD to avoid timezone offset shifts during parsing
+  const parts = dobString.split("-");
+  if (parts.length !== 3) return null;
+  const [year, month, day] = parts.map(Number);
+  
+  // Exact UTC midnight for birth date
+  const dobUTC = Date.UTC(year, month - 1, day);
+  if (isNaN(dobUTC)) return null;
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const now = new Date();
+  // Exact UTC midnight for 'today' in the user's local timezone
+  const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
   
-  // Calculate days since birth for today
   const msPerDay = 1000 * 60 * 60 * 24;
-  
   const days = [];
   
   let todayPhysical = 0;
   let todayEmotional = 0;
   let todayIntellectual = 0;
 
-  // We want a 14 day window (7 days before, today, 6 days after)
+  // 14 day window (7 days before, today, 6 days after)
   for (let i = -7; i <= 6; i++) {
-    const targetDate = new Date(today);
-    targetDate.setDate(today.getDate() + i);
+    // Target date in UTC midnight
+    const targetUTC = todayUTC + (i * msPerDay);
     
-    // Exact days lived from birth to target date
-    const t = (targetDate.getTime() - dob.getTime()) / msPerDay;
+    // Exact mathematical days lived (integer, no DST fractional drift)
+    const t = (targetUTC - dobUTC) / msPerDay;
     
-    // Sine wave calculation
+    // Pure Sine wave calculation
     const physical = Math.sin((2 * Math.PI * t) / 23) * 100;
     const emotional = Math.sin((2 * Math.PI * t) / 28) * 100;
     const intellectual = Math.sin((2 * Math.PI * t) / 33) * 100;
@@ -49,8 +54,13 @@ export function calculateBiorhythms(dobString: string): BiorhythmData | null {
       todayIntellectual = intellectual;
     }
     
+    // Formatting the target date back to local string for display
+    const displayDate = new Date(targetUTC);
+    // Adjust back to local timezone for the label only
+    displayDate.setMinutes(displayDate.getMinutes() + displayDate.getTimezoneOffset());
+
     days.push({
-      date: targetDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: displayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       physical: Math.round(physical),
       emotional: Math.round(emotional),
       intellectual: Math.round(intellectual),

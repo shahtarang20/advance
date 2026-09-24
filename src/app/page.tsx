@@ -10,9 +10,11 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { RecentActivity } from "@/components/RecentActivity";
+import { useLoveMatchHighlight, markLoveMatchSeen } from "@/lib/loveMatchHighlight";
 
 export default function HomePage() {
   const { t } = useTranslation();
+  const showLoveMatchHighlight = useLoveMatchHighlight();
   return (
     <div className="mx-auto max-w-6xl px-6 pb-32 pt-20 sm:pt-28">
       {/* Hero */}
@@ -67,6 +69,8 @@ export default function HomePage() {
             title={t("home.feat.comp.title")}
             description={t("home.feat.comp.desc")}
             gradient="bg-gradient-to-br from-amber-500/30 to-amber-500/10"
+            className={showLoveMatchHighlight ? "feature-highlight-pulse rounded-2xl" : ""}
+            onClick={() => markLoveMatchSeen()}
           />
           <FeatureCard
             href="/kundli"

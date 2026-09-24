@@ -11,17 +11,21 @@ export function FeatureCard({
   title,
   description,
   gradient,
+  className = "",
+  onClick,
 }: {
   href: string;
   icon: string;
   title: string;
   description: string;
   gradient: string;
+  className?: string;
+  onClick?: () => void;
 }) {
   const { t } = useTranslation();
   return (
-    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
-      <Link href={href}>
+    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} className={className}>
+      <Link href={href} onClick={onClick}>
         <GlassCard className="group h-full p-8 transition-colors hover:border-[var(--accent-solid)]/20 sm:p-9">
           <div
             className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl text-2xl ${gradient}`}

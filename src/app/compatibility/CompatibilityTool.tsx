@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { calculateCompatibility, CompatibilityResult } from "@/lib/compatibility";
 import { validateDob, validateName } from "@/lib/validation";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
+import { markLoveMatchSeen } from "@/lib/loveMatchHighlight";
 
 export function CompatibilityTool() {
   const [nameA, setNameA] = useState("");
@@ -22,6 +23,10 @@ export function CompatibilityTool() {
   const [samePerson, setSamePerson] = useState(false);
   const { recordAction } = useGamification();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    markLoveMatchSeen();
+  }, []);
 
   const nameAError = validateName(nameA);
   const dobAError = validateDob(dobA);
