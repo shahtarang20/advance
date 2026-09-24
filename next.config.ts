@@ -79,6 +79,27 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // Matches page routes only — excludes /_next/* (build assets, meant to be long-cached),
+        // /api/* (has its own caching set per-route, e.g. the OG image endpoint), and any path
+        // with a file extension (manifest.json, icons, sw.js, etc., which should keep normal
+        // caching). This is deliberately the opposite of typical performance advice: normally
+        // you'd want pages cacheable too. Here, an explicit product requirement is that the app
+        // must always require a live connection and never present stale content — Chrome (and
+        // other browsers) can otherwise retain a cached HTML snapshot of a page and silently
+        // serve it back when the device loses connectivity, showing its own "Viewing an offline
+        // copy of this page" banner. That's the browser working around exactly the offline
+        // requirement OfflineScreen exists to enforce. no-store tells every cache (the browser's
+        // own disk cache, any CDN) to keep nothing at all, so there's no stale snapshot left for
+        // the browser to fall back to in the first place.
+        source: "/((?!_next|api|.*\\..*).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+        ],
+      },
     ];
   },
 };

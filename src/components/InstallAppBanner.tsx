@@ -180,10 +180,7 @@ export function InstallAppBanner() {
   }, []);
 
   const handleInstall = async () => {
-    if (!deferredPrompt) {
-      alert("Your browser is blocking automatic installation! Please use the browser menu (⋮) and select 'Install app' or 'Add to Home Screen'.");
-      return;
-    }
+    if (!deferredPrompt) return;
     await deferredPrompt.prompt();
     // The prompt can only be used once regardless of outcome, so it's cleared either way — if
     // the user actually accepted, the 'appinstalled' listener above is what permanently stops
@@ -237,16 +234,25 @@ export function InstallAppBanner() {
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              <motion.button
-                type="button"
-                onClick={handleInstall}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.2, ease: EASE }}
-                className="btn-tap accent-gradient-bg rounded-full px-4 py-2 text-xs font-medium text-white shadow-[0_8px_20px_-8px_var(--accent-ring)]"
-              >
-                {t("pwa.install.button", { defaultValue: "Install App" })}
-              </motion.button>
+              {/* Only rendered when a real, browser-issued install prompt is actually available —
+                  showing this unconditionally (including on iOS Safari, which never fires
+                  beforeinstallprompt at all) means tapping it can do nothing at best or, if wired
+                  to a fallback alert(), interrupt the user with a jarring native dialog on top of
+                  the instructional text already sitting right next to it. When there's no real
+                  prompt to trigger, the instructional text below is the only actionable thing to
+                  show — there's no button that could honestly do anything else. */}
+              {deferredPrompt && (
+                <motion.button
+                  type="button"
+                  onClick={handleInstall}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.2, ease: EASE }}
+                  className="btn-tap accent-gradient-bg rounded-full px-4 py-2 text-xs font-medium text-white shadow-[0_8px_20px_-8px_var(--accent-ring)]"
+                >
+                  {t("pwa.install.button", { defaultValue: "Install App" })}
+                </motion.button>
+              )}
               <button
                 type="button"
                 onClick={dismiss}
