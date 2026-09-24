@@ -5,6 +5,7 @@ import { GamificationProvider } from "@/lib/gamification";
 import { GamificationToasts } from "@/components/GamificationToasts";
 import { I18nProvider } from "@/lib/I18nContext";
 import { OnboardingTour } from "@/components/OnboardingTour";
+import { NotificationManager } from "@/components/NotificationManager";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <GamificationProvider>
           <GamificationToasts />
           <OnboardingTour />
+          <NotificationManager />
           {children}
         </GamificationProvider>
       </I18nProvider>
