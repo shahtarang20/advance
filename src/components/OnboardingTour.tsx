@@ -124,12 +124,10 @@ export function OnboardingTour() {
   };
 
   // Start the tour once, after the page has had a moment to render the nav bar.
-  // The user requested this to be disabled so it doesn't interrupt them immediately upon login.
   useEffect(() => {
-    // We just mark it as seen so the state is initialized, but we don't start the animation.
-    if (!hasSeenOnboarding()) {
-      markOnboardingSeen();
-    }
+    if (hasSeenOnboarding()) return;
+    const timer = setTimeout(() => setActive(true), 600);
+    return () => clearTimeout(timer);
   }, []);
 
   // Run the tour again — once — the very first time a returning user actively switches
@@ -235,13 +233,10 @@ export function OnboardingTour() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4, ease: EASE }}
         >
-          {/* Invisible click-shield: blocks interaction with the page underneath for the whole
-              duration of the tour. Kept fully transparent and separate from the visual
-              darkening below — layering an opaque backdrop on top of the spotlight box-shadow
-              would defeat the cutout (the "hole" would just reveal this div instead of the
-              real, highlighted element). Dismissal is explicit via Skip/Escape, not backdrop
-              click, matching standard modal/tour accessibility conventions. */}
-          <div className="fixed inset-0" />
+          {/* Invisible click-shield: now dismisses the tour when clicked, allowing users 
+              to tap directly on the language icon or any other highlighted feature to 
+              hide the tour and proceed naturally. */}
+          <div className="fixed inset-0 cursor-pointer" onClick={finish} />
 
           {/* When there's no specific target (welcome/finish steps), dim the whole screen. */}
           {!rect && <div className="pointer-events-none fixed inset-0 bg-black/60" />}
