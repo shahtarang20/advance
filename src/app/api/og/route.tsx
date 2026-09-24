@@ -1,7 +1,15 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
+import { SITE_URL } from "@/lib/site";
 
 export const runtime = "edge";
+
+// A strict allowlist pattern (3, 4, 6, or 8 hex digits) — the only thing this value is ever used
+// for is one stop in a CSS gradient, but it comes straight from a public, unauthenticated query
+// param with no other validation. Rejecting anything that isn't a genuine hex color, rather than
+// interpolating whatever string was passed straight into a CSS value, closes off that as an
+// injection vector into the generated image's styling.
+const HEX_COLOR_PATTERN = /^#[0-9a-fA-F]{3}$|^#[0-9a-fA-F]{4}$|^#[0-9a-fA-F]{6}$|^#[0-9a-fA-F]{8}$/;
 
 const GLYPHS: Record<string, string> = {
   aries: "♈", taurus: "♉", gemini: "♊", cancer: "♋", leo: "♌", virgo: "♍",
@@ -13,7 +21,12 @@ function truncate(s: string, n: number) {
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams, host } = new URL(req.url);
+  const { searchParams } = new URL(req.url);
+  // Trusting our own known site URL rather than the request's `Host` header for what gets
+  // rendered into the image — the Host header can be spoofed by a client that talks straight to
+  // the origin instead of going through normal domain routing, which would otherwise let an
+  // attacker get arbitrary attacker-chosen text baked into a "cosmicnumbers.app"-branded image.
+  const host = new URL(SITE_URL).host;
   const type = searchParams.get("type") ?? "numerology";
   const title = truncate(searchParams.get("title") ?? "Cosmic Reading", 60);
   const subtitle = truncate(searchParams.get("subtitle") ?? "", 90);
@@ -25,11 +38,18 @@ export async function GET(req: NextRequest) {
     kundli: "🕉️",
     palmistry: "🤚",
   };
-  const big =
-    searchParams.get("big") ??
-    (type === "horoscope" ? GLYPHS[searchParams.get("sign") ?? ""] ?? "✨" : TYPE_GLYPHS[type] ?? "✨");
+  // Capped at 4 chars — this is meant to hold a single emoji/glyph/short number (e.g. a life path
+  // number or zodiac symbol), not arbitrary text; the previous version passed the raw `big` query
+  // param straight through with no length limit at all, letting anyone request a giant image
+  // filled with as much text as they wanted, unbounded compute on a public, unauthenticated
+  // edge-function endpoint.
+  const big = truncate(
+    searchParams.get("big") ?? (type === "horoscope" ? GLYPHS[searchParams.get("sign") ?? ""] ?? "✨" : TYPE_GLYPHS[type] ?? "✨"),
+    4
+  );
   const text = truncate(searchParams.get("text") ?? "", 140);
-  const accentColor = searchParams.get("color");
+  const requestedColor = searchParams.get("color");
+  const accentColor = requestedColor && HEX_COLOR_PATTERN.test(requestedColor) ? requestedColor : null;
   const gradient = accentColor
     ? `linear-gradient(135deg, ${accentColor}, #7e22ce, #3730a3)`
     : "linear-gradient(135deg, #3730a3, #7e22ce, #b45309)";
@@ -163,6 +183,15 @@ export async function GET(req: NextRequest) {
         </div>
       </div>
     ),
-    { width: 1200, height: 630 }
+    {
+      width: 1200,
+      height: 630,
+      // Cache identical requests at the CDN for a day, serving stale for a week while
+      // revalidating — this is a public, unauthenticated endpoint with no server-side rate
+      // limiting, so caching by URL is what actually keeps a burst of repeated/identical
+      // requests (whether organic traffic hitting the same share link or someone deliberately
+      // hammering it) from re-running the image-generation work and cost every single time.
+      headers: { "Cache-Control": "public, immutable, max-age=86400, stale-while-revalidate=604800" },
+    }
   );
 }
