@@ -124,10 +124,12 @@ export function OnboardingTour() {
   };
 
   // Start the tour once, after the page has had a moment to render the nav bar.
+  // The user requested this to be disabled so it doesn't interrupt them immediately upon login.
   useEffect(() => {
-    if (hasSeenOnboarding()) return;
-    const timer = setTimeout(() => setActive(true), 600);
-    return () => clearTimeout(timer);
+    // We just mark it as seen so the state is initialized, but we don't start the animation.
+    if (!hasSeenOnboarding()) {
+      markOnboardingSeen();
+    }
   }, []);
 
   // Run the tour again — once — the very first time a returning user actively switches
@@ -135,7 +137,8 @@ export function OnboardingTour() {
   // this gives them one more guided pass in the language they actually picked.
   useEffect(() => {
     const onLanguageChanged = () => {
-      if (!hasSeenOnboarding() || hasSeenLanguageChangeTour()) return;
+      // Allow it to run once on language change, regardless of whether they saw the initial one.
+      if (hasSeenLanguageChangeTour()) return;
       markLanguageChangeTourSeen();
       setStepIndex(0);
       setDirection(1);
