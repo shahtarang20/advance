@@ -195,7 +195,6 @@ export function PalmistryTool() {
               photoError ? "border-rose-500" : "border-[var(--surface-border)]"
             }`}
           >
-            {photoHint.show && !photoDataUrl && !checkingPhoto && <FieldTapHint className="right-3 top-3" />}
             {checkingPhoto ? (
               <span className="px-6 text-center text-sm text-muted-soft">
                 {t("palmistry.tool.photo_checking", { defaultValue: "Checking your photo…" })}
@@ -221,15 +220,22 @@ export function PalmistryTool() {
           <div className="mt-3 flex gap-3">
             <button
               type="button"
-              onClick={() => cameraInputRef.current?.click()}
+              onClick={() => {
+                photoHint.dismiss();
+                cameraInputRef.current?.click();
+              }}
               disabled={checkingPhoto}
-              className="flex-1 rounded-xl border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-muted transition hover:border-[var(--accent-solid)] disabled:opacity-50"
+              className="relative flex-1 flex items-center justify-center rounded-xl border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-muted transition hover:border-[var(--accent-solid)] disabled:opacity-50"
             >
               {t("palmistry.tool.use_camera", { defaultValue: "📷 Take Photo" })}
+              {photoHint.show && !photoDataUrl && !checkingPhoto && <FieldTapHint className="top-1/2 left-1/2 -translate-y-1/2 translate-x-2" />}
             </button>
             <button
               type="button"
-              onClick={() => galleryInputRef.current?.click()}
+              onClick={() => {
+                photoHint.dismiss();
+                galleryInputRef.current?.click();
+              }}
               disabled={checkingPhoto}
               className="flex-1 rounded-xl border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-muted transition hover:border-[var(--accent-solid)] disabled:opacity-50"
             >

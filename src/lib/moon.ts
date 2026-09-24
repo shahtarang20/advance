@@ -68,7 +68,7 @@ const PHASES: MoonPhase[] = [
 ];
 
 export function getCurrentMoonPhase(date: Date = new Date()): MoonPhase {
-  // Use professional astronomical ephemeris algorithms for 100% precision
+  // Use professional astronomical ephemeris algorithms for maximum precision
   // MoonPhase returns the exact ecliptic phase angle from 0 to 360 degrees.
   const phaseAngle = AstroMoonPhase(date);
   
