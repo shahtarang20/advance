@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/lib/I18nContext";
+import { IOSInstallGuide } from "@/components/IOSInstallGuide";
 
 // Same easing curve used by the site's other overlays (OnboardingTour, PageFeatureHint) so this
 // feels consistent with the rest of the app's motion design rather than its own one-off timing.
@@ -193,10 +194,12 @@ export function InstallAppBanner() {
   };
 
   const dismiss = () => setClosedThisView(true);
+  const [showGuide, setShowGuide] = useState(false);
 
   const visible = !installed && !closedThisView && (!!deferredPrompt || showIOSHint || showGenericHint);
 
   return (
+    <>
     <AnimatePresence>
       {visible && (
         <motion.div
@@ -253,6 +256,21 @@ export function InstallAppBanner() {
                   {t("pwa.install.button", { defaultValue: "Install App" })}
                 </motion.button>
               )}
+              {/* iOS has no real install action to trigger — this opens the animated walkthrough
+                  instead, since the plain instructional text alone leaves the user to recognize
+                  Safari's own Share icon on their own. */}
+              {showIOSHint && !deferredPrompt && (
+                <motion.button
+                  type="button"
+                  onClick={() => setShowGuide(true)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.2, ease: EASE }}
+                  className="btn-tap accent-gradient-bg rounded-full px-4 py-2 text-xs font-medium text-white shadow-[0_8px_20px_-8px_var(--accent-ring)]"
+                >
+                  {t("pwa.install.show_me", { defaultValue: "Show Me" })}
+                </motion.button>
+              )}
               <button
                 type="button"
                 onClick={dismiss}
@@ -266,5 +284,7 @@ export function InstallAppBanner() {
         </motion.div>
       )}
     </AnimatePresence>
+    {showGuide && <IOSInstallGuide onClose={() => setShowGuide(false)} />}
+    </>
   );
 }

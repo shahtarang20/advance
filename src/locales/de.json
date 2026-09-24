@@ -1721,5 +1721,14 @@
   "share_prompt.copied": "Link kopiert!",
   "footer.share_app": "App teilen",
   "footer.link_copied": "Link kopiert — füge ihn in deine Instagram-Story oder Bio ein!",
-  "pwa.install.generic_hint": "Tippe auf das Menü deines Browsers (⋮ oder das Symbol in der Adressleiste) und wähle \"App installieren\" oder \"Zum Startbildschirm hinzufügen\"."
+  "pwa.install.generic_hint": "Tippe auf das Menü deines Browsers (⋮ oder das Symbol in der Adressleiste) und wähle \"App installieren\" oder \"Zum Startbildschirm hinzufügen\".",
+  "pwa.install.show_me": "Zeig mir wie",
+  "ios_guide.step1.title": "Tippe auf das Teilen-Symbol",
+  "ios_guide.step1.body": "Du findest es in Safaris Symbolleiste — normalerweise am unteren Bildschirmrand.",
+  "ios_guide.step2.title": "Tippe auf \"Zum Home-Bildschirm\"",
+  "ios_guide.step2.body": "Scrolle im Teilen-Menü nach unten, falls du es nicht sofort siehst, und tippe dann auf \"Hinzufügen\".",
+  "ios_guide.close": "Schließen",
+  "ios_guide.back": "Zurück",
+  "ios_guide.next": "Weiter",
+  "ios_guide.done": "Verstanden"
 }
