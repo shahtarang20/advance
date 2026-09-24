@@ -11,6 +11,8 @@ import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
 import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 export function HoroscopeTool() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
@@ -19,6 +21,7 @@ export function HoroscopeTool() {
   const [showPicker, setShowPicker] = useState(false);
   const { checkinHoroscope, recordAction } = useGamification();
   const { t } = useTranslation();
+  const dobHint = useFieldHint("horoscope-dob");
 
   // Prefill from a previously-saved birth profile, if the user has one from Kundli/Numerology.
   useEffect(() => {
@@ -56,7 +59,7 @@ export function HoroscopeTool() {
       <GlassCard className="p-8">
         <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-soft">{t("horoscope.tool.find_sign")}</h2>
         <div className="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
-          <div className="flex-1">
+          <div className="relative flex-1">
             <label htmlFor="horoscope-dob" className="mb-1.5 block text-sm text-muted">
               {t("horoscope.tool.dont_know")}
             </label>
@@ -67,9 +70,11 @@ export function HoroscopeTool() {
                 setDob(v);
                 if (dobError) setDobError(null);
               }}
+              onFocus={dobHint.dismiss}
               ariaInvalid={!!dobError}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
             />
+            {dobHint.show && !dob && <FieldTapHint className="right-3 top-11" />}
           </div>
           <button
             data-tour="page-cta"

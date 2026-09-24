@@ -33,6 +33,7 @@ export function DateOfBirthInput({
   id,
   value,
   onChange,
+  onFocus,
   className = "",
   ariaInvalid,
   ariaDescribedBy,
@@ -40,6 +41,7 @@ export function DateOfBirthInput({
   id?: string;
   value: string;
   onChange: (isoValue: string) => void;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
   className?: string;
   ariaInvalid?: boolean;
   ariaDescribedBy?: string;
@@ -58,6 +60,7 @@ export function DateOfBirthInput({
         const formatted = formatTyping(e.target.value);
         onChange(displayToIso(formatted) || formatted);
       }}
+      onFocus={onFocus}
       className={className}
     />
   );

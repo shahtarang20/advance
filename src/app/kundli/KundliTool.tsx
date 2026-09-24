@@ -9,12 +9,18 @@ import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { useTranslation } from "@/lib/I18nContext";
 import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 export function KundliTool() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [time, setTime] = useState("");
+  const nameHint = useFieldHint("kundli-name");
+  const dobHint = useFieldHint("kundli-dob");
+  const timeHint = useFieldHint("kundli-time");
+  const placeHint = useFieldHint("kundli-place");
   const [citySearch, setCitySearch] = useState("");
   const [selectedCity, setSelectedCity] = useState<CityInfo | null>(null);
   const [showCustom, setShowCustom] = useState(false);
@@ -112,7 +118,7 @@ export function KundliTool() {
     <div className="mx-auto max-w-2xl">
       <GlassCard className="p-8">
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
-          <div>
+          <div className="relative">
             <label htmlFor="k-name" className="mb-1.5 block text-sm text-muted">
               {t("kundli.tool.name_label", { defaultValue: "Full name (optional, for personalization)" })}
             </label>
@@ -121,11 +127,13 @@ export function KundliTool() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              onFocus={nameHint.dismiss}
               placeholder={t("kundli.tool.name_placeholder", { defaultValue: "Your name" })}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
             />
+            {nameHint.show && !name && <FieldTapHint className="right-3 top-11" />}
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="k-dob" className="mb-1.5 block text-sm text-muted">
               {t("kundli.tool.dob_label", { defaultValue: "Date of birth" })}
             </label>
@@ -133,10 +141,12 @@ export function KundliTool() {
               id="k-dob"
               value={dob}
               onChange={setDob}
+              onFocus={dobHint.dismiss}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
             />
+            {dobHint.show && !dob && <FieldTapHint className="right-3 top-11" />}
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="k-time" className="mb-1.5 block text-sm text-muted">
               {t("kundli.tool.time_label", { defaultValue: "Exact time of birth" })}
             </label>
@@ -145,8 +155,10 @@ export function KundliTool() {
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
+              onFocus={timeHint.dismiss}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none [color-scheme:light]"
             />
+            {timeHint.show && !time && <FieldTapHint className="right-3 top-11" />}
             <p className="mt-1.5 text-xs text-muted-soft">
               {t("kundli.tool.time_warning", {
                 defaultValue:
@@ -160,7 +172,7 @@ export function KundliTool() {
               {t("kundli.tool.place_label", { defaultValue: "Birth place" })}
             </label>
             {!showCustom ? (
-              <>
+              <div className="relative">
                 <input
                   id="k-place"
                   type="text"
@@ -169,10 +181,12 @@ export function KundliTool() {
                     setSelectedCity(null);
                     setCitySearch(e.target.value);
                   }}
+                  onFocus={placeHint.dismiss}
                   placeholder={t("kundli.tool.city_placeholder", { defaultValue: "Search a city (e.g. Jaipur, New York, Paris)" })}
                   autoComplete="off"
                   className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
                 />
+                {placeHint.show && !citySearch && !selectedCity && <FieldTapHint className="right-3 top-3" />}
                 {groupedFilteredCities.length > 0 && !selectedCity && (
                   <ul className="surface-glass mt-1.5 max-h-56 overflow-y-auto rounded-xl border">
                     {groupedFilteredCities.map((g) => (
@@ -207,7 +221,7 @@ export function KundliTool() {
                 >
                   {t("kundli.tool.manual_coords_link", { defaultValue: "My city isn’t listed — enter coordinates manually" })}
                 </button>
-              </>
+              </div>
             ) : (
               <div className="space-y-3">
                 <div className="grid grid-cols-3 gap-3">

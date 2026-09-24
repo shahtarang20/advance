@@ -12,6 +12,8 @@ import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
 import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 export function NumerologyTool() {
   const [name, setName] = useState("");
@@ -20,6 +22,8 @@ export function NumerologyTool() {
   const [submitted, setSubmitted] = useState<{ name: string; profile: NumerologyProfile } | null>(null);
   const { recordAction } = useGamification();
   const { t } = useTranslation();
+  const nameHint = useFieldHint("numerology-name");
+  const dobHint = useFieldHint("numerology-dob");
 
   // Prefill from a previously-saved birth profile (if any) — done after mount, not as the
   // initial state, so the server-rendered and first-client-rendered markup still match.
@@ -58,7 +62,7 @@ export function NumerologyTool() {
     <div className="mx-auto max-w-2xl">
       <GlassCard className="p-8">
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
-          <div>
+          <div className="relative">
             <label htmlFor="name" className="mb-1.5 block text-sm text-muted">
               {t("numerology.tool.name")}
             </label>
@@ -67,18 +71,20 @@ export function NumerologyTool() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              onFocus={nameHint.dismiss}
               placeholder={t("numerology.tool.name_placeholder")}
               aria-invalid={touched && !!nameError}
               aria-describedby={touched && nameError ? "name-error" : undefined}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
             />
+            {nameHint.show && !name && <FieldTapHint className="right-3 top-11" />}
             {touched && nameError && (
               <p id="name-error" className="mt-1.5 text-xs text-amber-600">
                 {nameError}
               </p>
             )}
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="dob" className="mb-1.5 block text-sm text-muted">
               {t("numerology.tool.dob")}
             </label>
@@ -86,10 +92,12 @@ export function NumerologyTool() {
               id="dob"
               value={dob}
               onChange={setDob}
+              onFocus={dobHint.dismiss}
               ariaInvalid={touched && !!dobError}
               ariaDescribedBy={touched && dobError ? "dob-error" : undefined}
               className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
             />
+            {dobHint.show && !dob && <FieldTapHint className="right-3 top-11" />}
             {touched && dobError && (
               <p id="dob-error" className="mt-1.5 text-xs text-amber-600">
                 {dobError}

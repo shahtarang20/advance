@@ -9,12 +9,15 @@ import { DateOfBirthInput } from "@/components/ui/DateOfBirthInput";
 import { useTranslation } from "@/lib/I18nContext";
 import { FeatureGate } from "@/components/FeatureGate";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 export default function BiorhythmPage() {
   const [dob, setDob] = useState("");
   const [touched, setTouched] = useState(false);
   const router = useRouter();
   const { t } = useTranslation();
+  const dobHint = useFieldHint("biorhythm-dob");
 
   const dobError = validateDob(dob);
   const canSubmit = !dobError;
@@ -42,7 +45,7 @@ export default function BiorhythmPage() {
         <div className="mx-auto max-w-xl">
           <GlassCard className="p-8">
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
-              <div>
+              <div className="relative">
                 <label htmlFor="dob" className="mb-1.5 block text-sm text-muted">
                   {t("biorhythm.tool.dob", { defaultValue: "Date of Birth" })}
                 </label>
@@ -50,10 +53,12 @@ export default function BiorhythmPage() {
                   id="dob"
                   value={dob}
                   onChange={setDob}
+                  onFocus={dobHint.dismiss}
                   ariaInvalid={touched && !!dobError}
                   ariaDescribedBy={touched && dobError ? "dob-error" : undefined}
                   className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-[var(--accent-solid)] focus:outline-none"
                 />
+                {dobHint.show && !dob && <FieldTapHint className="right-3 top-11" />}
                 {touched && dobError && (
                   <p id="dob-error" className="mt-1.5 text-xs text-amber-600">
                     {dobError}

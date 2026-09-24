@@ -7,11 +7,14 @@ import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/lib/I18nContext";
 import { FeatureGate } from "@/components/FeatureGate";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 export default function DreamsPage() {
   const [dream, setDream] = useState("");
   const router = useRouter();
   const { t } = useTranslation();
+  const dreamHint = useFieldHint("dreams-textarea");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +39,7 @@ export default function DreamsPage() {
         <div className="mx-auto max-w-2xl">
           <GlassCard className="p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
+              <div className="relative">
                 <label htmlFor="dream" className="mb-1.5 block text-sm text-muted">
                   {t("dreams.tool.label", { defaultValue: "Your Dream" })}
                 </label>
@@ -45,9 +48,11 @@ export default function DreamsPage() {
                   rows={6}
                   value={dream}
                   onChange={(e) => setDream(e.target.value)}
+                  onFocus={dreamHint.dismiss}
                   placeholder={t("dreams.tool.placeholder", { defaultValue: "I was flying over a vast ocean, but then..." })}
                   className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-[var(--accent-solid)] focus:outline-none resize-none"
                 />
+                {dreamHint.show && !dream && <FieldTapHint className="right-3 top-11" />}
               </div>
               <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={dream.trim().length < 5}>
                 {t("dreams.tool.reveal", { defaultValue: "Analyze My Dream" })}

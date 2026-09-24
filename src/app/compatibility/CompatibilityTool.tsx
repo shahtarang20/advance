@@ -12,6 +12,8 @@ import { useGamification } from "@/lib/gamification";
 import { useTranslation } from "@/lib/I18nContext";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { markLoveMatchSeen } from "@/lib/loveMatchHighlight";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 export function CompatibilityTool() {
   const [nameA, setNameA] = useState("");
@@ -23,6 +25,10 @@ export function CompatibilityTool() {
   const [samePerson, setSamePerson] = useState(false);
   const { recordAction } = useGamification();
   const { t } = useTranslation();
+  const nameAHint = useFieldHint("compat-nameA");
+  const dobAHint = useFieldHint("compat-dobA");
+  const nameBHint = useFieldHint("compat-nameB");
+  const dobBHint = useFieldHint("compat-dobB");
 
   useEffect(() => {
     markLoveMatchSeen();
@@ -56,48 +62,56 @@ export function CompatibilityTool() {
       <GlassCard className="p-8">
         <form onSubmit={handleSubmit} noValidate className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
+            <div className="relative">
               <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.your_name")}</label>
               <input
                 value={nameA}
                 onChange={(e) => setNameA(e.target.value)}
+                onFocus={nameAHint.dismiss}
                 placeholder={t("comp.tool.your_name_ph")}
                 aria-invalid={touched && !!nameAError}
                 className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
               />
+              {nameAHint.show && !nameA && <FieldTapHint className="right-3 top-11" />}
               {touched && nameAError && <p className="mt-1.5 text-xs text-amber-600">{nameAError}</p>}
             </div>
-            <div>
+            <div className="relative">
               <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.your_dob")}</label>
               <DateOfBirthInput
                 value={dobA}
                 onChange={setDobA}
+                onFocus={dobAHint.dismiss}
                 ariaInvalid={touched && !!dobAError}
                 className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
               />
+              {dobAHint.show && !dobA && <FieldTapHint className="right-3 top-11" />}
               {touched && dobAError && <p className="mt-1.5 text-xs text-amber-600">{dobAError}</p>}
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
+            <div className="relative">
               <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.their_name")}</label>
               <input
                 value={nameB}
                 onChange={(e) => setNameB(e.target.value)}
+                onFocus={nameBHint.dismiss}
                 placeholder={t("comp.tool.their_name_ph")}
                 aria-invalid={touched && !!nameBError}
                 className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] placeholder:text-muted-soft focus:border-purple-400 focus:outline-none"
               />
+              {nameBHint.show && !nameB && <FieldTapHint className="right-3 top-11" />}
               {touched && nameBError && <p className="mt-1.5 text-xs text-amber-600">{nameBError}</p>}
             </div>
-            <div>
+            <div className="relative">
               <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.their_dob")}</label>
               <DateOfBirthInput
                 value={dobB}
                 onChange={setDobB}
+                onFocus={dobBHint.dismiss}
                 ariaInvalid={touched && !!dobBError}
                 className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:border-purple-400 focus:outline-none"
               />
+              {dobBHint.show && !dobB && <FieldTapHint className="right-3 top-11" />}
               {touched && dobBError && <p className="mt-1.5 text-xs text-amber-600">{dobBError}</p>}
             </div>
           </div>

@@ -9,6 +9,8 @@ import { useTranslation } from "@/lib/I18nContext";
 import type { Hand } from "@/lib/palmistry";
 import { detectHandInImage, prepareImageForDetection, preloadHandDetector } from "@/lib/handDetector";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 const PHOTO_SESSION_KEY = "cosmic-palm-photo";
 
@@ -53,6 +55,7 @@ export function PalmistryTool() {
   const galleryInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { t } = useTranslation();
+  const photoHint = useFieldHint("palmistry-photo");
 
   // Start loading the hand-detection model as soon as this tool is visible, well before the
   // user has picked a photo — by the time they actually submit one, detection runs instantly
@@ -183,12 +186,16 @@ export function PalmistryTool() {
           </p>
           <button
             type="button"
-            onClick={() => (photoDataUrl || checkingPhoto ? undefined : galleryInputRef.current?.click())}
+            onClick={() => {
+              photoHint.dismiss();
+              if (!photoDataUrl && !checkingPhoto) galleryInputRef.current?.click();
+            }}
             disabled={checkingPhoto}
-            className={`flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed bg-[var(--surface)] transition hover:border-[var(--accent-solid)] ${
+            className={`relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed bg-[var(--surface)] transition hover:border-[var(--accent-solid)] ${
               photoError ? "border-rose-500" : "border-[var(--surface-border)]"
             }`}
           >
+            {photoHint.show && !photoDataUrl && !checkingPhoto && <FieldTapHint className="right-3 top-3" />}
             {checkingPhoto ? (
               <span className="px-6 text-center text-sm text-muted-soft">
                 {t("palmistry.tool.photo_checking", { defaultValue: "Checking your photo…" })}
