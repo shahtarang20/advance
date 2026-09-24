@@ -1730,5 +1730,11 @@
   "ios_guide.close": "Close",
   "ios_guide.back": "Back",
   "ios_guide.next": "Next",
-  "ios_guide.done": "Got it"
+  "ios_guide.done": "Got it",
+  "share.encourage_title": "Share Your Cosmic Path ✨",
+  "share.encourage_desc": "Connect with friends and share this prediction with the world.",
+  "share.install_title": "Want daily cosmic updates? 🌟",
+  "share.install_desc": "Install Cosmic Numbers free on your home screen to get exact horoscopes and numerology predictions delivered daily.",
+  "share.install_btn": "Install Free App Now",
+  "share.awesome": "Awesome!"
 }

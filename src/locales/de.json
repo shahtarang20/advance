@@ -1730,5 +1730,11 @@
   "ios_guide.close": "Schließen",
   "ios_guide.back": "Zurück",
   "ios_guide.next": "Weiter",
-  "ios_guide.done": "Verstanden"
+  "ios_guide.done": "Verstanden",
+  "share.encourage_title": "Teile deinen kosmischen Weg ✨",
+  "share.encourage_desc": "Verbinde dich mit Freunden und teile diese Vorhersage mit der Welt.",
+  "share.install_title": "Möchtest du tägliche kosmische Updates? 🌟",
+  "share.install_desc": "Installiere Cosmic Numbers kostenlos auf deinem Startbildschirm, um genaue Horoskope und Numerologie-Vorhersagen täglich zu erhalten.",
+  "share.install_btn": "Jetzt kostenlose App installieren",
+  "share.awesome": "Wunderbar!"
 }

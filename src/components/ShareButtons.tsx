@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGamification } from "@/lib/gamification";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/lib/I18nContext";
+import confetti from "canvas-confetti";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 interface ShareButtonsProps {
   /** Full absolute shareable page URL (e.g. /result/numerology?name=...) */
@@ -19,6 +21,70 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
   const { t } = useTranslation();
   const [downloading, setDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState<string | null>(null);
+  const [isInstalled, setIsInstalled] = useState(true);
+  const [showAwesome, setShowAwesome] = useState(false);
+  const [shouldProminentlyShow, setShouldProminentlyShow] = useState(false);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.5 });
+
+  useEffect(() => {
+    // Check if the app is currently running in standalone (installed) mode
+    if (typeof window !== "undefined") {
+      const iosStandalone = (window.navigator as any).standalone;
+      const isStandalone = window.matchMedia("(display-mode: standalone)").matches || iosStandalone === true;
+      setIsInstalled(isStandalone);
+
+      // Check 7-day interval logic for showing animations
+      const lastShown = window.localStorage.getItem("cosmic-last-share-anim");
+      const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+      
+      if (!lastShown || Date.now() - parseInt(lastShown, 10) > SEVEN_DAYS) {
+        setShouldProminentlyShow(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isInView && shouldProminentlyShow) {
+      setShowAwesome(true);
+      // Hide the floating text after 2 seconds
+      const textTimer = setTimeout(() => setShowAwesome(false), 2000);
+
+      // Elegant, professional confetti burst when the user finishes reading their prediction
+      const duration = 2000;
+      const end = Date.now() + duration;
+
+      const frame = () => {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.8 },
+          colors: ['#a855f7', '#3b82f6', '#ec4899']
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.8 },
+          colors: ['#a855f7', '#3b82f6', '#ec4899']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+      frame();
+
+      // Record that we showed the intense animations so we wait another 7 days
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("cosmic-last-share-anim", Date.now().toString());
+      }
+
+      return () => clearTimeout(textTimer);
+    }
+  }, [isInView, shouldProminentlyShow]);
 
   const handleWhatsApp = () => {
     recordAction("share_click");
@@ -54,32 +120,116 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
     }
   };
 
+  const handleInstallClick = () => {
+    // Check if the global deferred prompt from InstallAppBanner is available
+    if (typeof window !== "undefined" && (window as any).__deferredInstallPrompt) {
+      (window as any).__deferredInstallPrompt.prompt();
+    } else {
+      // Fallback for iOS Safari which doesn't support the native prompt API
+      alert(t("pwa.install.ios_hint", { defaultValue: "Tap the Share button at the bottom of your browser, then select 'Add to Home Screen' to install." }));
+    }
+  };
+
   return (
-    <div>
-      <div className="flex flex-wrap gap-3">
-        <Button variant="whatsapp" onClick={handleWhatsApp}>
-          {t("share.whatsapp")}
-        </Button>
-        <Button variant="facebook" onClick={handleFacebook}>
-          {t("share.facebook", { defaultValue: "Facebook" })}
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={handleDownload}
-          disabled={downloading}
-          className="disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {downloading ? (
-            <span className="flex items-center gap-2">
-              <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-              {t("share.generating")}
-            </span>
-          ) : (
-            t("share.download")
-          )}
-        </Button>
+    <div className="relative">
+      <AnimatePresence>
+        {showAwesome && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.5 }}
+            animate={{ opacity: 1, y: -50, scale: 1.2 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 drop-shadow-md z-50 whitespace-nowrap"
+          >
+            {t("share.awesome", { defaultValue: "Awesome! ✨" })}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div 
+        ref={containerRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="mt-8 rounded-3xl border border-[var(--surface-border)] bg-gradient-to-br from-purple-500/5 to-transparent p-6 shadow-sm"
+      >
+        <div className="mb-4 text-center">
+          <h3 className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
+            {t("share.encourage_title", { defaultValue: "Share Your Cosmic Path ✨" })}
+          </h3>
+        <p className="text-sm text-muted">
+          {t("share.encourage_desc", { defaultValue: "Connect with friends and share this prediction with the world." })}
+        </p>
       </div>
-      {downloadError && <p className="mt-2 text-xs text-amber-600">{downloadError}</p>}
+
+      <div className="flex flex-wrap justify-center gap-3">
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button variant="whatsapp" onClick={handleWhatsApp} className="shadow-md">
+            {t("share.whatsapp")}
+          </Button>
+        </motion.div>
+
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button variant="facebook" onClick={handleFacebook} className="shadow-md">
+            {t("share.facebook", { defaultValue: "Facebook" })}
+          </Button>
+        </motion.div>
+
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            variant="secondary"
+            onClick={handleDownload}
+            disabled={downloading}
+            className="disabled:cursor-not-allowed disabled:opacity-60 shadow-md relative overflow-hidden"
+          >
+            {downloading ? (
+              <span className="flex items-center gap-2">
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                {t("share.generating")}
+              </span>
+            ) : (
+              t("share.download")
+            )}
+          </Button>
+        </motion.div>
+      </div>
+      
+      {downloadError && (
+        <motion.p 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          className="mt-3 text-center text-xs text-amber-600"
+        >
+          {downloadError}
+        </motion.p>
+      )}
+
+      {/* Strongly Encourage App Installation */}
+      {!isInstalled && shouldProminentlyShow && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="mt-6 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 p-5 border border-purple-500/20 text-center"
+        >
+          <div className="text-3xl mb-2 animate-pulse">📲</div>
+          <h4 className="font-semibold text-[var(--foreground)] mb-1">
+            {t("share.install_title", { defaultValue: "Want daily cosmic updates? 🌟" })}
+          </h4>
+          <p className="text-sm text-muted mb-4">
+            {t("share.install_desc", { defaultValue: "Install Cosmic Numbers free on your home screen to get exact horoscopes and numerology predictions delivered daily." })}
+          </p>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <Button 
+              onClick={handleInstallClick} 
+              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium tracking-wide shadow-lg hover:shadow-xl transition-all border-none"
+            >
+              {t("share.install_btn", { defaultValue: "Install Free App Now" })}
+            </Button>
+          </motion.div>
+        </motion.div>
+      )}
+    </motion.div>
     </div>
   );
 }

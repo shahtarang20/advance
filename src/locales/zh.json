@@ -1730,5 +1730,11 @@
   "ios_guide.close": "关闭",
   "ios_guide.back": "返回",
   "ios_guide.next": "下一步",
-  "ios_guide.done": "知道了"
+  "ios_guide.done": "知道了",
+  "share.encourage_title": "分享你的宇宙之路 ✨",
+  "share.encourage_desc": "与朋友联系并与世界分享这个预测。",
+  "share.install_title": "想要每日的宇宙更新吗？🌟",
+  "share.install_desc": "在主屏幕上免费安装Cosmic Numbers，即可每天收到准确的星座和命理预测。",
+  "share.install_btn": "立即安装免费应用",
+  "share.awesome": "太棒了！"
 }
