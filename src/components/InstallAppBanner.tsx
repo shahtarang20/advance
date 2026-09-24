@@ -25,6 +25,17 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+// A tiny inline script in layout.tsx's <head> captures `beforeinstallprompt` the instant the
+// page can run any JS at all — before React has even loaded, let alone hydrated — and stashes it
+// here. Without that, a listener added inside this component's own effect can miss the event
+// entirely if the browser fires it earlier than React finishes mounting, which otherwise leaves
+// every visitor stuck on the generic fallback even when a real one-tap install was available.
+declare global {
+  interface Window {
+    __deferredInstallPrompt?: BeforeInstallPromptEvent | null;
+  }
+}
+
 function isStandaloneDisplay(): boolean {
   if (typeof window === "undefined") return false;
   // iOS Safari doesn't support the `display-mode` media query the same way; it exposes
@@ -95,11 +106,24 @@ export function InstallAppBanner() {
       return () => window.removeEventListener("appinstalled", onAppInstalled);
     }
 
+    // Covers the event having already fired before this effect even ran (the common case in
+    // production — see the module comment above on `window.__deferredInstallPrompt`).
+    if (window.__deferredInstallPrompt) {
+      setDeferredPrompt(window.__deferredInstallPrompt);
+    }
+
+    // Covers the event arriving later, after this component has already mounted — either path
+    // (the early <head> script's relay event, or the browser firing it late enough that this
+    // listener catches it directly) lands here.
     const onBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
+    const onEarlyPromptReady = () => {
+      if (window.__deferredInstallPrompt) setDeferredPrompt(window.__deferredInstallPrompt);
+    };
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+    window.addEventListener("cosmic:install-prompt-ready", onEarlyPromptReady);
 
     const graceTimer = setTimeout(() => {
       // Re-read via a functional update rather than closing over `deferredPrompt` directly —
@@ -114,6 +138,7 @@ export function InstallAppBanner() {
     return () => {
       window.removeEventListener("appinstalled", onAppInstalled);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("cosmic:install-prompt-ready", onEarlyPromptReady);
       clearTimeout(graceTimer);
     };
   }, []);
@@ -127,6 +152,7 @@ export function InstallAppBanner() {
     // and it'll show again next visit, same as the ✕ button.
     await deferredPrompt.userChoice.catch(() => undefined);
     setDeferredPrompt(null);
+    window.__deferredInstallPrompt = null;
     setClosedThisView(true);
   };
 

@@ -103,6 +103,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             `,
           }}
         />
+        {/* Chrome can fire 'beforeinstallprompt' the instant this page starts parsing — well
+            before React finishes loading, hydrating, and InstallAppBanner's own effect gets a
+            chance to attach its listener. A listener added that late can miss the event
+            entirely, which then leaves every visitor stuck with the generic "here's how to
+            install manually" fallback even on a browser that was actually ready to show a real,
+            one-tap install button. Capturing it here, as early as the page can possibly run any
+            JS at all, and stashing it on `window` means InstallAppBanner can pick it up whenever
+            it mounts, no matter how early the browser decided to fire it. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.__deferredInstallPrompt = null;
+              window.addEventListener('beforeinstallprompt', function (e) {
+                e.preventDefault();
+                window.__deferredInstallPrompt = e;
+                window.dispatchEvent(new Event('cosmic:install-prompt-ready'));
+              });
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <Providers>
