@@ -1720,5 +1720,6 @@
   "share_prompt.instagram": "Share on Instagram",
   "share_prompt.copied": "Link Copied!",
   "footer.share_app": "Share App",
-  "footer.link_copied": "Link copied — paste it into your Instagram Story or Bio!"
+  "footer.link_copied": "Link copied — paste it into your Instagram Story or Bio!",
+  "pwa.install.generic_hint": "Tap your browser's menu (⋮ or the icon in the address bar) and choose \"Install app\" or \"Add to Home Screen\"."
 }

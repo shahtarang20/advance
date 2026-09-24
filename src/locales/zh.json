@@ -1720,5 +1720,6 @@
   "share_prompt.instagram": "分享到 Instagram",
   "share_prompt.copied": "链接已复制！",
   "footer.share_app": "分享应用",
-  "footer.link_copied": "链接已复制——粘贴到你的 Instagram 故事或简介中吧！"
+  "footer.link_copied": "链接已复制——粘贴到你的 Instagram 故事或简介中吧！",
+  "pwa.install.generic_hint": "点击浏览器菜单（⋮ 或地址栏中的图标），然后选择“安装应用”或“添加到主屏幕”。"
 }

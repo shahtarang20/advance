@@ -1720,5 +1720,6 @@
   "share_prompt.instagram": "Auf Instagram teilen",
   "share_prompt.copied": "Link kopiert!",
   "footer.share_app": "App teilen",
-  "footer.link_copied": "Link kopiert — füge ihn in deine Instagram-Story oder Bio ein!"
+  "footer.link_copied": "Link kopiert — füge ihn in deine Instagram-Story oder Bio ein!",
+  "pwa.install.generic_hint": "Tippe auf das Menü deines Browsers (⋮ oder das Symbol in der Adressleiste) und wähle \"App installieren\" oder \"Zum Startbildschirm hinzufügen\"."
 }

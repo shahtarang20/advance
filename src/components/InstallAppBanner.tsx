@@ -47,10 +47,20 @@ function isIOSSafari(): boolean {
  * native install prompt directly (via the captured `beforeinstallprompt` event) — iOS Safari
  * doesn't expose that event at all (Apple only allows install through the manual Share →
  * "Add to Home Screen" flow), so it gets a short instruction instead of a non-functional button. */
+// How long to wait for the browser's own `beforeinstallprompt` signal before giving up on it and
+// falling back to generic manual instructions instead. Chrome only fires that event once its own
+// engagement heuristics are satisfied (a handful of prior visits, time spent, no recent dismissal
+// within its multi-week cooldown) — none of which any website's code can force or query. Without
+// this fallback, a real visitor who hasn't yet met Chrome's bar (or whose browser is in that
+// cooldown) sees nothing at all, which is indistinguishable from the banner being broken even
+// though the underlying manifest/installability is completely valid.
+const NATIVE_PROMPT_GRACE_MS = 4000;
+
 export function InstallAppBanner() {
   const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showIOSHint, setShowIOSHint] = useState(false);
+  const [showGenericHint, setShowGenericHint] = useState(false);
   // Only hides the banner for this page view (closing with ✕) — never persisted, so it shows
   // again on the next visit/navigation. Real "stop showing forever" is `installed` below.
   const [closedThisView, setClosedThisView] = useState(false);
@@ -90,9 +100,21 @@ export function InstallAppBanner() {
       setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+
+    const graceTimer = setTimeout(() => {
+      // Re-read via a functional update rather than closing over `deferredPrompt` directly —
+      // this timer is set up once on mount, so its closure would otherwise always see the
+      // initial `null` regardless of what actually happened in between.
+      setDeferredPrompt((current) => {
+        if (!current) setShowGenericHint(true);
+        return current;
+      });
+    }, NATIVE_PROMPT_GRACE_MS);
+
     return () => {
       window.removeEventListener("appinstalled", onAppInstalled);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      clearTimeout(graceTimer);
     };
   }, []);
 
@@ -110,7 +132,7 @@ export function InstallAppBanner() {
 
   const dismiss = () => setClosedThisView(true);
 
-  const visible = !installed && !closedThisView && (!!deferredPrompt || showIOSHint);
+  const visible = !installed && !closedThisView && (!!deferredPrompt || showIOSHint || showGenericHint);
 
   return (
     <AnimatePresence>
@@ -138,11 +160,15 @@ export function InstallAppBanner() {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold">{t("pwa.install.title", { defaultValue: "Install Cosmic Numbers" })}</p>
               <p className="mt-0.5 text-xs text-muted">
-                {showIOSHint
-                  ? t("pwa.install.ios_hint", {
-                      defaultValue: 'Tap the Share button, then "Add to Home Screen".',
-                    })
-                  : t("pwa.install.desc", { defaultValue: "Add it to your home screen for the full app experience." })}
+                {deferredPrompt
+                  ? t("pwa.install.desc", { defaultValue: "Add it to your home screen for the full app experience." })
+                  : showIOSHint
+                    ? t("pwa.install.ios_hint", {
+                        defaultValue: 'Tap the Share button, then "Add to Home Screen".',
+                      })
+                    : t("pwa.install.generic_hint", {
+                        defaultValue: 'Tap your browser\'s menu (⋮ or the icon in the address bar) and choose "Install app" or "Add to Home Screen".',
+                      })}
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
