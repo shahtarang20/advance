@@ -123,16 +123,17 @@ export function OnboardingTour() {
     setActive(false);
   };
 
-  // Start the tour once, after the page has had a moment to render the nav bar.
+  // We mark the initial onboarding as seen silently so that the user is not interrupted
+  // on their very first visit. This allows other components (like NavBar hand gestures
+  // and PageFeatureHints) to proceed immediately.
   useEffect(() => {
-    if (hasSeenOnboarding()) return;
-    const timer = setTimeout(() => setActive(true), 600);
-    return () => clearTimeout(timer);
+    if (!hasSeenOnboarding()) {
+      markOnboardingSeen();
+    }
   }, []);
 
-  // Run the tour again — once — the very first time a returning user actively switches
-  // languages. They may have originally gone through it in a language they don't read well, so
-  // this gives them one more guided pass in the language they actually picked.
+  // Run the tour — once — the very first time a user actively switches languages.
+  // This gives them a guided pass of the features in the language they actually picked.
   useEffect(() => {
     const onLanguageChanged = () => {
       // Allow it to run once on language change, regardless of whether they saw the initial one.

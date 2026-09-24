@@ -90,7 +90,7 @@ export function NavBar() {
 
     let interval: ReturnType<typeof setInterval> | undefined;
     const attempt = () => {
-      if (!hasSeenOnboarding()) return false;
+      // We no longer wait for the big onboarding tour, we just show the hand gesture immediately.
       if (!languageSeen) setLanguageHighlight(true);
       else if (!hamburgerSeen) setHamburgerHighlight(true);
       return true;
