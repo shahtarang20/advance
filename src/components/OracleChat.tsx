@@ -1,165 +1,234 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/lib/I18nContext";
-import { GlassCard } from "@/components/ui/GlassCard";
 
-interface Message {
+type Message = {
   id: string;
-  sender: "oracle" | "user";
+  sender: "user" | "oracle";
   text: string;
-  isTyping?: boolean;
-}
+};
 
-export function OracleChat() {
+export const OracleChat = () => {
   const { t } = useTranslation();
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       sender: "oracle",
-      text: t("oracle.chat.welcome", { defaultValue: "Welcome, seeker. I am the Mystic Oracle. The universe has guided you here. What guidance do you seek today?" }),
+      text: "welcome_key",
     },
   ]);
 
   const [isOracleTyping, setIsOracleTyping] = useState(false);
   const [hasAsked, setHasAsked] = useState(false);
+  const [activeQuestionIds, setActiveQuestionIds] = useState<number[]>([]);
+
+  const shuffleQuestions = () => {
+    const newIds: number[] = [];
+    while (newIds.length < 3) {
+      const randomId = Math.floor(Math.random() * 100) + 1;
+      if (!newIds.includes(randomId)) {
+        newIds.push(randomId);
+      }
+    }
+    setActiveQuestionIds(newIds);
+  };
+
+  useEffect(() => {
+    shuffleQuestions();
+  }, []);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOracleTyping]);
 
-  const questions = [
-    { id: "love", text: t("oracle.q.love", { defaultValue: "What do the stars say about my love life?" }) },
-    { id: "career", text: t("oracle.q.career", { defaultValue: "Am I on the right career path?" }) },
-    { id: "spiritual", text: t("oracle.q.spiritual", { defaultValue: "What is my spiritual lesson today?" }) },
-    { id: "daily", text: t("oracle.q.daily", { defaultValue: "Give me a general reading for today." }) },
-  ];
-
-  const handleAsk = (qId: string, qText: string) => {
+  const handleAsk = (qId: number | string, qText: string) => {
     if (isOracleTyping || hasAsked) return;
     setHasAsked(true);
 
-    // Add User message
     const userMsg: Message = { id: Date.now().toString(), sender: "user", text: qText };
     setMessages((prev) => [...prev, userMsg]);
     setIsOracleTyping(true);
 
-    // Simulate thinking delay
+    let answerKey = "";
+
+    if (qId === "marriage") {
+      const profile = typeof window !== "undefined" ? window.localStorage.getItem("cosmic-birth-profile") : null;
+      let age: number | null = null;
+      if (profile) {
+        try {
+          const parsed = JSON.parse(profile);
+          if (parsed.dob) {
+            const dobDate = new Date(parsed.dob);
+            if (!isNaN(dobDate.getTime())) {
+              const today = new Date();
+              age = today.getFullYear() - dobDate.getFullYear();
+              const m = today.getMonth() - dobDate.getMonth();
+              if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+                age--;
+              }
+            }
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+      
+      if (age !== null && age < 30) {
+        answerKey = "marriage_under30";
+      } else if (age !== null && age >= 30) {
+        answerKey = "marriage_over30";
+      } else {
+        answerKey = "marriage_unknown";
+      }
+    } else {
+      const randomAnswerIndex = Math.floor(Math.random() * 10) + 1;
+      answerKey = `${qId}_${randomAnswerIndex}`;
+    }
+
     setTimeout(() => {
       setIsOracleTyping(false);
-      
-      // Select the correct response based on the category
-      const responseText = t(`oracle.a.${qId}`, { 
-        defaultValue: "The stars align in mysterious ways. Trust your intuition, for it is your greatest compass in the days ahead. The universe is protecting you." 
-      });
-
       setMessages((prev) => [
         ...prev,
-        { id: (Date.now() + 1).toString(), sender: "oracle", text: responseText },
+        { id: (Date.now() + 1).toString(), sender: "oracle", text: answerKey },
       ]);
-      
-      // Reset after a delay so they can ask another question
-      setTimeout(() => setHasAsked(false), 2000);
+      setTimeout(() => {
+        setHasAsked(false);
+        shuffleQuestions();
+      }, 2000);
     }, 2500);
   };
 
+  const renderMessageText = (msg: Message) => {
+    if (msg.sender === "user") return msg.text;
+    
+    if (msg.text === "welcome_key") {
+      return t("oracle.chat.welcome", { defaultValue: "Welcome, seeker. I am the Mystic Oracle. The universe has guided you here. What guidance do you seek today?" });
+    }
+    if (msg.text === "marriage_under30") {
+      return t("oracle.a.marriage_under30", { defaultValue: "The stars see a beautiful union in your future. Focus on your own growth and follow your passion, and your soulmate will appear when the cosmic timing is absolutely perfect." });
+    }
+    if (msg.text === "marriage_over30") {
+      return t("oracle.a.marriage_over30", { defaultValue: "The universe blesses your journey of love. Keep nurturing your partnership with patience and understanding, and your bond will grow stronger and more joyful every single day. Wishing you a happy married life!" });
+    }
+    if (msg.text === "marriage_unknown") {
+      return t("oracle.a.marriage_unknown", { defaultValue: "Love is a deep cosmic journey. Whether you are seeking a partner to share your life with, or nurturing an existing bond, the stars ask you to keep your heart open to joy and trust the process." });
+    }
+
+    return t(`oracle.a.${msg.text}`, { 
+      defaultValue: "The stars align in mysterious ways. Trust your intuition, for it is your greatest compass." 
+    });
+  };
+
   return (
-    <div className="mx-auto max-w-2xl h-[600px] flex flex-col relative rounded-3xl overflow-hidden border border-[var(--surface-border)] shadow-2xl bg-[#0B0A10]">
-      {/* Background magical elements */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-600 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600 rounded-full blur-[100px]" />
-      </div>
-
-      {/* Header */}
-      <div className="relative z-10 px-6 py-4 border-b border-white/5 bg-white/5 backdrop-blur-md flex items-center gap-4">
-        <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.5)]">
-          <span className="text-xl">🔮</span>
-          <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#0B0A10] bg-green-500"></div>
+    <div className="mx-auto max-w-2xl w-full">
+      <div className="bg-[var(--surface)] border border-[var(--surface-border)] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+        
+        {/* Header - Fixed layout, no weird flexbox tricks */}
+        <div className="bg-[var(--surface-strong)] px-6 py-5 border-b border-[var(--surface-border)] flex items-center gap-4 shrink-0">
+          <div className="h-12 w-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg relative shrink-0">
+            <span className="text-xl">🔮</span>
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-[#0B0614] rounded-full"></span>
+          </div>
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-[var(--foreground)] m-0 leading-tight">
+              {t("oracle.page.title", { defaultValue: "Mystic Oracle" })}
+            </h2>
+            <p className="text-xs text-purple-600 dark:text-purple-400 font-medium m-0 mt-0.5">Online • Reading the Stars</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-bold text-white tracking-wide">Mystic Oracle</h2>
-          <p className="text-xs text-purple-300">Online • Reading the Stars</p>
-        </div>
-      </div>
 
-      {/* Chat Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6 relative z-10 custom-scrollbar">
-        <AnimatePresence initial={false}>
-          {messages.map((m) => (
-            <motion.div
-              key={m.id}
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              className={`flex w-full ${m.sender === "user" ? "justify-end" : "justify-start"}`}
-            >
-              <div
-                className={`max-w-[80%] rounded-2xl px-5 py-3.5 text-[15px] leading-relaxed shadow-lg ${
-                  m.sender === "user"
-                    ? "bg-gradient-to-br from-indigo-600 to-purple-700 text-white rounded-br-sm"
-                    : "bg-white/10 text-gray-100 backdrop-blur-md border border-white/10 rounded-bl-sm"
-                }`}
+        {/* Chat Area - Scrollable */}
+        <div ref={scrollContainerRef} className="h-[400px] overflow-y-auto p-6 space-y-6 relative custom-scrollbar bg-gradient-to-b from-transparent to-[var(--surface-strong)]/30">
+          <AnimatePresence initial={false}>
+            {messages.map((m) => (
+              <motion.div
+                key={m.id}
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                className={`flex w-full ${m.sender === "user" ? "justify-end" : "justify-start"}`}
               >
-                {m.text}
-              </div>
-            </motion.div>
-          ))}
-          
-          {isOracleTyping && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="flex w-full justify-start"
-            >
-              <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-sm bg-white/10 px-5 py-4 backdrop-blur-md border border-white/10">
-                <motion.div
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
-                  className="h-2 w-2 rounded-full bg-purple-400"
-                />
-                <motion.div
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-                  className="h-2 w-2 rounded-full bg-purple-400"
-                />
-                <motion.div
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-                  className="h-2 w-2 rounded-full bg-purple-400"
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Input Area (Predefined Pills) */}
-      <div className="relative z-10 p-4 bg-white/5 border-t border-white/5 backdrop-blur-md">
-        <p className="text-xs text-purple-300/70 mb-3 text-center uppercase tracking-widest font-semibold">
-          {t("oracle.chat.select_question", { defaultValue: "Select a cosmic question" })}
-        </p>
-        <div className="flex flex-wrap justify-center gap-2">
-          {questions.map((q) => (
-            <button
-              key={q.id}
-              onClick={() => handleAsk(q.id, q.text)}
-              disabled={isOracleTyping || hasAsked}
-              className="px-4 py-2 text-sm text-purple-100 bg-white/5 border border-purple-500/30 rounded-full hover:bg-purple-500/20 active:scale-95 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {q.text}
-            </button>
-          ))}
+                <div
+                  className={`max-w-[85%] rounded-2xl px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
+                    m.sender === "user"
+                      ? "bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-br-sm"
+                      : "bg-[var(--surface-strong)] border border-[var(--surface-border)] text-[var(--foreground)] rounded-bl-sm"
+                  }`}
+                >
+                  {renderMessageText(m)}
+                </div>
+              </motion.div>
+            ))}
+            
+            {isOracleTyping && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="flex w-full justify-start"
+              >
+                <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-sm bg-[var(--surface-strong)] border border-[var(--surface-border)] px-5 py-4">
+                  <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} className="h-2 w-2 rounded-full bg-purple-500" />
+                  <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} className="h-2 w-2 rounded-full bg-purple-500" />
+                  <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} className="h-2 w-2 rounded-full bg-purple-500" />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
+
+        {/* Footer Area - Auto height based on buttons */}
+        <div className="p-6 bg-[var(--surface-strong)] border-t border-[var(--surface-border)] shrink-0">
+          <div className="flex items-center justify-between mb-4 px-2">
+            <p className="text-xs text-purple-600 dark:text-purple-400 uppercase tracking-widest font-bold m-0">
+              {t("oracle.chat.select_question", { defaultValue: "Select a cosmic question" })}
+            </p>
+            <button 
+              onClick={shuffleQuestions} 
+              disabled={isOracleTyping || hasAsked}
+              className="text-2xl hover:rotate-180 transition-transform duration-500 disabled:opacity-50 flex items-center justify-center cursor-pointer active:scale-90"
+              title="Shuffle Questions"
+            >
+              🎲
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => handleAsk("marriage", t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" }))}
+              disabled={isOracleTyping || hasAsked}
+              className="px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 border border-transparent rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
+            >
+              ❤️ {t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" })}
+            </button>
+            {activeQuestionIds.map((qId) => {
+              const qText = t(`oracle.q.${qId}`, { defaultValue: `Mystic Question ${qId}?` });
+              return (
+                <button
+                  key={qId}
+                  onClick={() => handleAsk(qId, qText)}
+                  disabled={isOracleTyping || hasAsked}
+                  className="px-4 py-2.5 text-sm font-medium text-[var(--foreground)] bg-[var(--surface)] border border-[var(--surface-border)] rounded-xl shadow-sm hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
+                >
+                  {qText}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
     </div>
   );
-}
+};
