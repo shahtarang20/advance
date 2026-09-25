@@ -17,6 +17,13 @@ export function PrivacyGuardProvider({ children }: { children: React.ReactNode }
 
   const wrapAction = useCallback(<T extends unknown[]>(callback: (...args: T) => void) => {
     return (...args: T) => {
+      // Prevent default immediately if the first argument is an event,
+      // so forms don't natively submit and refresh the page while the modal is open.
+      const firstArg = args[0] as any;
+      if (firstArg && typeof firstArg.preventDefault === "function") {
+        firstArg.preventDefault();
+      }
+
       if (typeof window === "undefined") {
         callback(...args);
         return;
