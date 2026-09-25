@@ -55,7 +55,6 @@ export function DailyAffirmation() {
             shareUrl={shareUrl} 
             ogQuery={ogQuery} 
             caption={t("affirmation.share_caption", { text: translatedText, defaultValue: `My cosmic affirmation for today: "${translatedText}" ✨ Find yours on Cosmic Numbers:` })}
-            customCTALabel={t("affirmation.share_btn", { defaultValue: "Share to Story" })}
           />
         </div>
       </div>
