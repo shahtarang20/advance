@@ -3,6 +3,8 @@
 import { ReactNode, useId, useState } from "react";
 import { motion } from "framer-motion";
 
+import { playMagicalChime } from "@/lib/audio";
+
 const FLOAT_ANIMATION = {
   y: [0, -6, 0],
 };
@@ -40,6 +42,7 @@ export function FlipCard({
     <motion.button
       type="button"
       onClick={() => {
+        if (!flipped) playMagicalChime();
         setIsAnimating(true);
         const newFlipped = !flipped;
         setFlipped(newFlipped);

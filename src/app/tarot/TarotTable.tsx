@@ -37,23 +37,23 @@ export function TarotTable() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl w-full">
         <Button data-tour="page-cta" onClick={() => drawCards("daily")} className="h-20 text-lg flex flex-col items-center justify-center">
           <span>{t("tarot.btn.daily", { defaultValue: "Daily Draw" })}</span>
-          <span className="text-xs opacity-70 mt-1 font-normal">(1 Card)</span>
+          <span className="text-xs opacity-70 mt-1 font-normal">{t("tarot.btn.1_card", { defaultValue: "(1 Card)" })}</span>
         </Button>
         <Button onClick={() => drawCards("past_present_future")} className="h-20 text-lg bg-indigo-600 hover:bg-indigo-700 flex flex-col items-center justify-center">
           <span>{t("tarot.btn.three_card", { defaultValue: "Past, Present, Future" })}</span>
-          <span className="text-xs opacity-70 mt-1 font-normal">(3 Cards)</span>
+          <span className="text-xs opacity-70 mt-1 font-normal">{t("tarot.btn.3_cards", { defaultValue: "(3 Cards)" })}</span>
         </Button>
         <Button onClick={() => drawCards("love")} className="h-20 text-lg bg-rose-600 hover:bg-rose-700 flex flex-col items-center justify-center">
-          <span>Love & Relationships</span>
-          <span className="text-xs opacity-70 mt-1 font-normal">(5 Cards)</span>
+          <span>{t("tarot.btn.love", { defaultValue: "Love & Relationships" })}</span>
+          <span className="text-xs opacity-70 mt-1 font-normal">{t("tarot.btn.5_cards", { defaultValue: "(5 Cards)" })}</span>
         </Button>
         <Button onClick={() => drawCards("career")} className="h-20 text-lg bg-emerald-600 hover:bg-emerald-700 flex flex-col items-center justify-center">
-          <span>Career Path</span>
-          <span className="text-xs opacity-70 mt-1 font-normal">(5 Cards)</span>
+          <span>{t("tarot.btn.career", { defaultValue: "Career Path" })}</span>
+          <span className="text-xs opacity-70 mt-1 font-normal">{t("tarot.btn.5_cards", { defaultValue: "(5 Cards)" })}</span>
         </Button>
         <Button onClick={() => drawCards("celtic_cross")} className="h-20 text-lg bg-purple-600 hover:bg-purple-700 flex flex-col items-center justify-center sm:col-span-2 lg:col-span-1">
-          <span>Celtic Cross</span>
-          <span className="text-xs opacity-70 mt-1 font-normal">(10 Cards)</span>
+          <span>{t("tarot.btn.celtic_cross", { defaultValue: "Celtic Cross" })}</span>
+          <span className="text-xs opacity-70 mt-1 font-normal">{t("tarot.btn.10_cards", { defaultValue: "(10 Cards)" })}</span>
         </Button>
       </div>
       

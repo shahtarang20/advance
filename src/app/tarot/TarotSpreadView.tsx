@@ -29,20 +29,17 @@ export function TarotSpreadView({
       if (index === 2) return t("tarot.label.future", { defaultValue: "Future" });
     }
     if (spreadType === "love") {
-      const labels = ["You", "Them", "The Dynamic", "Challenge", "Future"];
-      return labels[index] || "";
+      return t(`tarot.spread.love.lbl.${index}`, { defaultValue: ["You", "Them", "The Dynamic", "Challenge", "Future"][index] });
     }
     if (spreadType === "career") {
-      const labels = ["Current Path", "Strengths", "Obstacles", "Opportunity", "Outcome"];
-      return labels[index] || "";
+      return t(`tarot.spread.career.lbl.${index}`, { defaultValue: ["Current Path", "Strengths", "Obstacles", "Opportunity", "Outcome"][index] });
     }
     if (spreadType === "celtic_cross") {
-      const labels = [
+      return t(`tarot.spread.celtic.lbl.${index}`, { defaultValue: [
         "The Present", "The Challenge", "The Past", "The Future",
         "Conscious", "Subconscious", "Your Influence", "External Influence",
         "Hopes/Fears", "The Outcome"
-      ];
-      return labels[index] || "";
+      ][index] });
     }
     return "";
   };
@@ -55,15 +52,13 @@ export function TarotSpreadView({
       if (index === 2) return t("tarot.sub.future", { defaultValue: "Where this path is taking you" });
     }
     if (spreadType === "love") {
-      const subs = ["Your current state", "Their current state", "The energy between you", "What must be overcome", "Where this is heading"];
-      return subs[index] || "";
+      return t(`tarot.spread.love.sub.${index}`, { defaultValue: ["Your current state", "Their current state", "The energy between you", "What must be overcome", "Where this is heading"][index] });
     }
     if (spreadType === "career") {
-      const subs = ["Where you stand", "What you do best", "What holds you back", "Hidden chances", "Where this leads"];
-      return subs[index] || "";
+      return t(`tarot.spread.career.sub.${index}`, { defaultValue: ["Where you stand", "What you do best", "What holds you back", "Hidden chances", "Where this leads"][index] });
     }
     if (spreadType === "celtic_cross") {
-      return `Position ${index + 1}`;
+      return t("tarot.spread.celtic.sub", { pos: index + 1, defaultValue: `Position ${index + 1}` });
     }
     return "";
   };
