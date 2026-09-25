@@ -1828,5 +1828,17 @@
   "horoscope.tool.choose_manual": "手动选择您的星座",
   "privacy.modal.title": "100% 隐私",
   "privacy.modal.desc": "我们绝不会保存您的个人数据。一切都只保留在您的设备上。",
-  "privacy.modal.btn": "继续查看预测"
+  "privacy.modal.btn": "继续查看预测",
+  "oracle.page.title": "神秘神谕 (Mystic Oracle)",
+  "oracle.page.desc": "与神秘神谕交谈，获取日常指导和内心深处问题的答案。",
+  "oracle.chat.welcome": "欢迎你，探索者。我是神秘神谕。宇宙指引你来到这里。今天你需要什么指导？",
+  "oracle.chat.select_question": "选择一个宇宙问题",
+  "oracle.q.love": "星星对我的爱情生活说了什么？",
+  "oracle.q.career": "我的职业道路走对了吗？",
+  "oracle.q.spiritual": "我今天的精神功课是什么？",
+  "oracle.q.daily": "请给我今天的一般指导。",
+  "oracle.a.love": "星星表明很快会有一次深刻的情感联系。敞开心扉，放下过去，相信宇宙的安排。",
+  "oracle.a.career": "你目前的道路可能会带来一些挑战，但它们让你变得更强大。耐心点，很快一个绝佳的机会就会敲门。",
+  "oracle.a.spiritual": "今天的功课是‘接受’。顺其自然，放下那些你无法控制的事情。宇宙会为那些保持内心平静的人让路。",
+  "oracle.a.daily": "今天的能量非常积极。相信你的直觉，它是你今天最准确的指南针。宇宙在保护你。"
 }

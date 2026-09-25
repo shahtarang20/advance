@@ -1828,5 +1828,17 @@
   "horoscope.tool.choose_manual": "Choose your Rasi (Zodiac Sign) manually",
   "privacy.modal.title": "100% Private",
   "privacy.modal.desc": "We never save your personal data. Everything stays exactly here on your device.",
-  "privacy.modal.btn": "Continue to Prediction"
+  "privacy.modal.btn": "Continue to Prediction",
+  "oracle.page.title": "Mystic Oracle",
+  "oracle.page.desc": "Chat with the Mystic Oracle for daily guidance and answers to your deepest questions.",
+  "oracle.chat.welcome": "Welcome, seeker. I am the Mystic Oracle. The universe has guided you here. What guidance do you seek today?",
+  "oracle.chat.select_question": "Select a cosmic question",
+  "oracle.q.love": "What do the stars say about my love life?",
+  "oracle.q.career": "Am I on the right career path?",
+  "oracle.q.spiritual": "What is my spiritual lesson today?",
+  "oracle.q.daily": "Give me a general reading for today.",
+  "oracle.a.love": "The stars align to show a deep emotional connection is near. Keep your heart open, release the past, and trust the timing of the universe.",
+  "oracle.a.career": "Your current path may present challenges, but they are forging you into a stronger leader. Be patient; a monumental opportunity is preparing to knock.",
+  "oracle.a.spiritual": "Today's lesson is 'surrender.' Let go of the need to control every outcome. The universe makes way for those who move with the flow of peace.",
+  "oracle.a.daily": "The energy today is highly auspicious. Trust your intuition above all else—it is your most accurate compass right now. The universe is protecting your steps."
 }

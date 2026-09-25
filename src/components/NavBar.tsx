@@ -31,6 +31,7 @@ function TapHandHint() {
 
 
 const LINKS = [
+  { href: "/oracle", labelKey: "oracle.page.title" },
   { href: "/palmistry", labelKey: "nav.palmistry" },
   { href: "/tarot", labelKey: "nav.tarot" },
   { href: "/kundli", labelKey: "nav.kundli" },

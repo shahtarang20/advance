@@ -1828,5 +1828,17 @@
   "horoscope.tool.choose_manual": "Wähle dein Sternzeichen manuell",
   "privacy.modal.title": "100% Privat",
   "privacy.modal.desc": "Wir speichern Ihre persönlichen Daten niemals. Alles bleibt genau hier auf Ihrem Gerät.",
-  "privacy.modal.btn": "Weiter zur Vorhersage"
+  "privacy.modal.btn": "Weiter zur Vorhersage",
+  "oracle.page.title": "Das Mystische Orakel",
+  "oracle.page.desc": "Sprich mit dem mystischen Orakel für tägliche Führung und Antworten auf deine tiefsten Fragen.",
+  "oracle.chat.welcome": "Willkommen, Suchender. Ich bin das mystische Orakel. Das Universum hat dich hierher geführt. Welche Führung suchst du heute?",
+  "oracle.chat.select_question": "Wähle eine kosmische Frage",
+  "oracle.q.love": "Was sagen die Sterne über mein Liebesleben?",
+  "oracle.q.career": "Bin ich auf dem richtigen Karriereweg?",
+  "oracle.q.spiritual": "Was ist meine spirituelle Lektion heute?",
+  "oracle.q.daily": "Gib mir eine allgemeine Lesung für heute.",
+  "oracle.a.love": "Die Sterne deuten auf eine baldige tiefe emotionale Verbindung hin. Halte dein Herz offen, lass die Vergangenheit los und vertraue dem Plan des Universums.",
+  "oracle.a.career": "Dein aktueller Weg mag einige Herausforderungen mit sich bringen, aber sie machen dich stärker. Hab Geduld, bald wird eine große Chance an deine Tür klopfen.",
+  "oracle.a.spiritual": "Die heutige Lektion ist 'Akzeptanz'. Lass los, was außerhalb deiner Kontrolle liegt. Das Universum macht Platz für diejenigen, die friedlich bleiben.",
+  "oracle.a.daily": "Die Energie heute ist sehr positiv. Vertraue deiner Intuition, sie ist heute dein genauester Kompass. Das Universum beschützt dich."
 }
