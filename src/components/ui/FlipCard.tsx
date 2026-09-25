@@ -67,10 +67,10 @@ export function FlipCard({
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           onAnimationComplete={() => setIsAnimating(false)}
         >
-          <div className="absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
+          <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
             {front}
           </div>
-          <div className="absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]">
             {back}
           </div>
         </motion.div>
@@ -78,7 +78,7 @@ export function FlipCard({
         // Once the flip settles, render the current face with no 3D transform at all —
         // browsers leave text on a backface-hidden/rotateY(180deg) layer slightly blurry
         // even at rest, so we drop the transform entirely instead of just snapping to it.
-        <div className="relative h-full w-full overflow-hidden">{flipped ? back : front}</div>
+        <div className="relative h-full w-full">{flipped ? back : front}</div>
       )}
     </motion.button>
   );

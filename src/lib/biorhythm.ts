@@ -44,9 +44,9 @@ export function calculateBiorhythms(dobString: string): BiorhythmData | null {
     const t = (targetUTC - dobUTC) / msPerDay;
     
     // Pure Sine wave calculation
-    const physical = Math.sin((2 * Math.PI * t) / 23) * 100;
-    const emotional = Math.sin((2 * Math.PI * t) / 28) * 100;
-    const intellectual = Math.sin((2 * Math.PI * t) / 33) * 100;
+    const physical = Math.sin((2 * Math.PI * t) / 23) * 99;
+    const emotional = Math.sin((2 * Math.PI * t) / 28) * 99;
+    const intellectual = Math.sin((2 * Math.PI * t) / 33) * 99;
     
     if (i === 0) {
       todayPhysical = physical;

@@ -58,7 +58,7 @@ export function TarotSpreadView({
       return t(`tarot.spread.career.sub.${index}`, { defaultValue: ["Where you stand", "What you do best", "What holds you back", "Hidden chances", "Where this leads"][index] });
     }
     if (spreadType === "celtic_cross") {
-      return t("tarot.spread.celtic.sub", { pos: index + 1, defaultValue: `Position ${index + 1}` });
+      return t("tarot.spread.celtic.sub", { pos: String(index + 1), defaultValue: `Position ${index + 1}` });
     }
     return "";
   };

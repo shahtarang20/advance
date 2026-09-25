@@ -80,7 +80,7 @@ export function calculateCompatibility(nameA: string, dobA: string, nameB: strin
   
   // Combined Advanced Synastry Mathematical Score
   const exactPercentage = (lifePathScore * 0.40) + (destinyScore * 0.30) + (soulUrgeScore * 0.20) + (elementScore * 0.10);
-  const percentage = Math.round(exactPercentage);
+  const percentage = Math.min(99, Math.round(exactPercentage));
   
   // Select verdict translation key based on score
   let verdictKey = "comp.verdict.challenging";
