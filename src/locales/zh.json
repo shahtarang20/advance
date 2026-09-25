@@ -1823,5 +1823,10 @@
   "affirmation.text.6": "我与地球和宇宙的节奏紧密相连。",
   "affirmation.text.7": "今天，我吸引与我的命运相符的机会。",
   "affirmation.text.8": "我以开放的心态拥抱未知的奥秘。",
-  "affirmation.text.9": "我的精神是无限的，我的潜力是无边的。"
+  "affirmation.text.9": "我的精神是无限的，我的潜力是无边的。",
+  "horoscope.tool.detected_choose": "检测到: {sign} — 请在下方选择您的星座以阅读您的运势",
+  "horoscope.tool.choose_manual": "手动选择您的星座",
+  "privacy.modal.title": "100% 隐私",
+  "privacy.modal.desc": "我们绝不会保存您的个人数据。一切都只保留在您的设备上。",
+  "privacy.modal.btn": "继续查看预测"
 }

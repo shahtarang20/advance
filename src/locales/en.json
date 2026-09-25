@@ -1823,5 +1823,10 @@
   "affirmation.text.6": "I am deeply connected to the rhythms of the earth and the cosmos.",
   "affirmation.text.7": "Today, I attract opportunities that align with my destiny.",
   "affirmation.text.8": "I embrace the mystery of the unknown with an open heart.",
-  "affirmation.text.9": "My spirit is infinite, and my potential is boundless."
+  "affirmation.text.9": "My spirit is infinite, and my potential is boundless.",
+  "horoscope.tool.detected_choose": "Detected: {sign} — Choose your Rasi below to read your Horoscope",
+  "horoscope.tool.choose_manual": "Choose your Rasi (Zodiac Sign) manually",
+  "privacy.modal.title": "100% Private",
+  "privacy.modal.desc": "We never save your personal data. Everything stays exactly here on your device.",
+  "privacy.modal.btn": "Continue to Prediction"
 }

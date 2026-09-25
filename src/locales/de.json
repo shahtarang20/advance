@@ -1823,5 +1823,10 @@
   "affirmation.text.6": "Ich bin tief mit den Rhythmen der Erde und des Kosmos verbunden.",
   "affirmation.text.7": "Heute ziehe ich Gelegenheiten an, die mit meinem Schicksal übereinstimmen.",
   "affirmation.text.8": "Ich nehme das Geheimnis des Unbekannten mit offenem Herzen an.",
-  "affirmation.text.9": "Mein Geist ist unendlich, und mein Potenzial ist grenzenlos."
+  "affirmation.text.9": "Mein Geist ist unendlich, und mein Potenzial ist grenzenlos.",
+  "horoscope.tool.detected_choose": "Erkannt: {sign} — Wähle unten dein Sternzeichen, um dein Horoskop zu lesen",
+  "horoscope.tool.choose_manual": "Wähle dein Sternzeichen manuell",
+  "privacy.modal.title": "100% Privat",
+  "privacy.modal.desc": "Wir speichern Ihre persönlichen Daten niemals. Alles bleibt genau hier auf Ihrem Gerät.",
+  "privacy.modal.btn": "Weiter zur Vorhersage"
 }

@@ -13,6 +13,7 @@ import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 export function HoroscopeTool() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
@@ -22,6 +23,9 @@ export function HoroscopeTool() {
   const { checkinHoroscope, recordAction } = useGamification();
   const { t } = useTranslation();
   const dobHint = useFieldHint("horoscope-dob");
+  const { wrapAction } = usePrivacyGuard();
+
+  const [detectedSign, setDetectedSign] = useState<ZodiacSign | null>(null);
 
   // Prefill from a previously-saved birth profile, if the user has one from Kundli/Numerology.
   useEffect(() => {
@@ -41,8 +45,8 @@ export function HoroscopeTool() {
     const error = validateDob(dob);
     setDobError(error);
     if (error) return;
-    setSelected(getZodiacByDob(dob).sign);
-    setShowPicker(true);
+    const sign = getZodiacByDob(dob).sign;
+    setDetectedSign(sign);
     saveBirthProfile({ dob });
   };
 
@@ -94,27 +98,27 @@ export function HoroscopeTool() {
         />
         {dobError && <p className="mb-4 text-xs text-amber-600">{dobError}</p>}
 
-        {showPicker && (
-          <>
-            <h2 className="mb-3 mt-6 text-xs font-semibold uppercase tracking-widest text-muted-soft">{t("horoscope.tool.or_pick")}</h2>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
-              {ZODIAC_SIGNS.map((z) => (
-                <button
-                  key={z.sign}
-                  onClick={() => setSelected(z.sign)}
-                  className={`btn-tap accent-ring flex flex-col items-center gap-1 rounded-2xl border p-3 text-sm transition ${
-                    selected === z.sign
-                      ? "border-purple-400 bg-purple-500/20"
-                      : "border-[var(--surface-border)] bg-[var(--surface)] hover:bg-[var(--surface-strong)]"
-                  }`}
-                >
-                  <span className="text-2xl">{z.glyph}</span>
-                  {t(`zodiac.${z.sign}`)}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
+        <h2 className="mb-3 mt-6 text-xs font-semibold uppercase tracking-widest text-muted-soft">
+          {detectedSign 
+            ? t("horoscope.tool.detected_choose", { sign: t(`zodiac.${detectedSign}`), defaultValue: `Detected: ${t(`zodiac.${detectedSign}`)} — Choose your Rasi below to read your Horoscope` })
+            : t("horoscope.tool.choose_manual", { defaultValue: "Choose your Rasi (Zodiac Sign) manually" })}
+        </h2>
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+          {ZODIAC_SIGNS.map((z) => (
+            <button
+              key={z.sign}
+              onClick={wrapAction(() => setSelected(z.sign))}
+              className={`btn-tap accent-ring flex flex-col items-center gap-1 rounded-2xl border p-3 text-sm transition ${
+                selected === z.sign
+                  ? "border-purple-400 bg-purple-500/20"
+                  : "border-[var(--surface-border)] bg-[var(--surface)] hover:bg-[var(--surface-strong)]"
+              }`}
+            >
+              <span className="text-2xl">{z.glyph}</span>
+              {t(`zodiac.${z.sign}`)}
+            </button>
+          ))}
+        </div>
       </GlassCard>
 
       {info && horoscope && (
