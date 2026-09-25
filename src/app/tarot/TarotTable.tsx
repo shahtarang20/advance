@@ -10,7 +10,24 @@ export function TarotTable() {
   const router = useRouter();
 
   const drawCards = (type: "daily" | "past_present_future" | "love" | "career" | "celtic_cross") => {
-    const seed = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    let seed = "";
+
+    if (type === "daily") {
+      const today = new Date().toISOString().split('T')[0];
+      const savedDate = localStorage.getItem("tarot_daily_date");
+      const savedSeed = localStorage.getItem("tarot_daily_seed");
+
+      if (savedDate === today && savedSeed) {
+        seed = savedSeed;
+      } else {
+        seed = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+        localStorage.setItem("tarot_daily_date", today);
+        localStorage.setItem("tarot_daily_seed", seed);
+      }
+    } else {
+      seed = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    }
+
     router.push(`/result/tarot?seed=${seed}&type=${type}`);
   };
 
