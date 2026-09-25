@@ -1,11 +1,13 @@
 "use client";
 
 import { useTranslation } from "@/lib/I18nContext";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { LANGUAGE_CHANGED_EVENT } from "@/lib/onboarding";
 
 export function LanguageToggle() {
   const { language, setLanguage } = useTranslation();
   const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const languages = [
     { code: "en", label: "English" },
@@ -15,10 +17,33 @@ export function LanguageToggle() {
     { code: "zh", label: "中文" },
   ];
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        if (open) {
+          setOpen(false);
+          window.dispatchEvent(new Event(LANGUAGE_CHANGED_EVENT));
+        }
+      }
+    }
+    
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          if (open) {
+            window.dispatchEvent(new Event(LANGUAGE_CHANGED_EVENT));
+          }
+          setOpen(!open);
+        }}
         className="btn-tap accent-ring surface-glass flex h-11 w-11 items-center justify-center rounded-full border text-sm font-medium"
         aria-label="Toggle language"
       >

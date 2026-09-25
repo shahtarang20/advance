@@ -62,7 +62,19 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
   // next-themes uses for exactly this class of problem.
   useLayoutEffect(() => {
     const saved = readSavedLanguage();
-    if (saved && saved !== "en") setLanguageState(saved);
+    if (saved) {
+      if (saved !== "en") setLanguageState(saved);
+    } else {
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (tz === "Asia/Kolkata" || tz === "Asia/Calcutta") {
+          setLanguageState("hi");
+          window.localStorage.setItem(LANGUAGE_STORAGE_KEY, "hi");
+        }
+      } catch (e) {
+        // best effort
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- read once, on mount only
   }, []);
 

@@ -28,7 +28,7 @@ function TapHandHint() {
   );
 }
 
-const emptySubscribe = () => () => {};
+
 
 const LINKS = [
   { href: "/palmistry", labelKey: "nav.palmistry" },
@@ -66,11 +66,8 @@ export function NavBar() {
   const [hamburgerHighlight, setHamburgerHighlight] = useState(false);
   const [languageHighlight, setLanguageHighlight] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
-  const mounted = useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Waits for the site-wide welcome tour to be dismissed before showing its own highlight ring
   // on the language toggle — that tour already covers the nav in its own step, so on a genuinely
