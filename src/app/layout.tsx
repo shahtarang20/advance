@@ -10,6 +10,7 @@ import { OfflineScreen } from "@/components/OfflineScreen";
 import { InstallAppBanner } from "@/components/InstallAppBanner";
 import { GlobalSharePrompt } from "@/components/GlobalSharePrompt";
 import { InAppBrowserBanner } from "@/components/InAppBrowserBanner";
+import { Analytics } from "@vercel/analytics/react";
 
 // Defaults to the real AdSense publisher ID. Override via NEXT_PUBLIC_ADSENSE_CLIENT_ID
 // in Vercel's env vars if this ever needs to change (Settings → Environment Variables).
@@ -142,6 +143,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
