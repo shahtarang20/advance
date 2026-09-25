@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/lib/I18nContext";
 import { IOSInstallGuide } from "@/components/IOSInstallGuide";
+import { track } from "@vercel/analytics";
 
 // Same easing curve used by the site's other overlays (OnboardingTour, PageFeatureHint) so this
 // feels consistent with the rest of the app's motion design rather than its own one-off timing.
@@ -108,6 +109,7 @@ export function InstallAppBanner() {
 
     const markInstalled = () => {
       setInstalled(true);
+      track("App Installed", { source: "AppInstalledEvent" });
       try {
         window.localStorage.setItem(INSTALLED_KEY, "1");
       } catch {
@@ -182,12 +184,18 @@ export function InstallAppBanner() {
 
   const handleInstall = async () => {
     if (!deferredPrompt) return;
+    track("Install Prompt Clicked");
     await deferredPrompt.prompt();
     // The prompt can only be used once regardless of outcome, so it's cleared either way — if
     // the user actually accepted, the 'appinstalled' listener above is what permanently stops
     // the banner; if they dismissed the native prompt, closing this view just hides it for now
     // and it'll show again next visit, same as the ✕ button.
-    await deferredPrompt.userChoice.catch(() => undefined);
+    const choice = await deferredPrompt.userChoice.catch(() => undefined);
+    if (choice?.outcome === "accepted") {
+      track("Install Prompt Accepted");
+    } else {
+      track("Install Prompt Dismissed");
+    }
     setDeferredPrompt(null);
     window.__deferredInstallPrompt = null;
     setClosedThisView(true);
