@@ -1810,5 +1810,18 @@
   "tarot.spread.celtic.lbl.7": "External Influence",
   "tarot.spread.celtic.lbl.8": "Hopes/Fears",
   "tarot.spread.celtic.lbl.9": "The Outcome",
-  "tarot.spread.celtic.sub": "Position {pos}"
+  "tarot.spread.celtic.sub": "Position {pos}",
+  "affirmation.title": "Your Daily Affirmation",
+  "affirmation.share_btn": "Share to Story",
+  "affirmation.share_caption": "My cosmic affirmation for today: \"{text}\" ✨ Find yours on Cosmic Numbers:",
+  "affirmation.text.0": "I trust the universe is unfolding exactly as it should.",
+  "affirmation.text.1": "I am a magnet for miracles and positive cosmic energy.",
+  "affirmation.text.2": "My intuition leads me to my highest purpose.",
+  "affirmation.text.3": "I am aligned with the energy of abundance and joy.",
+  "affirmation.text.4": "Every star in the sky shines to remind me of my own light.",
+  "affirmation.text.5": "I release what no longer serves me and welcome new beginnings.",
+  "affirmation.text.6": "I am deeply connected to the rhythms of the earth and the cosmos.",
+  "affirmation.text.7": "Today, I attract opportunities that align with my destiny.",
+  "affirmation.text.8": "I embrace the mystery of the unknown with an open heart.",
+  "affirmation.text.9": "My spirit is infinite, and my potential is boundless."
 }

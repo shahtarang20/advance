@@ -59,7 +59,7 @@ const PRIMARY_HREFS = ["/palmistry", "/numerology", "/horoscope", "/kundli", "/t
 
 export function NavBar() {
   const { t } = useTranslation();
-  const { isFeatureUnlocked } = useGamification();
+  const { isFeatureUnlocked, streak } = useGamification();
   const showLoveMatchHighlight = useLoveMatchHighlight();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
@@ -193,6 +193,12 @@ export function NavBar() {
           )}
         </div>
         <div className="flex items-center gap-2">
+          {streak > 0 && (
+            <div className="flex items-center gap-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-sm font-semibold text-orange-600 dark:text-orange-400" title={`${streak} Day Streak`}>
+              <span className="text-base leading-none">🔥</span>
+              <span>{streak}</span>
+            </div>
+          )}
           <div
             data-tour="language-toggle"
             onClick={handleLanguageAreaClick}

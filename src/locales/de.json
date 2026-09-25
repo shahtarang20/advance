@@ -1810,5 +1810,18 @@
   "tarot.spread.celtic.lbl.7": "Äußerer Einfluss",
   "tarot.spread.celtic.lbl.8": "Hoffnungen/Ängste",
   "tarot.spread.celtic.lbl.9": "Das Ergebnis",
-  "tarot.spread.celtic.sub": "Position {pos}"
+  "tarot.spread.celtic.sub": "Position {pos}",
+  "affirmation.title": "Deine Tägliche Affirmation",
+  "affirmation.share_btn": "In der Story teilen",
+  "affirmation.share_caption": "Meine kosmische Affirmation für heute: \"{text}\" ✨ Finde deine auf Cosmic Numbers:",
+  "affirmation.text.0": "Ich vertraue darauf, dass sich das Universum genau so entfaltet, wie es sollte.",
+  "affirmation.text.1": "Ich bin ein Magnet für Wunder und positive kosmische Energie.",
+  "affirmation.text.2": "Meine Intuition führt mich zu meiner höchsten Bestimmung.",
+  "affirmation.text.3": "Ich bin mit der Energie von Fülle und Freude verbunden.",
+  "affirmation.text.4": "Jeder Stern am Himmel leuchtet, um mich an mein eigenes Licht zu erinnern.",
+  "affirmation.text.5": "Ich lasse los, was mir nicht mehr dient, und begrüße Neuanfänge.",
+  "affirmation.text.6": "Ich bin tief mit den Rhythmen der Erde und des Kosmos verbunden.",
+  "affirmation.text.7": "Heute ziehe ich Gelegenheiten an, die mit meinem Schicksal übereinstimmen.",
+  "affirmation.text.8": "Ich nehme das Geheimnis des Unbekannten mit offenem Herzen an.",
+  "affirmation.text.9": "Mein Geist ist unendlich, und mein Potenzial ist grenzenlos."
 }

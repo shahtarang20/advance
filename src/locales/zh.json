@@ -1810,5 +1810,18 @@
   "tarot.spread.celtic.lbl.7": "外部影响",
   "tarot.spread.celtic.lbl.8": "希望/恐惧",
   "tarot.spread.celtic.lbl.9": "结果",
-  "tarot.spread.celtic.sub": "位置 {pos}"
+  "tarot.spread.celtic.sub": "位置 {pos}",
+  "affirmation.title": "您的每日肯定语",
+  "affirmation.share_btn": "分享到快拍",
+  "affirmation.share_caption": "我今天的宇宙肯定语：\"{text}\" ✨ 在 Cosmic Numbers 找到你的：",
+  "affirmation.text.0": "我相信宇宙正在如其所是地展现。",
+  "affirmation.text.1": "我是奇迹和积极宇宙能量的磁铁。",
+  "affirmation.text.2": "我的直觉指引我走向最高的目标。",
+  "affirmation.text.3": "我与丰富和喜悦的能量相一致。",
+  "affirmation.text.4": "天空中的每一颗星星闪烁，都在提醒我自己的光芒。",
+  "affirmation.text.5": "我释放不再为我服务的东西，迎接新的开始。",
+  "affirmation.text.6": "我与地球和宇宙的节奏紧密相连。",
+  "affirmation.text.7": "今天，我吸引与我的命运相符的机会。",
+  "affirmation.text.8": "我以开放的心态拥抱未知的奥秘。",
+  "affirmation.text.9": "我的精神是无限的，我的潜力是无边的。"
 }

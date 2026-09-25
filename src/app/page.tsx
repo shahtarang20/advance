@@ -5,6 +5,7 @@ import { FeatureCard } from "@/components/FeatureCard";
 import { GamificationWidget } from "@/components/GamificationWidget";
 import { DailyQuestCard } from "@/components/DailyQuestCard";
 import { MoonWidget } from "@/components/MoonWidget";
+import { DailyAffirmation } from "@/components/DailyAffirmation";
 import { AdSlot } from "@/components/ui/AdSlot";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
@@ -37,6 +38,8 @@ export default function HomePage() {
           </Button>
         </div>
       </section>
+
+      <DailyAffirmation />
 
       <RecentActivity />
 
