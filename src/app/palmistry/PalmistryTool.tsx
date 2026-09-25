@@ -11,6 +11,7 @@ import { detectHandInImage, prepareImageForDetection, preloadHandDetector } from
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 const PHOTO_SESSION_KEY = "cosmic-palm-photo";
 
@@ -56,6 +57,7 @@ export function PalmistryTool() {
   const router = useRouter();
   const { t } = useTranslation();
   const photoHint = useFieldHint("palmistry-photo");
+  const { wrapAction } = usePrivacyGuard();
 
   // Start loading the hand-detection model as soon as this tool is visible, well before the
   // user has picked a photo — by the time they actually submit one, detection runs instantly
@@ -277,7 +279,7 @@ export function PalmistryTool() {
           </div>
         </div>
 
-        <Button data-tour="page-cta" onClick={handleSubmit} disabled={checkingPhoto} className="w-full disabled:cursor-not-allowed disabled:opacity-50">
+        <Button data-tour="page-cta" onClick={wrapAction(handleSubmit)} disabled={checkingPhoto} className="w-full disabled:cursor-not-allowed disabled:opacity-50">
           {t("palmistry.tool.reveal", { defaultValue: "Reveal My Palm Reading" })}
         </Button>
       </div>

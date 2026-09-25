@@ -10,6 +10,7 @@ import { useTranslation } from "@/lib/I18nContext";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 export function AuraTool() {
   const [dob, setDob] = useState("");
@@ -17,6 +18,7 @@ export function AuraTool() {
   const router = useRouter();
   const { t } = useTranslation();
   const dobHint = useFieldHint("aura-dob");
+  const { wrapAction } = usePrivacyGuard();
 
   const dobError = validateDob(dob);
   const canSubmit = !dobError;
@@ -33,7 +35,7 @@ export function AuraTool() {
   return (
     <div className="mx-auto max-w-xl">
       <GlassCard className="p-8">
-        <form onSubmit={handleSubmit} noValidate className="space-y-5">
+        <form onSubmit={wrapAction(handleSubmit)} noValidate className="space-y-5">
           <div className="relative">
             <label htmlFor="dob" className="mb-1.5 block text-sm text-muted">
               {t("aura.tool.dob", { defaultValue: "Date of Birth" })}

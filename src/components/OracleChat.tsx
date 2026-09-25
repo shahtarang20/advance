@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/lib/I18nContext";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 type Message = {
   id: string;
@@ -12,6 +13,7 @@ type Message = {
 
 export const OracleChat = () => {
   const { t } = useTranslation();
+  const { wrapAction } = usePrivacyGuard();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState<Message[]>([
@@ -206,7 +208,7 @@ export const OracleChat = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <button
-              onClick={() => handleAsk("marriage", t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" }))}
+              onClick={wrapAction(() => handleAsk("marriage", t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" })))}
               disabled={isOracleTyping || hasAsked}
               className="px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 border border-transparent rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
             >
@@ -217,7 +219,7 @@ export const OracleChat = () => {
               return (
                 <button
                   key={qId}
-                  onClick={() => handleAsk(qId, qText)}
+                  onClick={wrapAction(() => handleAsk(qId, qText))}
                   disabled={isOracleTyping || hasAsked}
                   className="px-4 py-2.5 text-sm font-medium text-[var(--foreground)] bg-[var(--surface)] border border-[var(--surface-border)] rounded-xl shadow-sm hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
                 >

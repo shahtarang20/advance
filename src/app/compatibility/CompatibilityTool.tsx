@@ -14,6 +14,7 @@ import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { markLoveMatchSeen } from "@/lib/loveMatchHighlight";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 export function CompatibilityTool() {
   const [nameA, setNameA] = useState("");
@@ -29,6 +30,7 @@ export function CompatibilityTool() {
   const dobAHint = useFieldHint("compat-dobA");
   const nameBHint = useFieldHint("compat-nameB");
   const dobBHint = useFieldHint("compat-dobB");
+  const { wrapAction } = usePrivacyGuard();
 
   useEffect(() => {
     markLoveMatchSeen();
@@ -60,7 +62,7 @@ export function CompatibilityTool() {
   return (
     <div className="mx-auto max-w-2xl">
       <GlassCard className="p-8">
-        <form onSubmit={handleSubmit} noValidate className="space-y-6">
+        <form onSubmit={wrapAction(handleSubmit)} noValidate className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="relative">
               <label className="mb-1.5 block text-sm text-muted">{t("comp.tool.your_name")}</label>

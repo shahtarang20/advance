@@ -11,6 +11,7 @@ import { FeatureGate } from "@/components/FeatureGate";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 export default function BiorhythmPage() {
   const [dob, setDob] = useState("");
@@ -18,6 +19,7 @@ export default function BiorhythmPage() {
   const router = useRouter();
   const { t } = useTranslation();
   const dobHint = useFieldHint("biorhythm-dob");
+  const { wrapAction } = usePrivacyGuard();
 
   const dobError = validateDob(dob);
   const canSubmit = !dobError;
@@ -44,7 +46,7 @@ export default function BiorhythmPage() {
 
         <div className="mx-auto max-w-xl">
           <GlassCard className="p-8">
-            <form onSubmit={handleSubmit} noValidate className="space-y-5">
+            <form onSubmit={wrapAction(handleSubmit)} noValidate className="space-y-5">
               <div className="relative">
                 <label htmlFor="dob" className="mb-1.5 block text-sm text-muted">
                   {t("biorhythm.tool.dob", { defaultValue: "Date of Birth" })}

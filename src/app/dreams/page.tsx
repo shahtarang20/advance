@@ -9,12 +9,14 @@ import { FeatureGate } from "@/components/FeatureGate";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 export default function DreamsPage() {
   const [dream, setDream] = useState("");
   const router = useRouter();
   const { t } = useTranslation();
   const dreamHint = useFieldHint("dreams-textarea");
+  const { wrapAction } = usePrivacyGuard();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +40,7 @@ export default function DreamsPage() {
 
         <div className="mx-auto max-w-2xl">
           <GlassCard className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={wrapAction(handleSubmit)} className="space-y-5">
               <div className="relative">
                 <label htmlFor="dream" className="mb-1.5 block text-sm text-muted">
                   {t("dreams.tool.label", { defaultValue: "Your Dream" })}

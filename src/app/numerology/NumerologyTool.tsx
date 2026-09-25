@@ -14,6 +14,7 @@ import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 export function NumerologyTool() {
   const [name, setName] = useState("");
@@ -24,6 +25,7 @@ export function NumerologyTool() {
   const { t } = useTranslation();
   const nameHint = useFieldHint("numerology-name");
   const dobHint = useFieldHint("numerology-dob");
+  const { wrapAction } = usePrivacyGuard();
 
   // Prefill from a previously-saved birth profile (if any) — done after mount, not as the
   // initial state, so the server-rendered and first-client-rendered markup still match.
@@ -61,7 +63,7 @@ export function NumerologyTool() {
   return (
     <div className="mx-auto max-w-2xl">
       <GlassCard className="p-8">
-        <form onSubmit={handleSubmit} noValidate className="space-y-5">
+        <form onSubmit={wrapAction(handleSubmit)} noValidate className="space-y-5">
           <div className="relative">
             <label htmlFor="name" className="mb-1.5 block text-sm text-muted">
               {t("numerology.tool.name")}

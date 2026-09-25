@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/lib/I18nContext";
 
 interface PrivacyGuardContextValue {
-  wrapAction: (callback: () => void) => () => void;
+  wrapAction: <T extends unknown[]>(callback: (...args: T) => void) => (...args: T) => void;
 }
 
 const PrivacyGuardContext = createContext<PrivacyGuardContextValue | null>(null);
@@ -15,10 +15,10 @@ export function PrivacyGuardProvider({ children }: { children: React.ReactNode }
   const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
   const { t } = useTranslation();
 
-  const wrapAction = useCallback((callback: () => void) => {
-    return () => {
+  const wrapAction = useCallback(<T extends unknown[]>(callback: (...args: T) => void) => {
+    return (...args: T) => {
       if (typeof window === "undefined") {
-        callback();
+        callback(...args);
         return;
       }
 
@@ -27,10 +27,10 @@ export function PrivacyGuardProvider({ children }: { children: React.ReactNode }
 
       if (count < 3) {
         window.localStorage.setItem("privacy_prompt_count", (count + 1).toString());
-        setPendingAction(() => callback);
+        setPendingAction(() => () => callback(...args));
         setShowModal(true);
       } else {
-        callback();
+        callback(...args);
       }
     };
   }, []);

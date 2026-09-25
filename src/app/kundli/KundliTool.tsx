@@ -11,6 +11,7 @@ import { loadBirthProfile, saveBirthProfile } from "@/lib/birthProfile";
 import { PageFeatureHint } from "@/components/PageFeatureHint";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 
 export function KundliTool() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export function KundliTool() {
   const [customOffset, setCustomOffset] = useState("5.5");
   const [touched, setTouched] = useState(false);
   const { t } = useTranslation();
+  const { wrapAction } = usePrivacyGuard();
 
   // Prefill from a previously-saved birth profile (from this tool or Numerology/Horoscope), if
   // any — done after mount, not as the initial state, so the server-rendered and first-client-
@@ -117,7 +119,7 @@ export function KundliTool() {
   return (
     <div className="mx-auto max-w-2xl">
       <GlassCard className="p-8">
-        <form onSubmit={handleSubmit} noValidate className="space-y-5">
+        <form onSubmit={wrapAction(handleSubmit)} noValidate className="space-y-5">
           <div className="relative">
             <label htmlFor="k-name" className="mb-1.5 block text-sm text-muted">
               {t("kundli.tool.name_label", { defaultValue: "Full name (optional, for personalization)" })}
