@@ -198,6 +198,15 @@ export function InstallAppBanner() {
 
   const visible = !installed && !closedThisView && (!!deferredPrompt || showIOSHint || showGenericHint);
 
+  useEffect(() => {
+    if (visible) {
+      const timer = setTimeout(() => {
+        setClosedThisView(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
+
   return (
     <>
     <AnimatePresence>
@@ -271,14 +280,6 @@ export function InstallAppBanner() {
                   {t("pwa.install.show_me", { defaultValue: "Show Me" })}
                 </motion.button>
               )}
-              <button
-                type="button"
-                onClick={dismiss}
-                aria-label={t("pwa.install.dismiss", { defaultValue: "Dismiss" })}
-                className="btn-tap flex h-8 w-8 items-center justify-center rounded-full text-muted-soft transition hover:text-[var(--foreground)]"
-              >
-                ✕
-              </button>
             </div>
           </motion.div>
         </motion.div>
