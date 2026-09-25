@@ -11,11 +11,15 @@ import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 type SP = { seed?: string; type?: string };
 
 function isSpreadType(type?: string): type is TarotSpreadType {
-  return type === "daily" || type === "past_present_future";
+  return ["daily", "past_present_future", "love", "career", "celtic_cross"].includes(type || "");
 }
 
 function getSpread(seed: string, type: TarotSpreadType) {
-  return pullSeededCards(seed, type === "daily" ? 1 : 3);
+  let count = 1;
+  if (type === "past_present_future") count = 3;
+  if (type === "love" || type === "career") count = 5;
+  if (type === "celtic_cross") count = 10;
+  return pullSeededCards(seed, count);
 }
 
 export async function generateMetadata({ searchParams }: { searchParams: Promise<SP> }): Promise<Metadata> {
@@ -30,7 +34,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const description =
     type === "daily"
       ? `${first.card.name}${first.isReversed ? " (Reversed)" : ""} — ${first.isReversed ? first.card.reversedMeaning : first.card.uprightMeaning}`
-      : `Past, Present, Future: ${cardNames}. See the full free reading.`;
+      : `Reading: ${cardNames}. See the full free reading.`;
   const ogUrl = `/api/og?type=tarot&title=${encodeURIComponent(first.card.name)}&subtitle=${encodeURIComponent(type === "daily" ? "Card of the Day" : cardNames)}&big=${encodeURIComponent(first.card.imageFallback)}`;
   return {
     title,
@@ -62,7 +66,7 @@ export default async function TarotResultPage({ searchParams }: { searchParams: 
   const caption =
     type === "daily"
       ? `My Tarot Card of the Day is ${first.card.name}${first.isReversed ? " (Reversed)" : ""} — from Cosmic Numbers. Draw yours:`
-      : `My Past, Present, Future Tarot reading: ${cardNames} — from Cosmic Numbers. Draw yours:`;
+      : `My Tarot reading: ${cardNames} — from Cosmic Numbers. Draw yours:`;
 
   return (
     <div className="px-6 pb-24 pt-16">
@@ -82,7 +86,7 @@ export default async function TarotResultPage({ searchParams }: { searchParams: 
         </p>
       </div>
 
-      <div className="mx-auto mt-16 max-w-5xl flex flex-col items-center gap-10">
+      <div className="mx-auto mt-16 max-w-7xl flex flex-col items-center gap-10">
         <TarotSpreadView spread={spread} spreadType={type} />
 
         <ShareButtons shareUrl={shareUrl} ogQuery={ogQuery} caption={caption} />

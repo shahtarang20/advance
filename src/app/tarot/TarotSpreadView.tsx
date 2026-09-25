@@ -7,7 +7,7 @@ import { useTranslation } from "@/lib/I18nContext";
 
 import { PlayAudioButton } from "@/components/PlayAudioButton";
 
-export type TarotSpreadType = "daily" | "past_present_future";
+export type TarotSpreadType = "daily" | "past_present_future" | "love" | "career" | "celtic_cross";
 
 export function TarotSpreadView({
   spread,
@@ -20,17 +20,48 @@ export function TarotSpreadView({
 
   const getSpreadLabel = (index: number) => {
     if (spreadType === "daily") return t("tarot.label.card_of_day", { defaultValue: "Card of the Day" });
-    if (index === 0) return t("tarot.label.past", { defaultValue: "Past" });
-    if (index === 1) return t("tarot.label.present", { defaultValue: "Present" });
-    if (index === 2) return t("tarot.label.future", { defaultValue: "Future" });
+    if (spreadType === "past_present_future") {
+      if (index === 0) return t("tarot.label.past", { defaultValue: "Past" });
+      if (index === 1) return t("tarot.label.present", { defaultValue: "Present" });
+      if (index === 2) return t("tarot.label.future", { defaultValue: "Future" });
+    }
+    if (spreadType === "love") {
+      const labels = ["You", "Them", "The Dynamic", "Challenge", "Future"];
+      return labels[index] || "";
+    }
+    if (spreadType === "career") {
+      const labels = ["Current Path", "Strengths", "Obstacles", "Opportunity", "Outcome"];
+      return labels[index] || "";
+    }
+    if (spreadType === "celtic_cross") {
+      const labels = [
+        "The Present", "The Challenge", "The Past", "The Future",
+        "Conscious", "Subconscious", "Your Influence", "External Influence",
+        "Hopes/Fears", "The Outcome"
+      ];
+      return labels[index] || "";
+    }
     return "";
   };
 
   const getSpreadSubtitle = (index: number) => {
     if (spreadType === "daily") return t("tarot.sub.card_of_day", { defaultValue: "Your energy for today" });
-    if (index === 0) return t("tarot.sub.past", { defaultValue: "What led you to this moment" });
-    if (index === 1) return t("tarot.sub.present", { defaultValue: "Where you are right now" });
-    if (index === 2) return t("tarot.sub.future", { defaultValue: "Where this path is taking you" });
+    if (spreadType === "past_present_future") {
+      if (index === 0) return t("tarot.sub.past", { defaultValue: "What led you to this moment" });
+      if (index === 1) return t("tarot.sub.present", { defaultValue: "Where you are right now" });
+      if (index === 2) return t("tarot.sub.future", { defaultValue: "Where this path is taking you" });
+    }
+    if (spreadType === "love") {
+      const subs = ["Your current state", "Their current state", "The energy between you", "What must be overcome", "Where this is heading"];
+      return subs[index] || "";
+    }
+    if (spreadType === "career") {
+      const subs = ["Where you stand", "What you do best", "What holds you back", "Hidden chances", "Where this leads"];
+      return subs[index] || "";
+    }
+    if (spreadType === "celtic_cross") {
+      return `Position ${index + 1}`;
+    }
     return "";
   };
 
@@ -44,8 +75,15 @@ export function TarotSpreadView({
     return `${name} ${reversed}. ${meaning}. ${desc}`;
   };
 
+  let gridClass = "grid gap-8 w-full grid-cols-1 md:grid-cols-3";
+  if (spread.length === 1) gridClass = "grid gap-8 w-full grid-cols-1 max-w-sm mx-auto";
+  if (spread.length === 5) gridClass = "grid gap-6 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5";
+  if (spread.length === 10) gridClass = "grid gap-4 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5";
+
+
+
   return (
-    <div className={`grid gap-8 w-full ${spread.length === 1 ? "grid-cols-1 max-w-sm mx-auto" : "grid-cols-1 md:grid-cols-3"}`}>
+    <div className={gridClass}>
       {spread.map((item, i) => (
         <div key={i} className="flex flex-col gap-4 text-center">
           <div>
@@ -56,7 +94,7 @@ export function TarotSpreadView({
             ariaLabel={`Tarot Card: ${item.card.name}`}
             heightClassName="h-[450px]"
             front={
-              <GlassCard className="flex h-full w-full flex-col items-center justify-center p-8 text-center cursor-pointer hover:border-[var(--accent-solid)] transition-colors border-2 border-dashed">
+              <GlassCard className={`flex h-full w-full flex-col items-center justify-center p-8 text-center cursor-pointer hover:border-[var(--accent-solid)] transition-colors border-2 border-dashed`}>
                 <div className="text-6xl mb-4 opacity-50">✨</div>
                 <p className="text-sm font-medium text-muted-soft tracking-widest uppercase">
                   {t("tarot.card.tap_reveal", { defaultValue: "Tap to Reveal" })}
@@ -64,9 +102,9 @@ export function TarotSpreadView({
               </GlassCard>
             }
             back={
-              <GlassCard className="flex h-full w-full flex-col overflow-y-auto p-6 relative">
+              <GlassCard className={`flex h-full w-full flex-col overflow-y-auto p-6 relative`}>
                 <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-3 mb-3 shrink-0">
-                  <span className="text-3xl">{item.card.imageFallback}</span>
+                  <span className={`text-3xl ${item.isReversed ? 'inline-block rotate-180 drop-shadow-[0_0_10px_rgba(244,63,94,0.8)]' : ''}`}>{item.card.imageFallback}</span>
                   <div className="flex flex-col items-end gap-2">
                     <div className="flex items-center gap-2">
                       <PlayAudioButton textToRead={getCardAudioText(item)} className="h-8 w-8" />
