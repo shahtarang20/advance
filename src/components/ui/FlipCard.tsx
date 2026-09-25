@@ -22,6 +22,7 @@ export function FlipCard({
   ariaLabel,
   float = true,
   heightClassName = "h-60",
+  onFlip,
 }: {
   front: ReactNode;
   back: ReactNode;
@@ -29,6 +30,7 @@ export function FlipCard({
   ariaLabel: string;
   float?: boolean;
   heightClassName?: string;
+  onFlip?: (flipped: boolean) => void;
 }) {
   const [flipped, setFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -39,7 +41,9 @@ export function FlipCard({
       type="button"
       onClick={() => {
         setIsAnimating(true);
-        setFlipped((f) => !f);
+        const newFlipped = !flipped;
+        setFlipped(newFlipped);
+        if (onFlip) onFlip(newFlipped);
       }}
       aria-pressed={flipped}
       aria-describedby={describedById}

@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FlipCard } from "@/components/ui/FlipCard";
 import { TarotCard } from "@/lib/tarot";
 import { useTranslation } from "@/lib/I18nContext";
+import { CardAura, AuraType } from "@/components/ui/CardAura";
 
 import { PlayAudioButton } from "@/components/PlayAudioButton";
 
@@ -16,6 +18,7 @@ export function TarotSpreadView({
   spread: { card: TarotCard; isReversed: boolean }[];
   spreadType: TarotSpreadType;
 }) {
+  const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
   const { t } = useTranslation();
 
   const getSpreadLabel = (index: number) => {
@@ -75,7 +78,17 @@ export function TarotSpreadView({
     return `${name} ${reversed}. ${meaning}. ${desc}`;
   };
 
-  let gridClass = "grid gap-8 w-full grid-cols-1 md:grid-cols-3";
+  const getAuraType = (card: TarotCard, isReversed: boolean): AuraType => {
+    if (card.name === "Death" || card.name === "The Devil" || card.name === "The Tower") return "dark";
+    if (isReversed) return "mystic"; 
+    if (card.element === "Fire") return "fire";
+    if (card.element === "Water") return "water";
+    if (card.element === "Earth") return "earth";
+    if (card.element === "Air") return "air";
+    return "mystic";
+  };
+
+  let gridClass = "grid gap-8 w-full grid-cols-1 md:grid-cols-3 relative";
   if (spread.length === 1) gridClass = "grid gap-8 w-full grid-cols-1 max-w-sm mx-auto";
   if (spread.length === 5) gridClass = "grid gap-6 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5";
   if (spread.length === 10) gridClass = "grid gap-4 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5";
@@ -84,8 +97,14 @@ export function TarotSpreadView({
 
   return (
     <div className={gridClass}>
+      {spread.length === 1 && (
+        <CardAura 
+          type={getAuraType(spread[0].card, spread[0].isReversed)} 
+          isActive={!!flippedCards[0]} 
+        />
+      )}
       {spread.map((item, i) => (
-        <div key={i} className="flex flex-col gap-4 text-center">
+        <div key={i} className="flex flex-col gap-4 text-center relative z-10">
           <div>
             <h3 className="text-xl font-medium tracking-tight text-[var(--accent-solid)]">{getSpreadLabel(i)}</h3>
             <p className="text-xs text-muted-soft mt-1 tracking-wider uppercase">{getSpreadSubtitle(i)}</p>
@@ -93,6 +112,9 @@ export function TarotSpreadView({
           <FlipCard
             ariaLabel={`Tarot Card: ${item.card.name}`}
             heightClassName="h-[450px]"
+            onFlip={(isFlipped) => {
+              setFlippedCards(prev => ({ ...prev, [i]: isFlipped }));
+            }}
             front={
               <GlassCard className={`flex h-full w-full flex-col items-center justify-center p-8 text-center cursor-pointer hover:border-[var(--accent-solid)] transition-colors border-2 border-dashed`}>
                 <div className="text-6xl mb-4 opacity-50">✨</div>
