@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import { AngelNumbersTool } from "./AngelNumbersTool";
 import { Trans } from "@/components/Trans";
 import { Metadata } from "next";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Angel Numbers Meaning Reference",
     description: "What do 111, 222, 444, 1111 and other repeating numbers mean? A free reference guide.",
-    images: [{ url: "/api/og?type=numerology&title=Angel%20Numbers&subtitle=What%20repeating%20numbers%20mean&big=111" }],
+    images: [{ url: `${SITE_URL}/api/og?type=numerology&title=Angel%20Numbers&subtitle=What%20repeating%20numbers%20mean&big=111&ext=.png` }],
   },
 };
 

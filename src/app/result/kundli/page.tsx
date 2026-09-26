@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { calculateKundli, RASHI_ENGLISH, formatDegree, type Graha } from "@/lib/kundli";
@@ -57,8 +58,8 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const moonRashi = RASHI_ENGLISH[chart.moon.rashi];
   const title = `${input.name}'s Kundli — Moon in ${moonRashi}, ${chart.moonNakshatra.name} Nakshatra`;
   const description = `${input.name}'s Vedic birth chart: Lagna ${RASHI_ENGLISH[chart.lagnaRashi]}, Moon Rashi ${moonRashi}, Janam Nakshatra ${chart.moonNakshatra.name}. See the full free Kundli.`;
-  const ogUrl = `/api/og?type=kundli&title=${encodeURIComponent(input.name)}&subtitle=${encodeURIComponent(
-    `Moon in ${moonRashi} · ${chart.moonNakshatra.name} Nakshatra`
+  const ogUrl = `${SITE_URL}/api/og?type=kundli&title=${encodeURIComponent(input.name)}&subtitle=${encodeURIComponent(
+    &ext=.png`Moon in ${moonRashi} · ${chart.moonNakshatra.name} Nakshatra`
   )}`;
   const qs = new URLSearchParams(toShareParams(input)).toString();
   return {

@@ -33,7 +33,17 @@ function isIOSSafari(): boolean {
   return isIOS && isSafari;
 }
 
-export function InstallAppCTA({ forceShow = false, className = "mt-20 sm:mt-28" }: { forceShow?: boolean, className?: string }) {
+export function InstallAppCTA({ 
+  forceShow = false, 
+  className = "mt-20 sm:mt-28",
+  asPopup = false,
+  onClose
+}: { 
+  forceShow?: boolean;
+  className?: string;
+  asPopup?: boolean;
+  onClose?: () => void;
+}) {
   const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showIOSHint, setShowIOSHint] = useState(false);
@@ -51,6 +61,7 @@ export function InstallAppCTA({ forceShow = false, className = "mt-20 sm:mt-28" 
     const markInstalled = () => {
       setInstalled(true);
       track("App Installed", { source: "HeroCTA" });
+      if (onClose) onClose();
     };
 
     window.addEventListener("appinstalled", markInstalled);
@@ -79,19 +90,17 @@ export function InstallAppCTA({ forceShow = false, className = "mt-20 sm:mt-28" 
       window.removeEventListener("appinstalled", markInstalled);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
     };
-  }, []);
+  }, [onClose]);
 
   const handleInstall = async () => {
-    if (!deferredPrompt) {
-      if (forceShow) alert("In a real environment, this triggers the native install prompt!");
-      return;
-    }
+    if (!deferredPrompt) return;
     track("Install CTA Clicked");
     await deferredPrompt.prompt();
     const choice = await deferredPrompt.userChoice.catch(() => undefined);
     if (choice?.outcome === "accepted") {
       track("Install CTA Accepted");
       setInstalled(true);
+      if (onClose) onClose();
     } else {
       track("Install CTA Dismissed");
     }
@@ -99,62 +108,83 @@ export function InstallAppCTA({ forceShow = false, className = "mt-20 sm:mt-28" 
     window.__deferredInstallPrompt = null;
   };
 
-  // Only show the CTA if it's NOT installed AND we have a prompt available (or it's iOS)
-  if (!forceShow && (installed || (!deferredPrompt && !showIOSHint))) {
+  // Only show the CTA if it's NOT installed AND we have a prompt available (or it's iOS).
+  // If the browser withheld the prompt, it almost always means the app is already installed on the device.
+  if (installed || (!deferredPrompt && !showIOSHint)) {
     return null;
   }
 
+  const content = (
+    <motion.div
+      initial={{ opacity: 0, y: asPopup ? 0 : 20, scale: asPopup ? 0.9 : 1 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className={asPopup ? "relative w-full max-w-md mx-auto" : className}
+    >
+      <GlassCard className="relative overflow-hidden p-8 sm:p-12 text-center group border-[var(--accent-solid)] border-opacity-30 shadow-[0_0_40px_-15px_rgba(var(--accent-solid-rgb),0.3)]">
+        {asPopup && onClose && (
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/20 text-white/70 hover:text-white hover:bg-black/40 transition-colors"
+          >
+            ✕
+          </button>
+        )}
+        
+        {/* Background glow effects */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-full bg-gradient-to-b from-[var(--accent-solid)] to-transparent opacity-5 blur-3xl rounded-full pointer-events-none" />
+        
+        <motion.div
+          className="text-5xl sm:text-6xl mb-6 inline-block"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          📲
+        </motion.div>
+        
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 accent-gradient-text">
+          {t("pwa.cta.title", { defaultValue: "Install Cosmic Numbers" })}
+        </h2>
+        
+        <p className="max-w-xl mx-auto text-base sm:text-lg text-muted mb-8">
+          {t("pwa.cta.desc", { defaultValue: "Get the full experience. Add our app directly to your home screen for instant access to your daily horoscopes, tarot readings, and more—no app store required!" })}
+        </p>
+
+        {deferredPrompt ? (
+          <motion.button
+            type="button"
+            onClick={handleInstall}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="btn-tap accent-gradient-bg text-white font-bold text-lg px-10 py-4 rounded-full shadow-[0_10px_30px_-10px_var(--accent-ring)] w-full sm:w-auto"
+          >
+            {t("pwa.install.button", { defaultValue: "Install App Now" })}
+          </motion.button>
+        ) : showIOSHint ? (
+          <motion.button
+            type="button"
+            onClick={() => setShowGuide(true)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="btn-tap accent-gradient-bg text-white font-bold text-lg px-10 py-4 rounded-full shadow-[0_10px_30px_-10px_var(--accent-ring)] w-full sm:w-auto"
+          >
+            {t("pwa.install.show_me", { defaultValue: "How to Install (iOS)" })}
+          </motion.button>
+        ) : null}
+      </GlassCard>
+    </motion.div>
+  );
+
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={className}
-      >
-        <GlassCard className="relative overflow-hidden p-8 sm:p-12 text-center group border-[var(--accent-solid)] border-opacity-30 shadow-[0_0_40px_-15px_rgba(var(--accent-solid-rgb),0.3)]">
-          {/* Background glow effects */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-full bg-gradient-to-b from-[var(--accent-solid)] to-transparent opacity-5 blur-3xl rounded-full pointer-events-none" />
-          
-          <motion.div
-            className="text-5xl sm:text-6xl mb-6 inline-block"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            📲
-          </motion.div>
-          
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 accent-gradient-text">
-            {t("pwa.cta.title", { defaultValue: "Install Cosmic Numbers" })}
-          </h2>
-          
-          <p className="max-w-xl mx-auto text-base sm:text-lg text-muted mb-8">
-            {t("pwa.cta.desc", { defaultValue: "Get the full experience. Add our app directly to your home screen for instant access to your daily horoscopes, tarot readings, and more—no app store required!" })}
-          </p>
-
-          {deferredPrompt ? (
-            <motion.button
-              type="button"
-              onClick={handleInstall}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-tap accent-gradient-bg text-white font-bold text-lg px-10 py-4 rounded-full shadow-[0_10px_30px_-10px_var(--accent-ring)]"
-            >
-              {t("pwa.install.button", { defaultValue: "Install App Now" })}
-            </motion.button>
-          ) : showIOSHint ? (
-            <motion.button
-              type="button"
-              onClick={() => setShowGuide(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-tap accent-gradient-bg text-white font-bold text-lg px-10 py-4 rounded-full shadow-[0_10px_30px_-10px_var(--accent-ring)]"
-            >
-              {t("pwa.install.show_me", { defaultValue: "How to Install (iOS)" })}
-            </motion.button>
-          ) : null}
-        </GlassCard>
-      </motion.div>
+      {asPopup ? (
+        <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          {content}
+        </div>
+      ) : (
+        content
+      )}
 
       {showGuide && <IOSInstallGuide onClose={() => setShowGuide(false)} />}
     </>

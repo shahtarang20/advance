@@ -47,13 +47,13 @@ export const metadata: Metadata = {
     title: "Cosmic Numbers — Free Numerology Calculator & Daily Horoscope",
     description:
       "Discover your Life Path Number, Destiny Number, and daily horoscope for free. Beautiful, shareable, and made for India.",
-    images: [{ url: "/api/og?type=home&title=Cosmic%20Numbers&subtitle=Numerology%20%2B%20Horoscope", width: 1200, height: 630 }],
+    images: [{ url: `${SITE_URL}/api/og?type=home&title=Cosmic%20Numbers&subtitle=Numerology%20%2B%20Horoscope&ext=.png`, width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Cosmic Numbers — Free Numerology Calculator & Daily Horoscope",
     description: "Discover your Life Path Number and daily horoscope, free and beautifully designed.",
-    images: ["/api/og?type=home&title=Cosmic%20Numbers&subtitle=Numerology%20%2B%20Horoscope"],
+    images: [`${SITE_URL}/api/og?type=home&title=Cosmic%20Numbers&subtitle=Numerology%20%2B%20Horoscope&ext=.png`],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },

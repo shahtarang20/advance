@@ -43,7 +43,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   }
   const title = `${aura.name} — Your Aura Reading`;
   const description = `Your aura is aligned with the ${aura.chakra}. ${aura.description}`;
-  const ogUrl = `/api/og?type=aura&title=${encodeURIComponent(aura.name)}&subtitle=${encodeURIComponent(aura.chakra)}&color=${encodeURIComponent(aura.colorHex)}`;
+  const ogUrl = `${SITE_URL}/api/og?type=aura&title=${encodeURIComponent(aura.name)}&subtitle=${encodeURIComponent(aura.chakra)}&color=${encodeURIComponent(aura.colorHex)}&ext=.png`;
   return {
     title,
     description,

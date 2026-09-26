@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title,
       description,
-      images: [{ url: `/api/og?type=nakshatra&title=${encodeURIComponent(info.name)}&subtitle=${encodeURIComponent(`Ruled by ${info.rulingPlanet}`)}&big=${encodeURIComponent("✦")}` }],
+      images: [{ url: `${SITE_URL}/api/og?type=nakshatra&title=${encodeURIComponent(info.name)}&subtitle=${encodeURIComponent(&ext=.png`Ruled by ${info.rulingPlanet}`)}&big=${encodeURIComponent("✦")}` }],
     },
   };
 }

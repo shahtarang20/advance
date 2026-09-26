@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDailyHoroscope, getZodiacInfo, ZODIAC_SIGNS, ZodiacSign } from "@/lib/horoscope";
@@ -19,7 +20,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const horoscope = getDailyHoroscope(sign);
   const title = `${info.name} Horoscope Today — ${horoscope.mood} Day Ahead`;
   const description = `${info.name}: ${horoscope.love}`;
-  const ogUrl = `/api/og?type=horoscope&sign=${sign}&title=${encodeURIComponent(info.name)}&subtitle=${encodeURIComponent(horoscope.mood + " day")}`;
+  const ogUrl = `${SITE_URL}/api/og?type=horoscope&sign=${sign}&title=${encodeURIComponent(info.name)}&subtitle=${encodeURIComponent(horoscope.mood + " day")}&ext=.png`;
   return {
     title,
     description,

@@ -7,11 +7,13 @@ import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
 import { InstallAppCTA } from "@/components/InstallAppCTA";
+import { TypewriterText } from "@/components/TypewriterText";
 
 type Message = {
   id: string;
   sender: "user" | "oracle";
   text: string;
+  isTyping?: boolean;
 };
 
 export const OracleChat = () => {
@@ -34,6 +36,7 @@ export const OracleChat = () => {
   const [dbQuestions, setDbQuestions] = useState<Record<string, string>>({});
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [questionCount, setQuestionCount] = useState(0);
+  const [dismissedAtCount, setDismissedAtCount] = useState(-1);
 
   const shuffleQuestions = () => {
     const newIds: number[] = [];
@@ -104,7 +107,7 @@ export const OracleChat = () => {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       setIsOracleTyping(false);
-      setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: answer }]);
+      setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: answer, isTyping: true }]);
       
       setTimeout(() => {
         setHasAsked(false);
@@ -113,7 +116,7 @@ export const OracleChat = () => {
 
     } catch (error) {
       setIsOracleTyping(false);
-      setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: "The universe is momentarily quiet. Please try again." }]);
+      setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: "The universe is momentarily quiet. Please try again.", isTyping: true }]);
       setHasAsked(false);
     }
   };
@@ -176,7 +179,18 @@ export const OracleChat = () => {
                       : "bg-[var(--surface-strong)] border border-[var(--surface-border)] text-[var(--foreground)] rounded-bl-sm"
                   }`}
                 >
-                  {renderMessageText(m)}
+                  {m.sender === "oracle" && m.isTyping ? (
+                    <TypewriterText 
+                      text={renderMessageText(m)} 
+                      animate={true} 
+                      onTick={scrollToBottom}
+                      onTypingComplete={() => {
+                        setMessages(prev => prev.map(msg => msg.id === m.id ? { ...msg, isTyping: false } : msg));
+                      }} 
+                    />
+                  ) : (
+                    renderMessageText(m)
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -196,16 +210,14 @@ export const OracleChat = () => {
               </motion.div>
             )}
 
-            {questionCount >= 2 && !isOracleTyping && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="w-full flex justify-center py-4"
-              >
-                <div className="w-full max-w-[90%] transform scale-90 sm:scale-100 origin-center">
-                  <InstallAppCTA forceShow={true} className="mt-4" />
-                </div>
-              </motion.div>
+            {[2, 5, 7].includes(questionCount) && !isOracleTyping && dismissedAtCount !== questionCount && (
+              <AnimatePresence>
+                <InstallAppCTA 
+                  forceShow={true} 
+                  asPopup={true} 
+                  onClose={() => setDismissedAtCount(questionCount)} 
+                />
+              </AnimatePresence>
             )}
           </AnimatePresence>
         </div>

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { KundliTool } from "./KundliTool";
 import { Trans } from "@/components/Trans";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Free Kundli Maker — Vedic Birth Chart",
     description: "Generate your real Janam Kundli with accurate planetary positions, Lagna, and Nakshatra.",
-    images: [{ url: "/api/og?type=kundli&title=Kundli%20Maker&subtitle=Your%20Vedic%20Birth%20Chart" }],
+    images: [{ url: `${SITE_URL}/api/og?type=kundli&title=Kundli%20Maker&subtitle=Your%20Vedic%20Birth%20Chart&ext=.png` }],
   },
 };
 

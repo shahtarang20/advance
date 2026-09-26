@@ -1,8 +1,9 @@
 {
+  "id": "/?source=pwa",
   "name": "Cosmic Numbers",
   "short_name": "Cosmic",
   "description": "Discover your Life Path Number, Destiny Number, and daily horoscope for free. A beautifully designed numerology calculator.",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
@@ -12,13 +13,13 @@
       "src": "/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { CompatibilityTool } from "./CompatibilityTool";
 import { Trans } from "@/components/Trans";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Numerology Compatibility Calculator",
     description: "Check your love match percentage using numerology Life Path Numbers.",
-    images: [{ url: "/api/og?type=compatibility&title=Compatibility%20Calculator&subtitle=Find%20your%20match%20%25" }],
+    images: [{ url: `${SITE_URL}/api/og?type=compatibility&title=Compatibility%20Calculator&subtitle=Find%20your%20match%20%25&ext=.png` }],
   },
 };
 

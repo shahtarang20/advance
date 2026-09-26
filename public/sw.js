@@ -11,5 +11,5 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   // A simple pass-through fetch handler is enough to pass the PWA install criteria.
-  return;
+  // Explicitly do not call e.respondWith() so it defaults to standard network fetch.
 });

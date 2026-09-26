@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDailyHoroscope, getZodiacInfo, ZODIAC_SIGNS, ZodiacSign, blurbKey } from "@/lib/horoscope";
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ sign: str
     openGraph: {
       title,
       description,
-      images: [{ url: `/api/og?type=horoscope&sign=${info.sign}&title=${encodeURIComponent(info.name)}&subtitle=Daily%20Horoscope` }],
+      images: [{ url: `${SITE_URL}/api/og?type=horoscope&sign=${info.sign}&title=${encodeURIComponent(info.name)}&subtitle=Daily%20Horoscope&ext=.png` }],
     },
   };
 }

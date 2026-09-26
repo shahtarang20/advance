@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { calculateNumerologyProfile } from "@/lib/numerology";
@@ -15,7 +16,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const profile = calculateNumerologyProfile(name, dob);
   const title = `${name}'s Numerology Reading — Life Path ${profile.lifePath}`;
   const description = `${name}'s Life Path Number is ${profile.lifePath}, Destiny Number ${profile.destiny}. See the full free reading.`;
-  const ogUrl = `/api/og?type=numerology&title=${encodeURIComponent(name)}&subtitle=${encodeURIComponent(`Life Path ${profile.lifePath}`)}&big=${profile.lifePath}`;
+  const ogUrl = `${SITE_URL}/api/og?type=numerology&title=${encodeURIComponent(name)}&subtitle=${encodeURIComponent(&ext=.png`Life Path ${profile.lifePath}`)}&big=${profile.lifePath}`;
   return {
     title,
     description,

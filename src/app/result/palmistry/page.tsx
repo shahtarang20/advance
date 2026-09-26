@@ -66,7 +66,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const reading = getPalmReading(seed, hand);
   const title = `Your Palm Reading — ${reading.heartLine.title} Heart Line`;
   const description = `${reading.heartLine.meaning}`;
-  const ogUrl = `/api/og?type=palmistry&title=${encodeURIComponent("Palm Reading")}&subtitle=${encodeURIComponent(reading.heartLine.title)}`;
+  const ogUrl = `${SITE_URL}/api/og?type=palmistry&title=${encodeURIComponent("Palm Reading")}&subtitle=${encodeURIComponent(reading.heartLine.title)}&ext=.png`;
   return {
     title,
     description,

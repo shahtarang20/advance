@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { HoroscopeTool } from "./HoroscopeTool";
 import { Trans } from "@/components/Trans";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Daily Horoscope Today",
     description: "Free daily horoscope for all 12 zodiac signs — love, career, health, lucky number & color.",
-    images: [{ url: "/api/og?type=horoscope&title=Daily%20Horoscope&subtitle=All%2012%20zodiac%20signs" }],
+    images: [{ url: `${SITE_URL}/api/og?type=horoscope&title=Daily%20Horoscope&subtitle=All%2012%20zodiac%20signs&ext=.png` }],
   },
 };
 

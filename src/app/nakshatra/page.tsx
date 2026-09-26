@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { NakshatraGrid } from "./NakshatraGrid";
 import { Trans } from "@/components/Trans";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "27 Nakshatras — Vedic Birth Star Reference",
     description: "Explore the 27 traditional Vedic Nakshatras and their deities, planets, and meanings.",
-    images: [{ url: "/api/og?type=nakshatra&title=27%20Nakshatras&subtitle=Vedic%20Birth%20Star%20Reference&big=%E2%9C%A6" }],
+    images: [{ url: `${SITE_URL}/api/og?type=nakshatra&title=27%20Nakshatras&subtitle=Vedic%20Birth%20Star%20Reference&big=%E2%9C%A6&ext=.png` }],
   },
 };
 
