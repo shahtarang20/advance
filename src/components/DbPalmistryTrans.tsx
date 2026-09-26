@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslation } from "@/lib/I18nContext";
+import palmistryDb from "@/locales/palmistry_db.json";
 
 export function DbPalmistryTrans({
   category,
@@ -17,26 +17,15 @@ export function DbPalmistryTrans({
   isTitle?: boolean;
 }) {
   const { language } = useTranslation();
-  const [data, setData] = useState<{ title: string; meaning: string } | null>(null);
 
-  useEffect(() => {
-    let ignore = false;
-    fetch(`/api/palmistry?lang=${language}&category=${category}&subCategory=${subCategory}`)
-      .then((res) => res.json())
-      .then((json) => {
-        if (!ignore && json.title && json.meaning) {
-          setData(json);
-        }
-      })
-      .catch((err) => {
-        if (!ignore) console.error("Failed to fetch palmistry data:", err);
-      });
-    return () => { ignore = true; };
-  }, [language, category, subCategory]);
+  // Safely index into the static JSON database
+  const langData = (palmistryDb as Record<string, any>)[language];
+  const catData = langData?.[category];
+  const data = catData?.[subCategory];
 
   if (isTitle) {
-    return <>{data ? data.title : fallbackTitle}</>;
+    return <>{data?.title || fallbackTitle}</>;
   }
 
-  return <>{data ? data.meaning : fallbackMeaning}</>;
+  return <>{data?.meaning || fallbackMeaning}</>;
 }

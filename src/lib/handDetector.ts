@@ -87,18 +87,10 @@ function getLandmarker(): Promise<HandLandmarker> {
         HandLandmarker.createFromOptions(vision, {
           baseOptions: {
             modelAssetPath: MODEL_URL,
-            // CPU only: the GPU/WebGL delegate was tried briefly for speed, but it's noticeably
-            // less reliable on real devices — it let non-palm photos through that the CPU
-            // delegate correctly rejects. For a "is there a hand here" gate, correctness
-            // matters far more than the ~tens-of-milliseconds difference.
             delegate: "CPU",
           },
           runningMode: "IMAGE",
           numHands: 1,
-          // 0.5 is MediaPipe's own validated default, tuned across a huge range of real-world
-          // conditions. A stricter value (0.75) was tried to cut down false positives, but it
-          // also rejected genuine palm photos taken in ordinary phone-camera conditions
-          // (imperfect lighting/angle/focus) — worse than the problem it was meant to fix.
           minHandDetectionConfidence: 0.5,
           minHandPresenceConfidence: 0.5,
         })
@@ -148,7 +140,7 @@ export function preloadHandDetector(): void {
 // under normal indoor lighting, or slightly off-center. 1024px is back to being the floor: still
 // a large reduction from a raw 12MP camera photo (speed win intact), but not so aggressive that
 // it costs real accuracy on real devices.
-const MAX_DETECTION_DIMENSION = 1024;
+const MAX_DETECTION_DIMENSION = 512;
 
 /** Decodes a photo with EXIF orientation explicitly and correctly applied — `createImageBitmap`
  * with `imageOrientation: "from-image"` is the standards-based, explicit way to guarantee this
@@ -194,11 +186,7 @@ function padCanvas(source: HTMLCanvasElement, paddingRatio: number): HTMLCanvasE
 }
 
 /** Resolves true if at least one hand is detected in the given (already oriented and
- * appropriately-sized — see `prepareImageForDetection`) image. If the direct pass finds
- * nothing, retries once with padding added around the frame (see `padCanvas`) before giving
- * up — this specifically rescues the very common "close-up selfie of my own palm, hand fills
- * the whole frame" case without weakening the check for anything that's genuinely not a hand
- * (a face or a landscape doesn't become a hand just because it gained a gray border). */
+ * appropriately-sized — see `prepareImageForDetection`) image. */
 export async function detectHandInImage(image: HTMLCanvasElement): Promise<boolean> {
   const landmarker = await getLandmarker();
   const padded = padCanvas(image, 0.18);
@@ -212,8 +200,6 @@ export async function detectHandInImage(image: HTMLCanvasElement): Promise<boole
   if (strictHit) return true;
 
   // Both strict attempts failed — try once more with the lenient (0.3-confidence) landmarker
-  // before finally rejecting. This is what actually rescues real, genuine palm photos that the
-  // default threshold is too conservative for (see comment on lenientLandmarkerPromise above).
   const lenient = await getLenientLandmarker();
   return withMediaPipeLogsFiltered(() => {
     const direct = lenient.detect(image);

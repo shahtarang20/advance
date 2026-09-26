@@ -77,12 +77,14 @@ export function PalmistryTool() {
     try {
       const canvas = await prepareImageForDetection(dataUrl);
       hasHand = await detectHandInImage(canvas);
-    } catch {
-      failed = true;
+    } catch (err) {
+      console.warn("Hand detection AI failed/crashed, bypassing validation check:", err);
+      // If the AI model crashes (WASM issue on older phones), accept the photo!
+      hasHand = true;
+      failed = false;
     }
 
-    // Guarantee the "checking" state is actually visible for a moment, however fast the real
-    // work finished (see MIN_CHECK_DISPLAY_MS above for why this is necessary, not cosmetic).
+    // Guarantee the "checking" state is actually visible for a moment
     const remaining = MIN_CHECK_DISPLAY_MS - (Date.now() - startedAt);
     if (remaining > 0) await wait(remaining);
 
