@@ -29,14 +29,23 @@ export function PrivacyGuardProvider({ children }: { children: React.ReactNode }
         return;
       }
 
-      const countStr = window.localStorage.getItem("privacy_prompt_count");
-      const count = countStr ? parseInt(countStr, 10) : 0;
+      try {
+        const visitedFeaturesStr = window.localStorage.getItem("privacy_prompt_features");
+        const visitedFeatures: string[] = visitedFeaturesStr ? JSON.parse(visitedFeaturesStr) : [];
+        
+        // Get the base feature path (e.g. "tarot" from "/tarot/something")
+        const currentFeature = window.location.pathname.split('/')[1] || 'home';
 
-      if (count < 3) {
-        window.localStorage.setItem("privacy_prompt_count", (count + 1).toString());
-        setPendingAction(() => () => callback(...args));
-        setShowModal(true);
-      } else {
+        if (visitedFeatures.length < 3 && !visitedFeatures.includes(currentFeature)) {
+          visitedFeatures.push(currentFeature);
+          window.localStorage.setItem("privacy_prompt_features", JSON.stringify(visitedFeatures));
+          setPendingAction(() => () => callback(...args));
+          setShowModal(true);
+        } else {
+          callback(...args);
+        }
+      } catch (e) {
+        // Fallback in case localStorage is blocked or JSON parsing fails
         callback(...args);
       }
     };
