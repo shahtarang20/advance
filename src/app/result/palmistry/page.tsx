@@ -445,10 +445,10 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
                       </span>
                     </div>
                     <p className="text-sm font-medium mb-1">
-                      <DbPalmistryTrans category={bio.category} subCategory={reading.biometrics[bio.key as 'phi' | 'digitRatio' | 'thumbAngle' | 'moneyTriangle'].key} fallbackTitle={bio.variantTitleDefault} fallbackMeaning={bio.meaningDefault} isTitle={true} />
+                      <DbPalmistryTrans category={bio.category} subCategory={reading.biometrics[bio.key as 'phi' | 'digitRatio' | 'thumbAngle' | 'triangleAngle'].key} fallbackTitle={bio.variantTitleDefault} fallbackMeaning={bio.meaningDefault} isTitle={true} />
                     </p>
                     <p className="text-[13px] leading-relaxed text-muted">
-                      <DbPalmistryTrans category={bio.category} subCategory={reading.biometrics[bio.key as 'phi' | 'digitRatio' | 'thumbAngle' | 'moneyTriangle'].key} fallbackTitle={bio.variantTitleDefault} fallbackMeaning={bio.meaningDefault} isTitle={false} />
+                      <DbPalmistryTrans category={bio.category} subCategory={reading.biometrics[bio.key as 'phi' | 'digitRatio' | 'thumbAngle' | 'triangleAngle'].key} fallbackTitle={bio.variantTitleDefault} fallbackMeaning={bio.meaningDefault} isTitle={false} />
                     </p>
                   </div>
                 </GlassCard>
