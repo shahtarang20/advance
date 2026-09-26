@@ -58,6 +58,17 @@ export function HoroscopeTool() {
     ? `type=horoscope&sign=${selected}&title=${encodeURIComponent(info!.name)}&subtitle=${encodeURIComponent(horoscope.mood + " day ahead")}&text=${encodeURIComponent(horoscope.love)}`
     : "";
 
+  let userAge: number | undefined;
+  if (dob) {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    userAge = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      userAge--;
+    }
+  }
+
   return (
     <div className="mx-auto max-w-3xl">
       <GlassCard className="p-8">
@@ -123,7 +134,7 @@ export function HoroscopeTool() {
 
       {info && horoscope && (
         <div className="mt-10 space-y-6">
-          <HoroscopeCard info={info} horoscope={horoscope} />
+          <HoroscopeCard info={info} horoscope={horoscope} age={userAge} />
           <ShareButtons
             shareUrl={shareUrl}
             ogQuery={ogQuery}

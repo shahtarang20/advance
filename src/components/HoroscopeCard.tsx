@@ -24,7 +24,7 @@ function signName(sign: string) {
   return ZODIAC_SIGNS.find((z) => z.sign === sign)?.name ?? sign;
 }
 
-export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope: DailyHoroscope }) {
+export function HoroscopeCard({ info, horoscope, age }: { info: ZodiacInfo; horoscope: DailyHoroscope; age?: number }) {
   const { t } = useTranslation();
 
   const mood = t(moodKey(horoscope.mood), { defaultValue: horoscope.mood });
@@ -36,6 +36,8 @@ export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope
   const career = t(careerKey(info.sign, horoscope.careerIndex), { defaultValue: horoscope.career });
   const health = t(healthKey(info.sign, horoscope.healthIndex), { defaultValue: horoscope.health });
   const signLabel = t(`zodiac.${info.sign}`);
+
+  const showCareerAndLove = age === undefined || (age >= 15 && age <= 79);
   
   // Use the new dynamic transit summary if available, otherwise fallback
   const summary = horoscope.moonSignName && horoscope.transitHouse
@@ -114,15 +116,19 @@ export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope
         }
       />
 
-      <div className="grid gap-5 sm:grid-cols-3">
-        <GlassCard className="p-6 sm:p-7">
-          <h3 className="mb-2 text-lg font-semibold tracking-tight text-rose-700">{t("horoscope.card.love")}</h3>
-          <p className="text-[15px] leading-relaxed text-muted">{love}</p>
-        </GlassCard>
-        <GlassCard className="p-6 sm:p-7">
-          <h3 className="mb-2 text-lg font-semibold tracking-tight text-emerald-700">{t("horoscope.card.career")}</h3>
-          <p className="text-[15px] leading-relaxed text-muted">{career}</p>
-        </GlassCard>
+      <div className={`grid gap-5 ${showCareerAndLove ? 'sm:grid-cols-3' : 'sm:grid-cols-1'}`}>
+        {showCareerAndLove && (
+          <GlassCard className="p-6 sm:p-7">
+            <h3 className="mb-2 text-lg font-semibold tracking-tight text-rose-700">{t("horoscope.card.love")}</h3>
+            <p className="text-[15px] leading-relaxed text-muted">{love}</p>
+          </GlassCard>
+        )}
+        {showCareerAndLove && (
+          <GlassCard className="p-6 sm:p-7">
+            <h3 className="mb-2 text-lg font-semibold tracking-tight text-emerald-700">{t("horoscope.card.career")}</h3>
+            <p className="text-[15px] leading-relaxed text-muted">{career}</p>
+          </GlassCard>
+        )}
         <GlassCard className="p-6 sm:p-7">
           <h3 className="mb-2 text-lg font-semibold tracking-tight text-sky-700">{t("horoscope.card.health")}</h3>
           <p className="text-[15px] leading-relaxed text-muted">{health}</p>
