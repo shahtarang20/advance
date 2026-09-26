@@ -173,9 +173,9 @@ export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): Da
   const luckyNumber = Math.floor(rng() * 9) + 1;
   const info = getZodiacInfo(sign);
 
-  const loveIndex = getLunarPhase(date);
-  const careerIndex = getDailyNumerology(date) - 1;
-  const healthIndex = getDayOfWeek(date);
+  const loveIndex = Math.floor(rng() * (LOVE[sign]?.length || 8));
+  const careerIndex = Math.floor(rng() * (CAREER[sign]?.length || 9));
+  const healthIndex = Math.floor(rng() * (HEALTH[sign]?.length || 7));
 
   const loveValue = LOVE[sign][loveIndex] || LOVE[sign][0];
   const careerValue = CAREER[sign][careerIndex] || CAREER[sign][0];

@@ -102,8 +102,7 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: 'Cosmic Numbers',
-          text: `${caption}\n\n— shared via Cosmic Numbers`,
-          url: shareUrl,
+          text: `${caption}\n\n${shareUrl}\n\n— shared via Cosmic Numbers`,
           files: [file]
         });
         return;
