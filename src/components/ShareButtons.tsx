@@ -101,44 +101,42 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
     recordAction("share_click");
 
     try {
-      // The actual professional card only ever gets attached via the Web Share API's file
-      // support (`navigator.canShare({ files })`) — that's the one real mechanism a website has
-      // for handing an image directly into WhatsApp/Instagram/Facebook's own native share sheet,
-      // as an actual attached photo rather than just a text message with a link. This used to
-      // check `navigator.share` alone and send only {title, text, url} — which works, but never
-      // included the image at all, on any platform, even though the button said "Share on
-      // WhatsApp" implying the card would go with it. Fetching the PNG first and feeding it into
-      // `canShare`/`share` here is what actually attaches it.
-      if (fallbackPlatform !== 'download') {
+      // WhatsApp and Facebook: link-only, no file attached. Attaching an image turns the message
+      // into a photo-with-caption, and WhatsApp/Facebook only render their rich preview card
+      // (thumbnail + title + description, all clickable) for a plain link message — never for a
+      // photo's caption text, where a URL is reduced to plain tappable text instead of a card.
+      // Since every /result/* page already has full Open Graph metadata set up, sharing just the
+      // link is what lets WhatsApp/Facebook generate that card themselves — this is genuinely the
+      // more "professional card" outcome of the two, not a downgrade.
+      if (fallbackPlatform === 'whatsapp') {
+        const text = encodeURIComponent(`${caption}\n${shareUrl}`);
+        window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
+        triggerPostSharePopup();
+        return;
+      }
+      if (fallbackPlatform === 'facebook') {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank", "noopener,noreferrer");
+        triggerPostSharePopup();
+        return;
+      }
+
+      // Instagram has no link-preview mechanism at all, with or without an attached file — so
+      // the actual generated card is worth attaching directly here, via the Web Share API's file
+      // support, where the browser supports it. Where it doesn't (most desktop browsers), the
+      // only honest fallback is copying the caption+link for the user to paste in themselves.
+      if (fallbackPlatform === 'instagram') {
         const response = await fetch(`/api/og?${ogQuery}`);
         if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
         const blob = await response.blob();
         const file = new File([blob], "cosmic-reading.png", { type: blob.type || "image/png" });
 
         if (navigator.canShare?.({ files: [file] })) {
-          // The `url` field is silently dropped by most browsers whenever `files` is also
-          // present — the link has to be embedded directly in `text` instead, or it never makes
-          // it into the share at all and the recipient has no way back to the site.
           await navigator.share({
             files: [file],
             title: "Cosmic Numbers",
             text: `${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`,
           });
-          triggerPostSharePopup();
-          return;
-        }
-
-        // The device/browser can't attach files to a native share (most desktop browsers, and
-        // some older mobile ones) — fall back to platform-specific behavior instead. WhatsApp
-        // and Facebook still get a working text+link share; Instagram has no such URL scheme at
-        // all (it never has — see Footer.tsx), so the only honest option there is copying the
-        // caption+link to the clipboard for the user to paste in themselves.
-        if (fallbackPlatform === 'whatsapp') {
-          const text = encodeURIComponent(`${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`);
-          window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
-        } else if (fallbackPlatform === 'facebook') {
-          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank", "noopener,noreferrer");
-        } else if (fallbackPlatform === 'instagram') {
+        } else {
           await navigator.clipboard.writeText(`${caption}\n${shareUrl}`);
           setInstagramCopied(true);
           setTimeout(() => setInstagramCopied(false), 2500);
