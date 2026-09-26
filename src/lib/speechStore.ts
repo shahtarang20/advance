@@ -1,9 +1,20 @@
 import { useState, useEffect } from 'react';
 
-export const speechStore = {
+export interface SpeechStoreState {
+  listeners: Set<() => void>;
+  isPlaying: boolean;
+  words: string[];
+  activeWordIndex: number;
+  text: string;
+  subscribe: (listener: () => void) => () => void;
+  emit: () => void;
+  setState: (state: Partial<SpeechStoreState>) => void;
+}
+
+export const speechStore: SpeechStoreState = {
   listeners: new Set<() => void>(),
   isPlaying: false,
-  words: [] as string[],
+  words: [],
   activeWordIndex: -1,
   text: "",
   
@@ -16,7 +27,7 @@ export const speechStore = {
     this.listeners.forEach(l => l());
   },
   
-  setState(state: Partial<typeof speechStore>) {
+  setState(state: Partial<SpeechStoreState>) {
     Object.assign(this, state);
     this.emit();
   }
