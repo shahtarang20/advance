@@ -1300,5 +1300,8 @@
   "oracle.chat.welcome": "Welcome, seeker. I am the Mystic Oracle. The universe has guided you here. What guidance do you seek today?",
   "oracle.chat.select_question": "Select a cosmic question",
   "pwa.cta.title": "Install Cosmic Numbers",
-  "pwa.cta.desc": "Get the full experience. Add our app directly to your home screen for instant access to your daily horoscopes, tarot readings, and more—no app store required!"
+  "pwa.cta.desc": "Get the full experience. Add our app directly to your home screen for instant access to your daily horoscopes, tarot readings, and more—no app store required!",
+  "share.post_share_title": "Shared! Get the app for daily readings",
+  "share.post_share_desc": "Install Cosmic Numbers free — one tap, no app store needed.",
+  "share.post_share_btn": "Install"
 }

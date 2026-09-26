@@ -1300,5 +1300,8 @@
   "oracle.chat.welcome": "欢迎你，探索者。我是神秘神谕。宇宙指引你来到这里。今天你需要什么指导？",
   "oracle.chat.select_question": "选择一个宇宙问题",
   "pwa.cta.title": "安装宇宙密码",
-  "pwa.cta.desc": "获得完整体验。将我们的应用直接添加到您的主屏幕，即可即时访问您的每日星座运势、塔罗牌占卜等 - 无需应用商店！"
+  "pwa.cta.desc": "获得完整体验。将我们的应用直接添加到您的主屏幕，即可即时访问您的每日星座运势、塔罗牌占卜等 - 无需应用商店！",
+  "share.post_share_title": "已分享！获取应用以查看每日解读",
+  "share.post_share_desc": "免费安装 Cosmic Numbers——一键完成，无需应用商店。",
+  "share.post_share_btn": "安装"
 }

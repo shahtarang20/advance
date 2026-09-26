@@ -87,6 +87,13 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
   }, [isInView, shouldProminentlyShow]);
 
   const [instagramCopied, setInstagramCopied] = useState(false);
+  const [showPostSharePopup, setShowPostSharePopup] = useState(false);
+
+  const triggerPostSharePopup = () => {
+    if (isInstalled) return;
+    setShowPostSharePopup(true);
+    setTimeout(() => setShowPostSharePopup(false), 6000);
+  };
 
   const handleNativeShare = async (fallbackPlatform: 'whatsapp' | 'facebook' | 'instagram' | 'download') => {
     setDownloadError(null);
@@ -109,11 +116,15 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
         const file = new File([blob], "cosmic-reading.png", { type: blob.type || "image/png" });
 
         if (navigator.canShare?.({ files: [file] })) {
+          // The `url` field is silently dropped by most browsers whenever `files` is also
+          // present — the link has to be embedded directly in `text` instead, or it never makes
+          // it into the share at all and the recipient has no way back to the site.
           await navigator.share({
             files: [file],
             title: "Cosmic Numbers",
-            text: `${caption}\n\n— shared via Cosmic Numbers`,
+            text: `${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`,
           });
+          triggerPostSharePopup();
           return;
         }
 
@@ -132,6 +143,7 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
           setInstagramCopied(true);
           setTimeout(() => setInstagramCopied(false), 2500);
         }
+        triggerPostSharePopup();
         return;
       }
 
@@ -292,6 +304,43 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
         </motion.div>
       )}
     </motion.div>
+
+    <AnimatePresence>
+      {showPostSharePopup && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="fixed inset-x-0 bottom-4 z-[9995] mx-auto flex w-[calc(100%-2rem)] max-w-sm items-center gap-3 rounded-2xl border border-purple-500/20 bg-gradient-to-br from-indigo-500/95 via-purple-500/95 to-pink-500/95 p-4 text-white shadow-2xl backdrop-blur-xl"
+        >
+          <div className="text-2xl">📲</div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold">
+              {t("share.post_share_title", { defaultValue: "Shared! Get the app for daily readings" })}
+            </p>
+            <p className="mt-0.5 text-xs text-white/80">
+              {t("share.post_share_desc", { defaultValue: "Install Cosmic Numbers free — one tap, no app store needed." })}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleInstallClick}
+            className="btn-tap shrink-0 rounded-full bg-white px-3.5 py-2 text-xs font-semibold text-purple-700 shadow-md"
+          >
+            {t("share.post_share_btn", { defaultValue: "Install" })}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowPostSharePopup(false)}
+            aria-label={t("pwa.install.dismiss", { defaultValue: "Dismiss" })}
+            className="btn-tap shrink-0 text-white/70 hover:text-white"
+          >
+            ✕
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
     </div>
   );
 }
