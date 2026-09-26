@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { getNakshatraBySlug, NAKSHATRAS } from "@/lib/nakshatra";
 import { NakshatraSelect } from "./NakshatraSelect";
 import { Trans } from "@/components/Trans";
+import { DbNakshatraTrans } from "@/components/DbNakshatraTrans";
 
 export function generateStaticParams() {
   return NAKSHATRAS.map((n) => ({ slug: n.slug }));
@@ -38,7 +39,7 @@ export default async function NakshatraDetailPage({ params }: { params: Promise<
       <div className="mx-auto max-w-2xl text-center">
         <p className="text-xs uppercase tracking-widest text-muted-soft"><Trans tKey="nak.detail.subtitle" replacements={{ order: info.order.toString() }} /></p>
         <h1 className="mt-1 text-4xl font-bold tracking-tight sm:text-5xl"><Trans tKey={`nak.${info.slug}.name`} replacements={{ defaultValue: info.name }} /></h1>
-        <p className="mt-4 text-muted"><Trans tKey={`nak.${info.slug}.desc`} replacements={{ defaultValue: info.description }} /></p>
+        <p className="mt-4 text-muted"><DbNakshatraTrans nakshatra_id={info.slug} fallback={info.description} /></p>
       </div>
 
       <div className="mx-auto mt-12 max-w-2xl space-y-6">

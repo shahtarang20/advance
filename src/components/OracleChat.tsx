@@ -30,11 +30,12 @@ export const OracleChat = () => {
   const [isOracleTyping, setIsOracleTyping] = useState(false);
   const [hasAsked, setHasAsked] = useState(false);
   const [activeQuestionIds, setActiveQuestionIds] = useState<number[]>([]);
+  const [dbQuestions, setDbQuestions] = useState<Record<string, string>>({});
 
   const shuffleQuestions = () => {
     const newIds: number[] = [];
     while (newIds.length < 3) {
-      const randomId = Math.floor(Math.random() * 100) + 1;
+      const randomId = Math.floor(Math.random() * 600) + 1;
       if (!newIds.includes(randomId)) {
         newIds.push(randomId);
       }
@@ -45,6 +46,24 @@ export const OracleChat = () => {
   useEffect(() => {
     shuffleQuestions();
   }, []);
+
+  // Fetch the active questions (and marriage) from the DB
+  useEffect(() => {
+    if (activeQuestionIds.length === 0) return;
+    const ids = ["marriage", ...activeQuestionIds].join(",");
+    fetch(`/api/oracle-questions?lang=${language}&ids=${ids}`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          const map: Record<string, string> = { ...dbQuestions };
+          data.forEach((q: any) => {
+            map[q.question_id] = q.question_text || q.text;
+          });
+          setDbQuestions(map);
+        }
+      })
+      .catch(console.error);
+  }, [activeQuestionIds, language]);
 
   const scrollToBottom = () => {
     if (scrollContainerRef.current) {
@@ -106,10 +125,12 @@ export const OracleChat = () => {
     }
 
     try {
-      // Fetch directly from our new MongoDB backend!
       const res = await fetch(`/api/oracle?qId=${qId}&lang=${language}`);
       const data = await res.json();
       const answer = data.answer || "The stars align in mysterious ways. Trust your intuition.";
+      
+      // Add an artificial delay to simulate the Oracle "thinking" or consulting the stars
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       setIsOracleTyping(false);
       setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: answer }]);
@@ -141,9 +162,11 @@ export const OracleChat = () => {
       return t("oracle.a.marriage_unknown", { defaultValue: "Love is a deep cosmic journey. Whether you are seeking a partner to share your life with, or nurturing an existing bond, the stars ask you to keep your heart open to joy and trust the process." });
     }
 
-    // Since we now fetch the actual translated human string directly from the MongoDB database,
-    // we just return it exactly as is! No more local JSON lookups for the 1000 answers.
     return msg.text;
+  };
+
+  const getQuestionText = (qId: string | number, fallback: string) => {
+    return dbQuestions[String(qId)] || t(`oracle.q.${qId}`, { defaultValue: fallback });
   };
 
   return (
@@ -220,15 +243,15 @@ export const OracleChat = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <button
-              onClick={wrapAction(() => handleAsk("marriage", t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" })))}
+              onClick={wrapAction(() => handleAsk("marriage", getQuestionText("marriage", "What do the stars say about my marriage?")))}
               disabled={isOracleTyping || hasAsked}
               className="relative px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 border border-transparent rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
             >
-              ❤️ {t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" })}
+              ❤️ {getQuestionText("marriage", "What do the stars say about my marriage?")}
               {questionHint.show && !hasAsked && <FieldTapHint className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />}
             </button>
             {activeQuestionIds.map((qId) => {
-              const qText = t(`oracle.q.${qId}`, { defaultValue: `Mystic Question ${qId}?` });
+              const qText = getQuestionText(qId, `Mystic Question ${qId}?`);
               return (
                 <button
                   key={qId}

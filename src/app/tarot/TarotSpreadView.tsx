@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FlipCard } from "@/components/ui/FlipCard";
 import { TarotCard } from "@/lib/tarot";
 import { useTranslation } from "@/lib/I18nContext";
 import { CardAura, AuraType } from "@/components/ui/CardAura";
-
 import { PlayAudioButton } from "@/components/PlayAudioButton";
 
 export type TarotSpreadType = "daily" | "past_present_future" | "love" | "career" | "celtic_cross";
@@ -19,7 +18,22 @@ export function TarotSpreadView({
   spreadType: TarotSpreadType;
 }) {
   const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const [dbCards, setDbCards] = useState<Record<number, any>>({});
+
+  useEffect(() => {
+    const ids = spread.map(s => s.card.id).join(",");
+    fetch(`/api/tarot?lang=${language}&ids=${ids}`)
+      .then(res => res.json())
+      .then(data => {
+        const map: any = {};
+        if (Array.isArray(data)) {
+          data.forEach((d: any) => { map[d.card_id] = d; });
+        }
+        setDbCards(map);
+      })
+      .catch(console.error);
+  }, [spread, language]);
 
   const getSpreadLabel = (index: number) => {
     if (spreadType === "daily") return t("tarot.label.card_of_day", { defaultValue: "Card of the Day" });
@@ -64,12 +78,13 @@ export function TarotSpreadView({
   };
 
   const getCardAudioText = (item: { card: TarotCard; isReversed: boolean }) => {
-    const name = t(`tarot.name.${item.card.id}`, { defaultValue: item.card.name });
+    const dbCard = dbCards[item.card.id];
+    const name = dbCard?.name || t(`tarot.name.${item.card.id}`, { defaultValue: item.card.name });
     const reversed = item.isReversed ? `(${t("tarot.card.reversed", { defaultValue: "Reversed" })})` : "";
     const meaning = item.isReversed
-      ? t(`tarot.reversed.${item.card.id}`, { defaultValue: item.card.reversedMeaning })
-      : t(`tarot.upright.${item.card.id}`, { defaultValue: item.card.uprightMeaning });
-    const desc = t(`tarot.desc.${item.card.id}`, { defaultValue: item.card.description });
+      ? (dbCard?.reversed || t(`tarot.reversed.${item.card.id}`, { defaultValue: item.card.reversedMeaning }))
+      : (dbCard?.upright || t(`tarot.upright.${item.card.id}`, { defaultValue: item.card.uprightMeaning }));
+    const desc = dbCard?.desc || t(`tarot.desc.${item.card.id}`, { defaultValue: item.card.description });
     return `${name} ${reversed}. ${meaning}. ${desc}`;
   };
 
@@ -88,8 +103,6 @@ export function TarotSpreadView({
   if (spread.length === 5) gridClass = "grid gap-6 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5";
   if (spread.length === 10) gridClass = "grid gap-4 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5";
 
-
-
   return (
     <div className={gridClass}>
       {spread.length === 1 && (
@@ -98,59 +111,68 @@ export function TarotSpreadView({
           isActive={!!flippedCards[0]} 
         />
       )}
-      {spread.map((item, i) => (
-        <div key={i} className="flex flex-col gap-4 text-center relative z-10">
-          <div>
-            <h3 className="text-xl font-medium tracking-tight text-[var(--accent-solid)]">{getSpreadLabel(i)}</h3>
-            <p className="text-xs text-muted-soft mt-1 tracking-wider uppercase">{getSpreadSubtitle(i)}</p>
-          </div>
-          <FlipCard
-            ariaLabel={`Tarot Card: ${item.card.name}`}
-            heightClassName="h-[450px]"
-            onFlip={(isFlipped) => {
-              setFlippedCards(prev => ({ ...prev, [i]: isFlipped }));
-            }}
-            front={
-              <GlassCard className={`flex h-full w-full flex-col items-center justify-center p-8 text-center cursor-pointer hover:border-[var(--accent-solid)] transition-colors border-2 border-dashed`}>
-                <div className="text-6xl mb-4 opacity-50">✨</div>
-                <p className="text-sm font-medium text-muted-soft tracking-widest uppercase">
-                  {t("tarot.card.tap_reveal", { defaultValue: "Tap to Reveal" })}
-                </p>
-              </GlassCard>
-            }
-            back={
-              <GlassCard className={`flex h-full w-full flex-col overflow-y-auto p-6 relative`}>
-                <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-3 mb-3 shrink-0">
-                  <span className={`text-3xl ${item.isReversed ? 'inline-block rotate-180 drop-shadow-[0_0_10px_rgba(244,63,94,0.8)]' : ''}`}>{item.card.imageFallback}</span>
-                  <div className="flex flex-col items-end gap-2">
-                    <div className="flex items-center gap-2">
-                      <PlayAudioButton textToRead={getCardAudioText(item)} className="h-8 w-8" />
-                      <div className="text-right">
-                        <p className="text-xs font-bold tracking-widest text-muted-soft">{item.card.numeral}</p>
-                        <h4 className="text-lg font-bold tracking-tight">
-                          {t(`tarot.name.${item.card.id}`, { defaultValue: item.card.name })}
-                          {item.isReversed && (
-                            <span className="text-rose-500 text-xs ml-2">({t("tarot.card.reversed", { defaultValue: "Reversed" })})</span>
-                          )}
-                        </h4>
+      {spread.map((item, i) => {
+        const dbCard = dbCards[item.card.id];
+        const cardName = dbCard?.name || t(`tarot.name.${item.card.id}`, { defaultValue: item.card.name });
+        const meaning = item.isReversed
+          ? (dbCard?.reversed || t(`tarot.reversed.${item.card.id}`, { defaultValue: item.card.reversedMeaning }))
+          : (dbCard?.upright || t(`tarot.upright.${item.card.id}`, { defaultValue: item.card.uprightMeaning }));
+        const desc = dbCard?.desc || t(`tarot.desc.${item.card.id}`, { defaultValue: item.card.description });
+
+        return (
+          <div key={i} className="flex flex-col gap-4 text-center relative z-10">
+            <div>
+              <h3 className="text-xl font-medium tracking-tight text-[var(--accent-solid)]">{getSpreadLabel(i)}</h3>
+              <p className="text-xs text-muted-soft mt-1 tracking-wider uppercase">{getSpreadSubtitle(i)}</p>
+            </div>
+            <FlipCard
+              ariaLabel={`Tarot Card: ${cardName}`}
+              heightClassName="h-[450px]"
+              onFlip={(isFlipped) => {
+                setFlippedCards(prev => ({ ...prev, [i]: isFlipped }));
+              }}
+              front={
+                <GlassCard className={`flex h-full w-full flex-col items-center justify-center p-8 text-center cursor-pointer hover:border-[var(--accent-solid)] transition-colors border-2 border-dashed`}>
+                  <div className="text-6xl mb-4 opacity-50">✨</div>
+                  <p className="text-sm font-medium text-muted-soft tracking-widest uppercase">
+                    {t("tarot.card.tap_reveal", { defaultValue: "Tap to Reveal" })}
+                  </p>
+                </GlassCard>
+              }
+              back={
+                <GlassCard className={`flex h-full w-full flex-col overflow-y-auto p-6 relative`}>
+                  <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-3 mb-3 shrink-0">
+                    <span className={`text-3xl ${item.isReversed ? 'inline-block rotate-180 drop-shadow-[0_0_10px_rgba(244,63,94,0.8)]' : ''}`}>{item.card.imageFallback}</span>
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="flex items-center gap-2">
+                        <PlayAudioButton textToRead={getCardAudioText(item)} className="h-8 w-8" />
+                        <div className="text-right">
+                          <p className="text-xs font-bold tracking-widest text-muted-soft">{item.card.numeral}</p>
+                          <h4 className="text-lg font-bold tracking-tight">
+                            {cardName}
+                            {item.isReversed && (
+                              <span className="text-rose-500 text-xs ml-2">({t("tarot.card.reversed", { defaultValue: "Reversed" })})</span>
+                            )}
+                          </h4>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex-1 overflow-y-auto pr-2 scroll-thin">
-                  <p className="text-[13px] font-medium text-indigo-400 mb-3 leading-relaxed">
-                    {item.isReversed
-                      ? t(`tarot.reversed.${item.card.id}`, { defaultValue: item.card.reversedMeaning })
-                      : t(`tarot.upright.${item.card.id}`, { defaultValue: item.card.uprightMeaning })}
-                  </p>
-                  <p className="text-[13px] text-muted leading-relaxed">{t(`tarot.desc.${item.card.id}`, { defaultValue: item.card.description })}</p>
-                </div>
-              </GlassCard>
-            }
-          />
-        </div>
-      ))}
+                  <div className="flex-1 overflow-y-auto pr-2 scroll-thin">
+                    <p className="text-[13px] font-medium text-indigo-400 mb-3 leading-relaxed">
+                      {meaning}
+                    </p>
+                    <p className="text-[13px] text-muted leading-relaxed">
+                      {desc}
+                    </p>
+                  </div>
+                </GlassCard>
+              }
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

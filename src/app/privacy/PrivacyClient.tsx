@@ -27,11 +27,11 @@ export function PrivacyClient() {
       <div className="mx-auto mt-12 max-w-2xl">
         <GlassCard className="space-y-8 p-8">
           <Section title={t("privacy.s1.title", { defaultValue: "The short version" })}>
-            <p>{t("privacy.s1.p1", { defaultValue: "Cosmic Numbers has no backend, no user accounts, and no database. The name and date of birth you type in are used only to calculate your numerology, horoscope, or compatibility results directly in your own browser — that data is never sent to us or stored on any server we control." })}</p>
+            <p>{t("privacy.s1.p1", { defaultValue: "Cosmic Numbers does not require user accounts and does not store your personal data. The name and date of birth you type in are used only to fetch your numerology, horoscope, or compatibility results — your personal input is never saved or logged in our database." })}</p>
           </Section>
 
           <Section title={t("privacy.s2.title", { defaultValue: "What information we process" })}>
-            <p>{t("privacy.s2.p1", { defaultValue: "When you use a calculator (Numerology, Horoscope, Compatibility, or Nakshatra), the name and date of birth you enter are processed entirely client-side, in JavaScript running on your device, to compute your result. We do not transmit this information to a server, and we do not collect, log, or store it anywhere." })}</p>
+            <p>{t("privacy.s2.p1", { defaultValue: "When you use a calculator (Numerology, Horoscope, Kundli, Nakshatra), the name and date of birth you enter are used to compute your astrological or numerological profile. While we fetch the reading descriptions from our cloud database, we do not transmit, collect, log, or store your specific personal birth details on our servers." })}</p>
             <p>{t("privacy.s2.p2", { defaultValue: "If you use a \"Share\" link for a result, that information (e.g. your name and life path number) is encoded directly into the URL as query parameters so the page can regenerate the same result for whoever opens the link. It is not saved in a database — it exists only in that URL." })}</p>
           </Section>
 

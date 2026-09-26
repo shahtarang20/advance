@@ -43,6 +43,8 @@ const EXTENDED_GRID_ORDER: NumerologyCategory[] = [
   "rationalThought",
 ];
 
+import { useState, useEffect } from "react";
+
 export function NumerologyCard({ name, profile }: { name: string; profile: NumerologyProfile }) {
   const { t } = useTranslation();
   const values: Record<NumerologyCategory, number> = {
@@ -162,18 +164,31 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
 }
 
 function NumberFlipCard({ category, value }: { category: NumerologyCategory; value: number }) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const [dbMeaning, setDbMeaning] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/numerology?lang=${language}&category=${category}&number_id=${value}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          setDbMeaning(data[0].meaning);
+        }
+      })
+      .catch(console.error);
+  }, [category, value, language]);
+
   return (
     <FlipCard
       ariaLabel={`${CATEGORY_LABELS[category]}: ${value}`}
       heightClassName="h-72"
       front={
-        <GlassCard className="flex h-full w-full flex-col items-center justify-center p-5 text-center">
+        <GlassCard className="flex h-full w-full flex-col items-center justify-center p-5 text-center cursor-pointer hover:border-purple-500/50 transition-colors">
           <p className="accent-gradient-text text-5xl font-bold tracking-tight sm:text-6xl">{value}</p>
           <p className="mt-3 text-sm font-medium text-muted">
             {t(`num.label.${category}`, { defaultValue: CATEGORY_LABELS[category] })}
           </p>
-          <p className="mt-3 text-xs text-muted-soft">{t("numerology.card.tap_reveal")}</p>
+          <p className="mt-3 text-xs text-muted-soft uppercase tracking-widest">{t("numerology.card.tap_reveal", { defaultValue: "Tap to Reveal" })}</p>
         </GlassCard>
       }
       back={
@@ -182,9 +197,11 @@ function NumberFlipCard({ category, value }: { category: NumerologyCategory; val
             {t(`num.label.${category}`, { defaultValue: CATEGORY_LABELS[category] })}
           </h3>
           <p className="mt-1 shrink-0 text-xs italic text-muted-soft">{t(`num.tagline.${category}`, { defaultValue: CATEGORY_TAGLINES[category] })}</p>
-          <p className="scroll-thin mt-3 min-h-0 flex-1 overflow-y-auto pr-1 text-[13px] leading-relaxed text-muted">
-            {t(`num.desc.${category}.${value}`, { defaultValue: getDescription(category, value) })}
-          </p>
+          <div className="scroll-thin mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
+            <p className="text-[13px] leading-relaxed text-muted">
+              {dbMeaning || t(`num.desc.${category}.${value}`, { defaultValue: getDescription(category, value) })}
+            </p>
+          </div>
         </GlassCard>
       }
     />

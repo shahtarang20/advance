@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTranslation } from "@/lib/I18nContext";
 import { planetInRashiSignificance, PLANET_THEMES_EN, RASHI_FLAVOR_EN, planetThemeKey, rashiFlavorKey } from "@/lib/kundliInterpretations";
 import type { Graha, Rashi } from "@/lib/kundli";
@@ -17,12 +18,23 @@ export function GrahaInRashiLine({
   rashiEnglish: string;
   house: number;
 }) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const [dbFlavor, setDbFlavor] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/kundli?lang=${language}&category=rashiFlavor&rashi_id=${rashiEnglish.toLowerCase()}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) setDbFlavor(data[0].meaning);
+      })
+      .catch(console.error);
+  }, [rashiEnglish, language]);
+
   const grahaLabel = t(`kundli.graha.${graha.toLowerCase()}`, { defaultValue: grahaEnglish });
   const rashiLabel = t(`zodiac.${rashiEnglish.toLowerCase()}`, { defaultValue: rashiEnglish });
 
   const theme = t(planetThemeKey(graha), { defaultValue: PLANET_THEMES_EN[graha] });
-  const flavor = t(rashiFlavorKey(rashi), { defaultValue: RASHI_FLAVOR_EN[rashi] });
+  const flavor = dbFlavor || t(rashiFlavorKey(rashi), { defaultValue: RASHI_FLAVOR_EN[rashi] });
   const significance = t("kundli.result.graha_significance_template", {
     graha: grahaLabel,
     rashi: rashiLabel,

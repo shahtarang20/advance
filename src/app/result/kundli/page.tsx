@@ -18,6 +18,8 @@ import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 import { GrahaInRashiLine } from "./GrahaInRashiLine";
 import { ShareButtons } from "@/components/ShareButtons";
 import { Trans } from "@/components/Trans";
+import { DbKundliTrans } from "@/components/DbKundliTrans";
+import { DbNakshatraTrans } from "@/components/DbNakshatraTrans";
 
 type SP = { name?: string; dob?: string; time?: string; lat?: string; lng?: string; tz?: string; utcOffset?: string };
 
@@ -168,10 +170,7 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
           <Trans tKey="kundli.result.moon_rashi_nakshatra_title" replacements={{ defaultValue: "Your Moon Rashi & Nakshatra" }} />
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          <Trans
-            tKey={moonRashiMeaningKey(chart.moon.rashi)}
-            replacements={{ defaultValue: MOON_RASHI_MEANING[chart.moon.rashi] }}
-          />
+          <DbKundliTrans category="moonMeaning" rashi_id={RASHI_ENGLISH[chart.moon.rashi]} fallback={MOON_RASHI_MEANING[chart.moon.rashi]} />
         </p>
         <p className="mt-4 text-sm leading-relaxed text-muted">
           <Trans
@@ -184,9 +183,9 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
               defaultValue: `Your Janam Nakshatra is {name}, ruled by {ruler}, with the deity {deity} and symbol {symbol}.`,
             }}
           />{" "}
-          <Trans
-            tKey={`nakshatra.desc.${moonNakshatra.slug}`}
-            replacements={{ defaultValue: moonNakshatra.description }}
+          <DbNakshatraTrans
+            nakshatra_id={moonNakshatra.slug}
+            fallback={moonNakshatra.description}
           />
         </p>
         <Link href={`/nakshatra/${moonNakshatra.slug}`} className="mt-3 inline-block text-sm text-purple-600 underline">
@@ -202,7 +201,7 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
           <Trans tKey="kundli.result.lagna_title" replacements={{ defaultValue: "Your Lagna (Ascendant)" }} />
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          <Trans tKey={lagnaMeaningKey(chart.lagnaRashi)} replacements={{ defaultValue: LAGNA_MEANING[chart.lagnaRashi] }} />
+          <DbKundliTrans category="lagnaMeaning" rashi_id={RASHI_ENGLISH[chart.lagnaRashi]} fallback={LAGNA_MEANING[chart.lagnaRashi]} />
         </p>
       </GlassCard>
 
@@ -211,7 +210,7 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
           <Trans tKey="kundli.result.sun_rashi_title" replacements={{ defaultValue: "Your Sun Rashi" }} />
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          <Trans tKey={sunRashiMeaningKey(sunPlanet.rashi)} replacements={{ defaultValue: SUN_RASHI_MEANING[sunPlanet.rashi] }} />
+          <DbKundliTrans category="sunMeaning" rashi_id={RASHI_ENGLISH[sunPlanet.rashi]} fallback={SUN_RASHI_MEANING[sunPlanet.rashi]} />
         </p>
       </GlassCard>
 
