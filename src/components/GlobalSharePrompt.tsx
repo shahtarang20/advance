@@ -52,7 +52,10 @@ export function GlobalSharePrompt() {
   const shareUrl = encodeURIComponent(actualUrl || SITE_URL);
 
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/?text=${shareText}%0A%0A${shareUrl}`, "_blank", "noopener,noreferrer");
+    // Force cache bust to ensure WhatsApp fetches the latest image card
+    const cacheBuster = shareUrl.includes("%3F") ? `%26w=${Date.now()}` : `%3Fw=${Date.now()}`;
+    const freshUrl = shareUrl + cacheBuster;
+    window.open(`https://wa.me/?text=${shareText}%0A%0A${freshUrl}`, "_blank", "noopener,noreferrer");
     handleDismiss();
   };
 
