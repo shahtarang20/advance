@@ -5,7 +5,6 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { FlipCard } from "@/components/ui/FlipCard";
 import { TarotCard } from "@/lib/tarot";
 import { useTranslation } from "@/lib/I18nContext";
-import { CardAura, AuraType } from "@/components/ui/CardAura";
 import { PlayAudioButton } from "@/components/PlayAudioButton";
 
 export type TarotSpreadType = "daily" | "past_present_future" | "love" | "career" | "celtic_cross";
@@ -88,15 +87,6 @@ export function TarotSpreadView({
     return `${name} ${reversed}. ${meaning}. ${desc}`;
   };
 
-  const getAuraType = (card: TarotCard, isReversed: boolean): AuraType => {
-    if (card.name === "Death" || card.name === "The Devil" || card.name === "The Tower") return "dark";
-    if (isReversed) return "mystic"; 
-    if (card.element === "Fire") return "fire";
-    if (card.element === "Water") return "water";
-    if (card.element === "Earth") return "earth";
-    if (card.element === "Air") return "air";
-    return "mystic";
-  };
 
   let gridClass = "grid gap-8 w-full grid-cols-1 md:grid-cols-3 relative";
   if (spread.length === 1) gridClass = "grid gap-8 w-full grid-cols-1 max-w-sm mx-auto";
@@ -105,12 +95,6 @@ export function TarotSpreadView({
 
   return (
     <div className={gridClass}>
-      {spread.length === 1 && (
-        <CardAura 
-          type={getAuraType(spread[0].card, spread[0].isReversed)} 
-          isActive={!!flippedCards[0]} 
-        />
-      )}
       {spread.map((item, i) => {
         const dbCard = dbCards[item.card.id];
         const cardName = dbCard?.name || t(`tarot.name.${item.card.id}`, { defaultValue: item.card.name });
