@@ -86,44 +86,71 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
     }
   }, [isInView, shouldProminentlyShow]);
 
-  const handleNativeShare = async (fallbackPlatform: 'whatsapp' | 'facebook' | 'download') => {
+  const [instagramCopied, setInstagramCopied] = useState(false);
+
+  const handleNativeShare = async (fallbackPlatform: 'whatsapp' | 'facebook' | 'instagram' | 'download') => {
     setDownloadError(null);
     setDownloading(true);
     recordAction("share_click");
-    
+
     try {
-      // 1. Try native URL sharing IMMEDIATELY to prevent Safari/iOS from revoking the user gesture.
-      if (fallbackPlatform !== 'download' && navigator.share) {
-        await navigator.share({
-          title: 'Cosmic Numbers',
-          text: `${caption}\n\n— shared via Cosmic Numbers`,
-          url: shareUrl
-        });
+      // The actual professional card only ever gets attached via the Web Share API's file
+      // support (`navigator.canShare({ files })`) — that's the one real mechanism a website has
+      // for handing an image directly into WhatsApp/Instagram/Facebook's own native share sheet,
+      // as an actual attached photo rather than just a text message with a link. This used to
+      // check `navigator.share` alone and send only {title, text, url} — which works, but never
+      // included the image at all, on any platform, even though the button said "Share on
+      // WhatsApp" implying the card would go with it. Fetching the PNG first and feeding it into
+      // `canShare`/`share` here is what actually attaches it.
+      if (fallbackPlatform !== 'download') {
+        const response = await fetch(`/api/og?${ogQuery}`);
+        if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+        const blob = await response.blob();
+        const file = new File([blob], "cosmic-reading.png", { type: blob.type || "image/png" });
+
+        if (navigator.canShare?.({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: "Cosmic Numbers",
+            text: `${caption}\n\n— shared via Cosmic Numbers`,
+          });
+          return;
+        }
+
+        // The device/browser can't attach files to a native share (most desktop browsers, and
+        // some older mobile ones) — fall back to platform-specific behavior instead. WhatsApp
+        // and Facebook still get a working text+link share; Instagram has no such URL scheme at
+        // all (it never has — see Footer.tsx), so the only honest option there is copying the
+        // caption+link to the clipboard for the user to paste in themselves.
+        if (fallbackPlatform === 'whatsapp') {
+          const text = encodeURIComponent(`${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`);
+          window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
+        } else if (fallbackPlatform === 'facebook') {
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank", "noopener,noreferrer");
+        } else if (fallbackPlatform === 'instagram') {
+          await navigator.clipboard.writeText(`${caption}\n${shareUrl}`);
+          setInstagramCopied(true);
+          setTimeout(() => setInstagramCopied(false), 2500);
+        }
         return;
       }
 
-      // 2. If it's a download (or native share failed/is missing), fetch the image blob.
+      // Plain download — no share sheet involved, just save the file.
       const response = await fetch(`/api/og?${ogQuery}`);
       if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
       const blob = await response.blob();
-
-      // 3. Fallbacks for desktop / unsupported browsers
-      if (fallbackPlatform === 'download') {
-        const objectUrl = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = objectUrl;
-        link.download = "cosmic-reading.png";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(objectUrl);
-      } else if (fallbackPlatform === 'whatsapp') {
-        const text = encodeURIComponent(`${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`);
-        window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
-      } else if (fallbackPlatform === 'facebook') {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank", "noopener,noreferrer");
-      }
-    } catch {
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = "cosmic-reading.png";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      // A user cancelling the native share sheet also throws (AbortError) — that's not a real
+      // failure, so it shouldn't show an error message telling them something broke.
+      if (err instanceof DOMException && err.name === "AbortError") return;
       setDownloadError(t("share.error", { defaultValue: "Failed to generate card." }));
     } finally {
       setDownloading(false);
@@ -192,6 +219,21 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
             className="shadow-md disabled:opacity-70"
           >
             {downloading ? t("share.generating", { defaultValue: "Generating Card..." }) : t("share.facebook", { defaultValue: "Share on Facebook" })}
+          </Button>
+        </motion.div>
+
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            variant="instagram"
+            onClick={() => handleNativeShare('instagram')}
+            disabled={downloading}
+            className="shadow-md disabled:opacity-70"
+          >
+            {downloading
+              ? t("share.generating", { defaultValue: "Generating Card..." })
+              : instagramCopied
+                ? t("share_prompt.copied", { defaultValue: "Link Copied!" })
+                : t("share_prompt.instagram", { defaultValue: "Share on Instagram" })}
           </Button>
         </motion.div>
 

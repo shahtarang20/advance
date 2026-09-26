@@ -14,7 +14,7 @@ export function DbKundliTrans({
   fallback: string; 
   className?: string; 
 }) {
-  const { language } = useTranslation();
+  const { language, t } = useTranslation();
   const [text, setText] = useState<string | null>(null);
   
   useEffect(() => {
@@ -26,5 +26,8 @@ export function DbKundliTrans({
       .catch(console.error);
   }, [category, rashi_id, language]);
 
-  return <span className={className}>{text || fallback}</span>;
+  const tKey = `kundli.${category}.${rashi_id.toLowerCase()}`;
+  const staticText = t(tKey, { defaultValue: fallback });
+
+  return <span className={className}>{text || (staticText !== tKey ? staticText : fallback)}</span>;
 }
