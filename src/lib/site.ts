@@ -3,6 +3,9 @@
 // Falls back to localhost for local dev. If you buy a custom domain later, set
 // NEXT_PUBLIC_SITE_URL in Vercel's env vars to override this with your custom domain.
 function resolveSiteUrl(): string {
+  // If we are running in the browser (client-side), we can simply read the actual URL!
+  if (typeof window !== "undefined") return window.location.origin;
+  
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;

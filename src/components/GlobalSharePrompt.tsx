@@ -12,9 +12,12 @@ export function GlobalSharePrompt() {
   const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [actualUrl, setActualUrl] = useState("");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    
+    setActualUrl(window.location.origin);
     
     // Check if already shared/prompted
     if (window.localStorage.getItem("cosmic-global-shared") === "1") return;
@@ -46,7 +49,7 @@ export function GlobalSharePrompt() {
   };
 
   const shareText = encodeURIComponent("✨ Discover your cosmic path for free:");
-  const shareUrl = encodeURIComponent(SITE_URL);
+  const shareUrl = encodeURIComponent(actualUrl || SITE_URL);
 
   const handleWhatsApp = () => {
     window.open(`https://wa.me/?text=${shareText}%0A%0A${shareUrl}`, "_blank", "noopener,noreferrer");

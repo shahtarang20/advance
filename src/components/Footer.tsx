@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ZODIAC_SIGNS } from "@/lib/horoscope";
 import { useTranslation } from "@/lib/I18nContext";
@@ -11,7 +11,13 @@ export function Footer() {
   const [copied, setCopied] = useState(false);
 
   const shareText = encodeURIComponent("✨ Discover your cosmic path for free:");
-  const shareUrl = encodeURIComponent(SITE_URL);
+  const [actualUrl, setActualUrl] = useState("");
+  
+  useEffect(() => { 
+    if (typeof window !== "undefined") setActualUrl(window.location.origin); 
+  }, []);
+
+  const shareUrl = encodeURIComponent(actualUrl || SITE_URL);
 
   // Instagram has no public share-link API (unlike WhatsApp's wa.me or Facebook's sharer.php),
   // so copy-to-clipboard + "paste it yourself" is the only thing that actually works everywhere.

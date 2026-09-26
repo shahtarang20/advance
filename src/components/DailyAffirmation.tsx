@@ -27,16 +27,18 @@ export function getDailyAffirmationIndex() {
 export function DailyAffirmation() {
   const { t } = useTranslation();
   const [affirmationIndex, setAffirmationIndex] = useState<number | null>(null);
+  const [actualUrl, setActualUrl] = useState("");
 
   useEffect(() => {
     setAffirmationIndex(getDailyAffirmationIndex());
+    if (typeof window !== "undefined") setActualUrl(window.location.origin);
   }, []);
 
   if (affirmationIndex === null) return null;
   const englishFallback = AFFIRMATIONS[affirmationIndex];
   const translatedText = t(`affirmation.text.${affirmationIndex}`, { defaultValue: englishFallback });
 
-  const shareUrl = `${SITE_URL}`;
+  const shareUrl = actualUrl || SITE_URL;
   const ogQuery = `type=home&title=Cosmic%20Affirmation&subtitle=${encodeURIComponent(translatedText)}`;
 
   return (
