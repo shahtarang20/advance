@@ -92,21 +92,20 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
     recordAction("share_click");
     
     try {
-      // 1. Fetch the beautifully generated OG Image card
-      const response = await fetch(`/api/og?${ogQuery}`);
-      if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
-      const blob = await response.blob();
-      const file = new File([blob], "cosmic-reading.png", { type: blob.type });
-
-      // 2. If the user's OS supports native sharing WITH images (iOS/Android)
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      // 1. Try native URL sharing IMMEDIATELY to prevent Safari/iOS from revoking the user gesture.
+      if (fallbackPlatform !== 'download' && navigator.share) {
         await navigator.share({
           title: 'Cosmic Numbers',
-          text: `${caption}\n\n${shareUrl}\n\n— shared via Cosmic Numbers`,
-          files: [file]
+          text: `${caption}\n\n— shared via Cosmic Numbers`,
+          url: shareUrl
         });
         return;
       }
+
+      // 2. If it's a download (or native share failed/is missing), fetch the image blob.
+      const response = await fetch(`/api/og?${ogQuery}`);
+      if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+      const blob = await response.blob();
 
       // 3. Fallbacks for desktop / unsupported browsers
       if (fallbackPlatform === 'download') {
