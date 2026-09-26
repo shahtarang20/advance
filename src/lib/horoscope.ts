@@ -139,6 +139,9 @@ export interface DailyHoroscope {
   careerIndex: number;
   healthIndex: number;
   summary: string;
+  moonSignName?: string;
+  transitHouse?: number;
+  houseTheme?: string;
 }
 
 
@@ -228,6 +231,9 @@ export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): Da
     loveIndex,
     careerIndex,
     healthIndex,
+    moonSignName,
+    transitHouse,
+    houseTheme: theme,
     summary: `The Moon is currently transiting ${moonSignName}, activating your ${transitHouse}${
       transitHouse === 1 ? 'st' : transitHouse === 2 ? 'nd' : transitHouse === 3 ? 'rd' : 'th'
     } House of ${theme}. ${info.name} is feeling ${mood.toLowerCase()} today.`,

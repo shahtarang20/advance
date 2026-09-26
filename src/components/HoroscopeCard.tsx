@@ -36,12 +36,23 @@ export function HoroscopeCard({ info, horoscope }: { info: ZodiacInfo; horoscope
   const career = t(careerKey(info.sign, horoscope.careerIndex), { defaultValue: horoscope.career });
   const health = t(healthKey(info.sign, horoscope.healthIndex), { defaultValue: horoscope.health });
   const signLabel = t(`zodiac.${info.sign}`);
-  const summary = t("horoscope.summary_template", {
-    name: signLabel,
-    mood: mood.toLowerCase(),
-    love,
-    defaultValue: `${signLabel} is feeling ${mood.toLowerCase()} today. ${love}`,
-  });
+  
+  // Use the new dynamic transit summary if available, otherwise fallback
+  const summary = horoscope.moonSignName && horoscope.transitHouse
+    ? t("horoscope.transit_summary", {
+        moonSign: t(`zodiac.${horoscope.moonSignName.toLowerCase()}`, { defaultValue: horoscope.moonSignName }),
+        house: String(horoscope.transitHouse),
+        theme: t(`horoscope.house_theme.${horoscope.transitHouse}`, { defaultValue: horoscope.houseTheme || "" }),
+        name: signLabel,
+        mood: mood.toLowerCase(),
+        defaultValue: horoscope.summary
+      })
+    : t("horoscope.summary_template", {
+        name: signLabel,
+        mood: mood.toLowerCase(),
+        love,
+        defaultValue: horoscope.summary,
+      });
 
   const fullReading = `${summary} ${t("horoscope.card.love")}: ${love} ${t("horoscope.card.career")}: ${career} ${t("horoscope.card.health")}: ${health}`;
 

@@ -1339,5 +1339,18 @@
   "kundli.sunMeaning.meena": "आपका मूल स्वरूप अविश्वसनीय रूप से दयालु है। आप तब अपना सच्चा उद्देश्य पाते हैं जब आप कला का निर्माण करते हैं या अपनी गहरी आध्यात्मिक संवेदनशीलता से दूसरों की मदद करते हैं।",
   "share.post_share_title": "शेयर हो गया! रोज़ाना रीडिंग के लिए ऐप पाएं",
   "share.post_share_desc": "लौकिक संख्याएँ मुफ़्त इंस्टॉल करें — एक टैप में, बिना ऐप स्टोर के।",
-  "share.post_share_btn": "इंस्टॉल करें"
+  "share.post_share_btn": "इंस्टॉल करें",
+  "horoscope.transit_summary": "चंद्रमा वर्तमान में {{moonSign}} में गोचर कर रहा है, जो आपके {{theme}} के {{house}}वें भाव को सक्रिय कर रहा है। {{name}} आज {{mood}} महसूस कर रहा है।",
+  "horoscope.house_theme.1": "स्वयं और नई शुरुआत",
+  "horoscope.house_theme.2": "वित्त और मूल्य",
+  "horoscope.house_theme.3": "संचार और भाई-बहन",
+  "horoscope.house_theme.4": "घर और भावनात्मक नींव",
+  "horoscope.house_theme.5": "रचनात्मकता और रोमांस",
+  "horoscope.house_theme.6": "स्वास्थ्य और दैनिक दिनचर्या",
+  "horoscope.house_theme.7": "साझेदारी और रिश्ते",
+  "horoscope.house_theme.8": "परिवर्तन और साझा संसाधन",
+  "horoscope.house_theme.9": "यात्रा और उच्च शिक्षा",
+  "horoscope.house_theme.10": "कैरियर और सार्वजनिक प्रतिष्ठा",
+  "horoscope.house_theme.11": "दोस्ती और भविष्य के लक्ष्य",
+  "horoscope.house_theme.12": "आराम और आध्यात्मिक समापन"
 }
