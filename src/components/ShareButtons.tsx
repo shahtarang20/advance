@@ -86,35 +86,47 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
     }
   }, [isInView, shouldProminentlyShow]);
 
-  const handleWhatsApp = () => {
-    recordAction("share_click");
-    const text = encodeURIComponent(`${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`);
-    window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
-  };
-
-  const handleFacebook = () => {
-    recordAction("share_click");
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank", "noopener,noreferrer");
-  };
-
-  const handleDownload = async () => {
+  const handleNativeShare = async (fallbackPlatform: 'whatsapp' | 'facebook' | 'download') => {
     setDownloadError(null);
     setDownloading(true);
     recordAction("share_click");
+    
     try {
+      // 1. Fetch the beautifully generated OG Image card
       const response = await fetch(`/api/og?${ogQuery}`);
       if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
       const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = objectUrl;
-      link.download = "cosmic-numbers-card.png";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(objectUrl);
+      const file = new File([blob], "cosmic-reading.png", { type: blob.type });
+
+      // 2. If the user's OS supports native sharing WITH images (iOS/Android)
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: 'Cosmic Numbers',
+          text: `${caption}\n\n— shared via Cosmic Numbers`,
+          url: shareUrl,
+          files: [file]
+        });
+        return;
+      }
+
+      // 3. Fallbacks for desktop / unsupported browsers
+      if (fallbackPlatform === 'download') {
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = objectUrl;
+        link.download = "cosmic-reading.png";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(objectUrl);
+      } else if (fallbackPlatform === 'whatsapp') {
+        const text = encodeURIComponent(`${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`);
+        window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
+      } else if (fallbackPlatform === 'facebook') {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank", "noopener,noreferrer");
+      }
     } catch {
-      setDownloadError(t("share.error"));
+      setDownloadError(t("share.error", { defaultValue: "Failed to generate card." }));
     } finally {
       setDownloading(false);
     }
@@ -164,21 +176,31 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
 
       <div className="flex flex-wrap justify-center gap-3">
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Button variant="whatsapp" onClick={handleWhatsApp} className="shadow-md">
-            {t("share.whatsapp")}
+          <Button 
+            variant="whatsapp" 
+            onClick={() => handleNativeShare('whatsapp')} 
+            disabled={downloading}
+            className="shadow-md disabled:opacity-70"
+          >
+            {downloading ? t("share.generating", { defaultValue: "Generating Card..." }) : t("share.whatsapp", { defaultValue: "Share on WhatsApp" })}
           </Button>
         </motion.div>
 
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Button variant="facebook" onClick={handleFacebook} className="shadow-md">
-            {t("share.facebook", { defaultValue: "Facebook" })}
+          <Button 
+            variant="facebook" 
+            onClick={() => handleNativeShare('facebook')} 
+            disabled={downloading}
+            className="shadow-md disabled:opacity-70"
+          >
+            {downloading ? t("share.generating", { defaultValue: "Generating Card..." }) : t("share.facebook", { defaultValue: "Share on Facebook" })}
           </Button>
         </motion.div>
 
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Button
             variant="secondary"
-            onClick={handleDownload}
+            onClick={() => handleNativeShare('download')}
             disabled={downloading}
             className="disabled:cursor-not-allowed disabled:opacity-60 shadow-md relative overflow-hidden"
           >
@@ -188,7 +210,7 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
                 {t("share.generating")}
               </span>
             ) : (
-              t("share.download")
+              t("share.download", { defaultValue: "Download Image" })
             )}
           </Button>
         </motion.div>
