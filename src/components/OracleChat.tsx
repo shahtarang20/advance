@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/lib/I18nContext";
 import { usePrivacyGuard } from "@/lib/PrivacyGuard";
+import { FieldTapHint } from "@/components/FieldTapHint";
+import { useFieldHint } from "@/lib/fieldHints";
 
 type Message = {
   id: string;
@@ -15,6 +17,7 @@ export const OracleChat = () => {
   const { t } = useTranslation();
   const { wrapAction } = usePrivacyGuard();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const questionHint = useFieldHint("oracle-question");
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -58,6 +61,7 @@ export const OracleChat = () => {
 
   const handleAsk = (qId: number | string, qText: string) => {
     if (isOracleTyping || hasAsked) return;
+    questionHint.dismiss();
     setHasAsked(true);
 
     const userMsg: Message = { id: Date.now().toString(), sender: "user", text: qText };
@@ -135,8 +139,8 @@ export const OracleChat = () => {
   };
 
   return (
-    <div className="mx-auto max-w-2xl w-full">
-      <div className="bg-[var(--surface)] border border-[var(--surface-border)] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+    <div className="mx-auto max-w-2xl w-full flex-1 flex flex-col min-h-0">
+      <div className="bg-[var(--surface)] border border-[var(--surface-border)] rounded-3xl shadow-2xl overflow-hidden flex flex-col flex-1 min-h-0">
         
         {/* Header - Fixed layout, no weird flexbox tricks */}
         <div className="bg-[var(--surface-strong)] px-6 py-5 border-b border-[var(--surface-border)] flex items-center gap-4 shrink-0">
@@ -153,7 +157,7 @@ export const OracleChat = () => {
         </div>
 
         {/* Chat Area - Scrollable */}
-        <div ref={scrollContainerRef} className="h-[400px] overflow-y-auto p-6 space-y-6 relative custom-scrollbar bg-gradient-to-b from-transparent to-[var(--surface-strong)]/30">
+        <div ref={scrollContainerRef} className="flex-1 min-h-0 overflow-y-auto p-4 md:p-6 space-y-6 relative custom-scrollbar bg-gradient-to-b from-transparent to-[var(--surface-strong)]/30">
           <AnimatePresence initial={false}>
             {messages.map((m) => (
               <motion.div
@@ -192,8 +196,8 @@ export const OracleChat = () => {
         </div>
 
         {/* Footer Area - Auto height based on buttons */}
-        <div className="p-6 bg-[var(--surface-strong)] border-t border-[var(--surface-border)] shrink-0">
-          <div className="flex items-center justify-between mb-4 px-2">
+        <div className="p-4 md:p-6 bg-[var(--surface-strong)] border-t border-[var(--surface-border)] shrink-0">
+          <div className="flex items-center justify-between mb-3 md:mb-4 px-2">
             <p className="text-xs text-purple-600 dark:text-purple-400 uppercase tracking-widest font-bold m-0">
               {t("oracle.chat.select_question", { defaultValue: "Select a cosmic question" })}
             </p>
@@ -210,9 +214,10 @@ export const OracleChat = () => {
             <button
               onClick={wrapAction(() => handleAsk("marriage", t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" })))}
               disabled={isOracleTyping || hasAsked}
-              className="px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 border border-transparent rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
+              className="relative px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 border border-transparent rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
             >
               ❤️ {t("oracle.q.marriage", { defaultValue: "What do the stars say about my marriage?" })}
+              {questionHint.show && !hasAsked && <FieldTapHint className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />}
             </button>
             {activeQuestionIds.map((qId) => {
               const qText = t(`oracle.q.${qId}`, { defaultValue: `Mystic Question ${qId}?` });

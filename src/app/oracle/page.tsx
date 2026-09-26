@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 
 export default function OraclePage() {
   return (
-    <div className="px-4 pb-24 pt-12 md:pt-16">
-      <div className="mx-auto max-w-2xl text-center mb-8">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-3">
+    <div className="px-4 py-4 md:py-8 h-[calc(100dvh-70px)] max-h-[1000px] flex flex-col">
+      <div className="mx-auto max-w-2xl text-center mb-4 shrink-0 hidden sm:block">
+        <h1 className="text-3xl font-bold tracking-tight sm:text-5xl mb-2">
           <Trans tKey="oracle.page.title" />
         </h1>
-        <p className="text-muted">
+        <p className="text-sm text-muted">
           <Trans tKey="oracle.page.desc" />
         </p>
       </div>
