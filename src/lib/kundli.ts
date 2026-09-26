@@ -49,7 +49,7 @@ export const GRAHA_HINDI: Record<Graha, string> = {
 const LAHIRI_AYANAMSA_J2000 = 23.85333;
 const AYANAMSA_RATE_PER_YEAR = 0.013972;
 
-function lahiriAyanamsa(date: Date): number {
+export function lahiriAyanamsa(date: Date): number {
   const yearsSinceJ2000 = (date.getTime() - Date.UTC(2000, 0, 1, 12, 0, 0)) / (365.25 * 86400000);
   return LAHIRI_AYANAMSA_J2000 + AYANAMSA_RATE_PER_YEAR * yearsSinceJ2000;
 }
@@ -61,7 +61,7 @@ function normalize360(deg: number): number {
 }
 
 /** Geocentric apparent tropical ecliptic longitude (degrees) of a classical planet/Sun/Moon. */
-function tropicalLongitude(body: Astronomy.Body, date: Date): number {
+export function tropicalLongitude(body: Astronomy.Body, date: Date): number {
   const vec = Astronomy.GeoVector(body, date, true);
   return normalize360(Astronomy.Ecliptic(vec).elon);
 }

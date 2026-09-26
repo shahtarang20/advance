@@ -1,4 +1,5 @@
 import { pick, seededRandom, todayKey } from "./prng";
+import * as Astronomy from "astronomy-engine";
 
 export type ZodiacSign =
   | "aries"
@@ -165,9 +166,34 @@ export function getDayOfWeek(date: Date): number {
   return date.getUTCDay();
 }
 
+function normalize360(deg: number): number {
+  let d = deg % 360;
+  if (d < 0) d += 360;
+  return d;
+}
+
+function getTropicalMoonSignIndex(date: Date): number {
+  const vec = Astronomy.GeoVector(Astronomy.Body.Moon, date, true);
+  const lon = normalize360(Astronomy.Ecliptic(vec).elon);
+  return Math.floor(lon / 30);
+}
+
+const TROPICAL_SIGNS = [
+  "aries", "taurus", "gemini", "cancer", "leo", "virgo", 
+  "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+] as const;
+
 export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): DailyHoroscope {
   const dateKey = todayKey(date);
-  const rng = seededRandom(dateKey, sign);
+  const moonSignIndex = getTropicalMoonSignIndex(date);
+  const moonSignName = getZodiacInfo(TROPICAL_SIGNS[moonSignIndex]).name;
+  
+  const userSignIndex = ZODIAC_SIGNS.findIndex(z => z.sign === sign);
+  const transitHouse = ((moonSignIndex - userSignIndex + 12) % 12) + 1;
+
+  // Use the transit house and moon position as the deterministic seed instead of pure random
+  const rng = seededRandom(`${dateKey}-${transitHouse}-${moonSignIndex}`, sign);
+  
   const mood = pick(rng, MOODS);
   const luckyColor = pick(rng, COLORS);
   const luckyNumber = Math.floor(rng() * 9) + 1;
@@ -181,6 +207,15 @@ export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): Da
   const careerValue = CAREER[sign][careerIndex] || CAREER[sign][0];
   const healthValue = HEALTH[sign][healthIndex] || HEALTH[sign][0];
 
+  const houseThemes = [
+    "self and new beginnings", "finances and values", "communication and siblings",
+    "home and emotional foundations", "creativity and romance", "health and daily routines",
+    "partnerships and relationships", "transformation and shared resources", "travel and higher learning",
+    "career and public standing", "friendships and future goals", "rest and spiritual closure"
+  ];
+  
+  const theme = houseThemes[transitHouse - 1];
+
   return {
     sign,
     dateKey,
@@ -193,7 +228,9 @@ export function getDailyHoroscope(sign: ZodiacSign, date: Date = new Date()): Da
     loveIndex,
     careerIndex,
     healthIndex,
-    summary: `${info.name} is feeling ${mood.toLowerCase()} today. ${loveValue}`,
+    summary: `The Moon is currently transiting ${moonSignName}, activating your ${transitHouse}${
+      transitHouse === 1 ? 'st' : transitHouse === 2 ? 'nd' : transitHouse === 3 ? 'rd' : 'th'
+    } House of ${theme}. ${info.name} is feeling ${mood.toLowerCase()} today.`,
   };
 }
 
