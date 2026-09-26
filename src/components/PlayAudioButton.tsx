@@ -7,10 +7,12 @@ import { useTranslation } from "@/lib/I18nContext";
 export function PlayAudioButton({ 
   textToRead, 
   tKeys,
+  elementId,
   className = "" 
 }: { 
   textToRead?: string; 
   tKeys?: string[];
+  elementId?: string;
   className?: string; 
 }) {
   const { play, stop, isPlaying } = useTTS();
@@ -36,6 +38,13 @@ export function PlayAudioButton({
     } else {
       if (textToRead) {
         play(textToRead);
+      } else if (elementId) {
+        const el = document.getElementById(elementId);
+        if (el) {
+          // Read actual rendered DOM text, stripping out excessive empty lines
+          let text = el.innerText.replace(/\n{2,}/g, '. ').trim();
+          play(text);
+        }
       } else if (tKeys) {
         const combined = tKeys.map(key => t(key, { defaultValue: "" })).filter(Boolean).join(". ");
         play(combined);

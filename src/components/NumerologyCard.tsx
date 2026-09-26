@@ -44,6 +44,7 @@ const EXTENDED_GRID_ORDER: NumerologyCategory[] = [
 ];
 
 import { useState, useEffect } from "react";
+import { PlayAudioButton } from "@/components/PlayAudioButton";
 
 export function NumerologyCard({ name, profile }: { name: string; profile: NumerologyProfile }) {
   const { t } = useTranslation();
@@ -64,8 +65,11 @@ export function NumerologyCard({ name, profile }: { name: string; profile: Numer
   };
 
   return (
-    <div className="space-y-10">
-      <GlassCard className="overflow-hidden p-8 text-center sm:p-10">
+    <div id="numerology-results" className="space-y-10 relative">
+      <div className="absolute top-4 right-4 z-10 sm:top-6 sm:right-6">
+        <PlayAudioButton elementId="numerology-results" className="h-12 w-12" />
+      </div>
+      <GlassCard className="overflow-hidden p-8 text-center sm:p-10 relative">
         <p className="text-sm font-medium text-muted-soft">{t("numerology.card.reading_for")}</p>
         <h2 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{name}</h2>
         <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">

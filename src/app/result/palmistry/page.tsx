@@ -333,15 +333,6 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
     },
   ];
 
-  const allAudioKeys = [
-    handShapeNameKey(reading.handShape),
-    handShapeTraitsKey(reading.handShape),
-    ...lines.flatMap(l => [l.variantTitleKey, l.meaningKey]),
-    ...minorLinesList.flatMap(l => [l.variantTitleKey, l.meaningKey]),
-    ...specificPredictionsList.flatMap(l => [l.variantTitleKey, l.meaningKey]),
-    ...chirognomyList.flatMap(l => [l.variantTitleKey, l.meaningKey])
-  ];
-
   return (
     <div className="mx-auto max-w-3xl px-6 pb-32 pt-16">
       <RecentActivityTracker
@@ -353,17 +344,12 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
       />
       <PalmPhotoPreview />
 
-      <Reveal>
-        <div className="mb-12 text-center">
-          <div className="flex justify-center mb-6">
-            <PlayAudioButton tKeys={allAudioKeys} className="h-14 w-14" />
-          </div>
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-muted-soft">
-            <Trans
-              tKey={hand === "right" ? "palmistry.result.hand_label_right" : "palmistry.result.hand_label_left"}
-              replacements={{ defaultValue: hand === "right" ? "Your Right Hand" : "Your Left Hand" }}
-            />
-          </p>
+      <div id="palmistry-results">
+        <Reveal>
+          <div className="mb-12 text-center">
+            <div className="flex justify-center mb-6">
+              <PlayAudioButton elementId="palmistry-results" className="h-14 w-14" />
+            </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             <DbPalmistryTrans category="handShape" subCategory={reading.handShape} fallbackTitle={HAND_SHAPES[reading.handShape].name} fallbackMeaning="" isTitle={true} />
           </h1>
@@ -424,10 +410,10 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
                     <Trans tKey={`palmistry.result.specific.${section.category}`} replacements={{ defaultValue: section.titleDefault }} />
                   </h3>
                   <p className="mt-2 text-sm font-medium text-[var(--accent-solid)]">
-                    <Trans tKey={section.variantTitleKey} replacements={{ defaultValue: section.variantTitleDefault }} />
+                    <DbPalmistryTrans category={section.category} subCategory={reading.specificPredictions[section.category as 'marriage' | 'children' | 'house'].key} fallbackTitle={section.variantTitleDefault} fallbackMeaning={section.meaningDefault} isTitle={true} />
                   </p>
                   <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
-                    <Trans tKey={section.meaningKey} replacements={{ defaultValue: section.meaningDefault }} />
+                    <DbPalmistryTrans category={section.category} subCategory={reading.specificPredictions[section.category as 'marriage' | 'children' | 'house'].key} fallbackTitle={section.variantTitleDefault} fallbackMeaning={section.meaningDefault} isTitle={false} />
                   </p>
                 </GlassCard>
               ))}
@@ -459,10 +445,10 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
                       </span>
                     </div>
                     <p className="text-sm font-medium mb-1">
-                      <Trans tKey={bio.variantTitleKey} replacements={{ defaultValue: bio.variantTitleDefault }} />
+                      <DbPalmistryTrans category={bio.category} subCategory={reading.biometrics[bio.key as 'phi' | 'digitRatio' | 'thumbAngle' | 'moneyTriangle'].key} fallbackTitle={bio.variantTitleDefault} fallbackMeaning={bio.meaningDefault} isTitle={true} />
                     </p>
                     <p className="text-[13px] leading-relaxed text-muted">
-                      <Trans tKey={bio.meaningKey} replacements={{ defaultValue: bio.meaningDefault }} />
+                      <DbPalmistryTrans category={bio.category} subCategory={reading.biometrics[bio.key as 'phi' | 'digitRatio' | 'thumbAngle' | 'moneyTriangle'].key} fallbackTitle={bio.variantTitleDefault} fallbackMeaning={bio.meaningDefault} isTitle={false} />
                     </p>
                   </div>
                 </GlassCard>
@@ -482,11 +468,11 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
                   <h3 className="text-md font-semibold">
                     <Trans tKey={item.titleKey} replacements={{ defaultValue: item.titleDefault }} /> —{" "}
                     <span className="text-[var(--accent-solid)]">
-                      <Trans tKey={item.variantTitleKey} replacements={{ defaultValue: item.variantTitleDefault }} />
+                      <DbPalmistryTrans category={item.key === 'fingerShape' ? 'shape' : 'thumb'} subCategory={reading.chirognomy[item.key as 'fingerShape' | 'thumb'].key} fallbackTitle={item.variantTitleDefault} fallbackMeaning={item.meaningDefault} isTitle={true} />
                     </span>
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted">
-                    <Trans tKey={item.meaningKey} replacements={{ defaultValue: item.meaningDefault }} />
+                    <DbPalmistryTrans category={item.key === 'fingerShape' ? 'shape' : 'thumb'} subCategory={reading.chirognomy[item.key as 'fingerShape' | 'thumb'].key} fallbackTitle={item.variantTitleDefault} fallbackMeaning={item.meaningDefault} isTitle={false} />
                   </p>
                 </GlassCard>
               ))}
@@ -505,11 +491,11 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
                   <h3 className="text-md font-semibold">
                     <Trans tKey={line.titleKey} replacements={{ defaultValue: line.titleDefault }} /> —{" "}
                     <span className="text-[var(--accent-solid)]">
-                      <DbPalmistryTrans category="minorLines" subCategory={reading.minorLines[line.key as 'health' | 'intuition' | 'travel' | 'girdle'].key} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={true} />
+                      <DbPalmistryTrans category={line.key} subCategory={reading.minorLines[line.key as 'health' | 'intuition' | 'travel' | 'girdle'].key} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={true} />
                     </span>
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted">
-                    <DbPalmistryTrans category="minorLines" subCategory={reading.minorLines[line.key as 'health' | 'intuition' | 'travel' | 'girdle'].key} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={false} />
+                    <DbPalmistryTrans category={line.key} subCategory={reading.minorLines[line.key as 'health' | 'intuition' | 'travel' | 'girdle'].key} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={false} />
                   </p>
                 </GlassCard>
               ))}
@@ -631,6 +617,7 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
             />
           </p>
         </Reveal>
+      </div>
 
         <Reveal delay={0.45}>
           <div className="space-y-6 pt-4 text-center">

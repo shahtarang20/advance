@@ -10,6 +10,7 @@ import { OfflineScreen } from "@/components/OfflineScreen";
 import { InstallAppBanner } from "@/components/InstallAppBanner";
 import { GlobalSharePrompt } from "@/components/GlobalSharePrompt";
 import { InAppBrowserBanner } from "@/components/InAppBrowserBanner";
+import { SpeechOverlay } from "@/components/SpeechOverlay";
 import { Analytics } from "@vercel/analytics/react";
 
 // Defaults to the real AdSense publisher ID. Override via NEXT_PUBLIC_ADSENSE_CLIENT_ID
@@ -142,6 +143,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main>{children}</main>
             <Footer />
           </div>
+          <SpeechOverlay />
         </Providers>
         <Analytics />
       </body>

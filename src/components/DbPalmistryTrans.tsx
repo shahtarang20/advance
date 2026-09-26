@@ -20,16 +20,18 @@ export function DbPalmistryTrans({
   const [data, setData] = useState<{ title: string; meaning: string } | null>(null);
 
   useEffect(() => {
+    let ignore = false;
     fetch(`/api/palmistry?lang=${language}&category=${category}&subCategory=${subCategory}`)
       .then((res) => res.json())
       .then((json) => {
-        if (json.title && json.meaning) {
+        if (!ignore && json.title && json.meaning) {
           setData(json);
         }
       })
       .catch((err) => {
-        console.error("Failed to fetch palmistry data:", err);
+        if (!ignore) console.error("Failed to fetch palmistry data:", err);
       });
+    return () => { ignore = true; };
   }, [language, category, subCategory]);
 
   if (isTitle) {
