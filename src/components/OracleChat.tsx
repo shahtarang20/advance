@@ -14,7 +14,7 @@ type Message = {
 };
 
 export const OracleChat = () => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { wrapAction } = usePrivacyGuard();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const questionHint = useFieldHint("oracle-question");
