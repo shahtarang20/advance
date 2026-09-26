@@ -17,6 +17,7 @@ import { KundliChartGrid } from "@/components/KundliChartGrid";
 import { KundliResultTracker } from "./KundliResultTracker";
 import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 import { GrahaInRashiLine } from "./GrahaInRashiLine";
+import { NakshatraIntro } from "./NakshatraIntro";
 import { ShareButtons } from "@/components/ShareButtons";
 import { Trans } from "@/components/Trans";
 import { DbKundliTrans } from "@/components/DbKundliTrans";
@@ -172,15 +173,11 @@ export default async function KundliResultPage({ searchParams }: { searchParams:
           <DbKundliTrans category="moonMeaning" rashi_id={RASHI_ENGLISH[chart.moon.rashi]} fallback={MOON_RASHI_MEANING[chart.moon.rashi]} />
         </p>
         <p className="mt-4 text-sm leading-relaxed text-muted">
-          <Trans
-            tKey="kundli.result.nakshatra_intro"
-            replacements={{
-              name: moonNakshatra.name,
-              ruler: moonNakshatra.rulingPlanet,
-              deity: moonNakshatra.deity,
-              symbol: moonNakshatra.symbol,
-              defaultValue: `Your Janam Nakshatra is {name}, ruled by {ruler}, with the deity {deity} and symbol {symbol}.`,
-            }}
+          <NakshatraIntro
+            name={moonNakshatra.name}
+            ruler={moonNakshatra.rulingPlanet}
+            deity={moonNakshatra.deity}
+            symbol={moonNakshatra.symbol}
           />{" "}
           <DbNakshatraTrans
             nakshatra_id={moonNakshatra.slug}

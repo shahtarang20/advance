@@ -51,7 +51,7 @@ export function GrahaInRashiLine({
           graha: grahaLabel,
           rashi: rashiLabel,
           house: String(house),
-          defaultValue: `${grahaEnglish} in ${rashiEnglish} (House ${house}):`,
+          defaultValue: `${grahaLabel} in ${rashiLabel} (House ${house}):`,
         })}
       </strong>{" "}
       {significance}
