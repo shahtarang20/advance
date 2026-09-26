@@ -22,7 +22,7 @@ export function FlipCard({
   back,
   className = "",
   ariaLabel,
-  float = true,
+  float = false,
   heightClassName = "h-60",
   onFlip,
 }: {
@@ -35,7 +35,6 @@ export function FlipCard({
   onFlip?: (flipped: boolean) => void;
 }) {
   const [flipped, setFlipped] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
   const describedById = useId();
 
   return (
@@ -43,7 +42,6 @@ export function FlipCard({
       type="button"
       onClick={() => {
         if (!flipped) playMagicalChime();
-        setIsAnimating(true);
         const newFlipped = !flipped;
         setFlipped(newFlipped);
         if (onFlip) onFlip(newFlipped);
@@ -51,35 +49,34 @@ export function FlipCard({
       aria-pressed={flipped}
       aria-describedby={describedById}
       aria-label={flipped ? `${ariaLabel}, showing details. Press to flip back.` : `${ariaLabel}. Press to flip for details.`}
-      className={`btn-tap accent-ring group relative block w-full cursor-pointer text-left ${isAnimating ? "[perspective:1200px]" : ""} ${heightClassName} ${className}`}
-      animate={float && !flipped ? FLOAT_ANIMATION : STILL_ANIMATION}
-      transition={float && !flipped ? FLOAT_TRANSITION : { duration: 0.2 }}
+      className={`btn-tap accent-ring group relative block w-full cursor-pointer text-left ${heightClassName} ${className}`}
       whileHover={flipped ? undefined : { scale: 1.015, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
       whileTap={flipped ? undefined : { scale: 0.985, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
     >
       <span id={describedById} className="sr-only">
         Flippable card. {ariaLabel}
       </span>
-      {isAnimating ? (
-        <motion.div
-          className="relative h-full w-full [transform-style:preserve-3d]"
-          animate={{ rotateY: flipped ? 180 : 0 }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          onAnimationComplete={() => setIsAnimating(false)}
-        >
-          <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
-            {front}
-          </div>
-          <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]">
+      <div className="relative h-full w-full">
+        {flipped ? (
+          <motion.div
+            key="back"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="absolute inset-0 h-full w-full"
+          >
             {back}
-          </div>
-        </motion.div>
-      ) : (
-        // Once the flip settles, render the current face with no 3D transform at all —
-        // browsers leave text on a backface-hidden/rotateY(180deg) layer slightly blurry
-        // even at rest, so we drop the transform entirely instead of just snapping to it.
-        <div className="relative h-full w-full">{flipped ? back : front}</div>
-      )}
+          </motion.div>
+        ) : (
+          <motion.div
+            key="front"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="absolute inset-0 h-full w-full"
+          >
+            {front}
+          </motion.div>
+        )}
+      </div>
     </motion.button>
   );
 }
