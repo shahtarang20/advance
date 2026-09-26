@@ -31,6 +31,7 @@ export const OracleChat = () => {
   const [hasAsked, setHasAsked] = useState(false);
   const [activeQuestionIds, setActiveQuestionIds] = useState<number[]>([]);
   const [dbQuestions, setDbQuestions] = useState<Record<string, string>>({});
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
 
   const shuffleQuestions = () => {
     const newIds: number[] = [];
@@ -50,6 +51,7 @@ export const OracleChat = () => {
   // Fetch the active questions from the DB
   useEffect(() => {
     if (activeQuestionIds.length === 0) return;
+    setIsLoadingQuestions(true);
     const ids = activeQuestionIds.join(",");
     fetch(`/api/oracle-questions?lang=${language}&ids=${ids}`)
       .then(res => res.json())
@@ -62,7 +64,10 @@ export const OracleChat = () => {
           setDbQuestions(map);
         }
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        setIsLoadingQuestions(false);
+      });
   }, [activeQuestionIds, language]);
 
   const scrollToBottom = () => {
@@ -208,26 +213,40 @@ export const OracleChat = () => {
           </div>
           <div className="flex flex-wrap gap-3 relative">
             <AnimatePresence mode="popLayout">
-              {activeQuestionIds.map((qId) => {
-                const qText = getQuestionText(qId, `Mystic Question ${qId}?`);
-                return (
-                  <motion.button
+              {isLoadingQuestions ? (
+                [1, 2, 3].map((i) => (
+                  <motion.div
+                    key={`skel-${i}`}
                     layout
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.2 }}
-                    key={qId}
-                    type="button"
-                    onClick={wrapAction(() => handleAsk(qId, qText))}
-                    disabled={isOracleTyping || hasAsked}
-                    className="relative px-4 py-2.5 text-sm font-medium text-[var(--foreground)] bg-[var(--surface)] border border-[var(--surface-border)] rounded-xl shadow-sm hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-left"
-                  >
-                    {qText}
-                    {questionHint.show && !hasAsked && <FieldTapHint className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />}
-                  </motion.button>
-                );
-              })}
+                    className="h-[42px] w-[90%] md:w-[80%] bg-[var(--surface)] border border-[var(--surface-border)] rounded-xl animate-pulse"
+                  />
+                ))
+              ) : (
+                activeQuestionIds.map((qId) => {
+                  const qText = getQuestionText(qId, `Mystic Question ${qId}?`);
+                  return (
+                    <motion.button
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.2 }}
+                      key={qId}
+                      type="button"
+                      onClick={wrapAction(() => handleAsk(qId, qText))}
+                      disabled={isOracleTyping || hasAsked}
+                      className="relative px-4 py-2.5 text-sm font-medium text-[var(--foreground)] bg-[var(--surface)] border border-[var(--surface-border)] rounded-xl shadow-sm hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-left"
+                    >
+                      {qText}
+                      {questionHint.show && !hasAsked && <FieldTapHint className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />}
+                    </motion.button>
+                  );
+                })
+              )}
             </AnimatePresence>
           </div>
         </div>
