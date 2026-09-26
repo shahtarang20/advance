@@ -16,7 +16,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const result = calculateCompatibility(nameA, dobA, nameB, dobB);
   const title = `${nameA} & ${nameB}: ${result.percentage}% Cosmic Match`;
   const description = result.englishVerdict;
-  const ogUrl = `${SITE_URL}/api/og?type=compatibility&title=${encodeURIComponent(&ext=.png`${nameA} & ${nameB}`)}&subtitle=${result.percentage}%25%20Match&big=${result.percentage}%25`;
+  const ogUrl = `${SITE_URL}/api/og?type=compatibility&title=${encodeURIComponent(`${nameA} & ${nameB}`)}&subtitle=${result.percentage}%25%20Match&big=${result.percentage}%25&ext=.png`;
   return {
     title,
     description,

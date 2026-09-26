@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title,
       description,
-      images: [{ url: `${SITE_URL}/api/og?type=nakshatra&title=${encodeURIComponent(info.name)}&subtitle=${encodeURIComponent(&ext=.png`Ruled by ${info.rulingPlanet}`)}&big=${encodeURIComponent("✦")}` }],
+      images: [{ url: `${SITE_URL}/api/og?type=nakshatra&title=${encodeURIComponent(info.name)}&subtitle=${encodeURIComponent(`Ruled by ${info.rulingPlanet}`)}&big=${encodeURIComponent("✦")}&ext=.png` }],
     },
   };
 }
