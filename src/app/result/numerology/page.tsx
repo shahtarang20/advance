@@ -16,7 +16,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const profile = calculateNumerologyProfile(name, dob);
   const title = `${name}'s Numerology Reading — Life Path ${profile.lifePath}`;
   const description = `${name}'s Life Path Number is ${profile.lifePath}, Destiny Number ${profile.destiny}. See the full free reading.`;
-  const ogUrl = `${SITE_URL}/api/og?type=numerology&title=${encodeURIComponent(name)}&subtitle=${encodeURIComponent(`Life Path ${profile.lifePath}`)}&big=${profile.lifePath}&ext=.png`;
+  const ogUrl = `/api/og?type=numerology&title=${encodeURIComponent(name)}&subtitle=${encodeURIComponent(`Life Path ${profile.lifePath}`)}&big=${profile.lifePath}&ext=.png`;
   return {
     title,
     description,

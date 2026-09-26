@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Daily Horoscope Today",
     description: "Free daily horoscope for all 12 zodiac signs — love, career, health, lucky number & color.",
-    images: [{ url: `${SITE_URL}/api/og?type=horoscope&title=Daily%20Horoscope&subtitle=All%2012%20zodiac%20signs&ext=.png` }],
+    images: [{ url: `/api/og?type=horoscope&title=Daily%20Horoscope&subtitle=All%2012%20zodiac%20signs&ext=.png` }],
   },
 };
 

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Free Kundli Maker — Vedic Birth Chart",
     description: "Generate your real Janam Kundli with accurate planetary positions, Lagna, and Nakshatra.",
-    images: [{ url: `${SITE_URL}/api/og?type=kundli&title=Kundli%20Maker&subtitle=Your%20Vedic%20Birth%20Chart&ext=.png` }],
+    images: [{ url: `/api/og?type=kundli&title=Kundli%20Maker&subtitle=Your%20Vedic%20Birth%20Chart&ext=.png` }],
   },
 };
 

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Numerology Compatibility Calculator",
     description: "Check your love match percentage using numerology Life Path Numbers.",
-    images: [{ url: `${SITE_URL}/api/og?type=compatibility&title=Compatibility%20Calculator&subtitle=Find%20your%20match%20%25&ext=.png` }],
+    images: [{ url: `/api/og?type=compatibility&title=Compatibility%20Calculator&subtitle=Find%20your%20match%20%25&ext=.png` }],
   },
 };
 

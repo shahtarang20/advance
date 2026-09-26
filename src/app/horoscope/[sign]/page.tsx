@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ sign: str
     openGraph: {
       title,
       description,
-      images: [{ url: `${SITE_URL}/api/og?type=horoscope&sign=${info.sign}&title=${encodeURIComponent(info.name)}&subtitle=Daily%20Horoscope&ext=.png` }],
+      images: [{ url: `/api/og?type=horoscope&sign=${info.sign}&title=${encodeURIComponent(info.name)}&subtitle=Daily%20Horoscope&ext=.png` }],
     },
   };
 }

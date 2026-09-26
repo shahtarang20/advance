@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   }
   const title = `Today's Biorhythm: ${data.todayPhysical}% Physical, ${data.todayEmotional}% Emotional`;
   const description = `Physical ${data.todayPhysical}%, Emotional ${data.todayEmotional}%, Intellectual ${data.todayIntellectual}%. See your own free biorhythm chart.`;
-  const ogUrl = `${SITE_URL}/api/og?type=biorhythm&title=${encodeURIComponent("Today's Biorhythm")}&subtitle=${encodeURIComponent(`Physical ${data.todayPhysical}% · Emotional ${data.todayEmotional}% · Intellectual ${data.todayIntellectual}%`)}&big=${encodeURIComponent(`${data.todayPhysical}%`)}&ext=.png`;
+  const ogUrl = `/api/og?type=biorhythm&title=${encodeURIComponent("Today's Biorhythm")}&subtitle=${encodeURIComponent(`Physical ${data.todayPhysical}% · Emotional ${data.todayEmotional}% · Intellectual ${data.todayIntellectual}%`)}&big=${encodeURIComponent(`${data.todayPhysical}%`)}&ext=.png`;
   return {
     title,
     description,

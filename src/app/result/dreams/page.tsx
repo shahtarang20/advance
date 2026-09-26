@@ -25,7 +25,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const description = symbols.length
     ? `Symbols detected: ${symbolNames}. ${symbols[0].meaning}`
     : `A free dream symbolism reading for "${truncate(q, 80)}".`;
-  const ogUrl = `${SITE_URL}/api/og?type=dreams&title=${encodeURIComponent(symbols[0]?.keyword ?? "Dream Reading")}&subtitle=${encodeURIComponent(symbolNames || "Universal Symbols")}&text=${encodeURIComponent(truncate(q, 100))}&ext=.png`;
+  const ogUrl = `/api/og?type=dreams&title=${encodeURIComponent(symbols[0]?.keyword ?? "Dream Reading")}&subtitle=${encodeURIComponent(symbolNames || "Universal Symbols")}&text=${encodeURIComponent(truncate(q, 100))}&ext=.png`;
   return {
     title,
     description,

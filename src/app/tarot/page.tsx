@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Daily Tarot Reading",
     description: "Draw your daily Tarot cards. Get a free 1-card daily pull or a 3-card Past, Present, Future reading.",
-    images: [{ url: `${SITE_URL}/api/og?type=tarot&title=Tarot%20Reading&subtitle=Draw%20your%20cards&ext=.png` }],
+    images: [{ url: `/api/og?type=tarot&title=Tarot%20Reading&subtitle=Draw%20your%20cards&ext=.png` }],
   },
 };
 

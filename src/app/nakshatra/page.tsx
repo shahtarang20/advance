@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "27 Nakshatras — Vedic Birth Star Reference",
     description: "Explore the 27 traditional Vedic Nakshatras and their deities, planets, and meanings.",
-    images: [{ url: `${SITE_URL}/api/og?type=nakshatra&title=27%20Nakshatras&subtitle=Vedic%20Birth%20Star%20Reference&big=%E2%9C%A6&ext=.png` }],
+    images: [{ url: `/api/og?type=nakshatra&title=27%20Nakshatras&subtitle=Vedic%20Birth%20Star%20Reference&big=%E2%9C%A6&ext=.png` }],
   },
 };
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Free Numerology Calculator",
     description: "Calculate your Life Path, Destiny, Soul Urge and Personality numbers instantly.",
-    images: [{ url: `${SITE_URL}/api/og?type=numerology&title=Numerology%20Calculator&subtitle=Find%20your%20Life%20Path%20Number&ext=.png` }],
+    images: [{ url: `/api/og?type=numerology&title=Numerology%20Calculator&subtitle=Find%20your%20Life%20Path%20Number&ext=.png` }],
   },
 };
 

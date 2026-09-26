@@ -35,7 +35,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
     type === "daily"
       ? `${first.card.name}${first.isReversed ? " (Reversed)" : ""} — ${first.isReversed ? first.card.reversedMeaning : first.card.uprightMeaning}`
       : `Reading: ${cardNames}. See the full free reading.`;
-  const ogUrl = `${SITE_URL}/api/og?type=tarot&title=${encodeURIComponent(first.card.name)}&subtitle=${encodeURIComponent(type === "daily" ? "Card of the Day" : cardNames)}&big=${encodeURIComponent(first.card.imageFallback)}&ext=.png`;
+  const ogUrl = `/api/og?type=tarot&title=${encodeURIComponent(first.card.name)}&subtitle=${encodeURIComponent(type === "daily" ? "Card of the Day" : cardNames)}&big=${encodeURIComponent(first.card.imageFallback)}&ext=.png`;
   return {
     title,
     description,
