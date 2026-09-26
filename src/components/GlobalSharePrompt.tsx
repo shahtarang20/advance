@@ -45,11 +45,11 @@ export function GlobalSharePrompt() {
     }
   };
 
-  const shareText = encodeURIComponent("Check out Cosmic Numbers - A free numerology calculator & daily horoscope app!");
+  const shareText = encodeURIComponent("✨ Discover your cosmic path for free:");
   const shareUrl = encodeURIComponent(SITE_URL);
 
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/?text=${shareText}%20${shareUrl}`, "_blank", "noopener,noreferrer");
+    window.open(`https://wa.me/?text=${shareText}%0A%0A${shareUrl}`, "_blank", "noopener,noreferrer");
     handleDismiss();
   };
 

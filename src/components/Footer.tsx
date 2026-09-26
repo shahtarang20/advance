@@ -10,7 +10,7 @@ export function Footer() {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
 
-  const shareText = encodeURIComponent("Check out Cosmic Numbers - A free numerology calculator & daily horoscope app!");
+  const shareText = encodeURIComponent("✨ Discover your cosmic path for free:");
   const shareUrl = encodeURIComponent(SITE_URL);
 
   // Instagram has no public share-link API (unlike WhatsApp's wa.me or Facebook's sharer.php),
@@ -48,7 +48,7 @@ export function Footer() {
             <h3 className="mb-4 text-base font-semibold text-[var(--foreground)]">{t("footer.share_app", { defaultValue: "Share App" })}</h3>
             <ul className="space-y-2.5 text-sm text-muted">
               <li>
-                <a href={`https://wa.me/?text=${shareText}%20${shareUrl}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#25D366] transition-colors">
+                <a href={`https://wa.me/?text=${shareText}%0A%0A${shareUrl}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#25D366] transition-colors">
                   <span className="text-[#25D366]">WhatsApp</span>
                 </a>
               </li>
