@@ -143,10 +143,10 @@ export const OracleChat = () => {
       <div className="bg-[var(--surface)] border border-[var(--surface-border)] rounded-3xl shadow-2xl overflow-hidden flex flex-col flex-1 min-h-0">
         
         {/* Header - Fixed layout, no weird flexbox tricks */}
-        <div className="bg-[var(--surface-strong)] px-6 py-5 border-b border-[var(--surface-border)] flex items-center gap-4 shrink-0">
-          <div className="h-12 w-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg relative shrink-0">
-            <span className="text-xl">🔮</span>
-            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-[#0B0614] rounded-full"></span>
+        <div className="bg-[var(--surface-strong)] px-4 py-3 border-b border-[var(--surface-border)] flex items-center gap-3 shrink-0">
+          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg relative shrink-0">
+            <span className="text-lg">🔮</span>
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-[var(--surface-strong)] rounded-full"></span>
           </div>
           <div className="flex-1">
             <h2 className="text-lg font-bold text-[var(--foreground)] m-0 leading-tight">
