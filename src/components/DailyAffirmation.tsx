@@ -38,7 +38,7 @@ export function DailyAffirmation() {
   const englishFallback = AFFIRMATIONS[affirmationIndex];
   const translatedText = t(`affirmation.text.${affirmationIndex}`, { defaultValue: englishFallback });
 
-  const shareUrl = actualUrl || SITE_URL;
+  const shareUrl = `${actualUrl || SITE_URL}/share/affirmation/${affirmationIndex}`;
   const ogQuery = `type=home&title=Cosmic%20Affirmation&subtitle=${encodeURIComponent(translatedText)}`;
 
   return (
