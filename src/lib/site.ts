@@ -7,8 +7,11 @@ function resolveSiteUrl(): string {
   if (typeof window !== "undefined") return window.location.origin;
   
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  
+  // Hardcode the known production domain so we don't accidentally bake protected
+  // preview URLs (process.env.VERCEL_URL) into our public OpenGraph tags.
+  if (process.env.NODE_ENV === "production") return "https://cosmicnumbers-five.vercel.app";
+
   return "http://localhost:3000";
 }
 
