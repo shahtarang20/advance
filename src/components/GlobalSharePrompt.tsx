@@ -52,10 +52,13 @@ export function GlobalSharePrompt() {
   const shareUrl = encodeURIComponent(actualUrl || SITE_URL);
 
   const handleWhatsApp = () => {
-    // Force cache bust to ensure WhatsApp fetches the latest image card
-    const cacheBuster = shareUrl.includes("%3F") ? `%26w=${Date.now()}` : `%3Fw=${Date.now()}`;
-    const freshUrl = shareUrl + cacheBuster;
-    window.open(`https://wa.me/?text=${shareText}%0A%0A${freshUrl}`, "_blank", "noopener,noreferrer");
+    // God-tier WhatsApp bypass
+    const origin = window.location.origin;
+    const dest = encodeURIComponent("/");
+    const desc = encodeURIComponent("Discover your cosmic path for free.");
+    const bypassUrl = `${origin}/api/share?dest=${dest}&desc=${desc}&type=home&title=Cosmic%20Numbers&subtitle=Numerology%20%2B%20Horoscope&ext=.png&w=${Date.now()}`;
+    
+    window.open(`https://wa.me/?text=${shareText}%0A%0A${encodeURIComponent(bypassUrl)}`, "_blank", "noopener,noreferrer");
     handleDismiss();
   };
 

@@ -19,10 +19,16 @@ export function Footer() {
 
   const shareUrl = encodeURIComponent(actualUrl || SITE_URL);
   
-  // Force WhatsApp to fetch the fresh OG tags by busting its cache
-  const [waBust, setWaBust] = useState(0);
-  useEffect(() => setWaBust(Date.now()), []);
-  const waShareUrl = encodeURIComponent((actualUrl || SITE_URL) + `?w=${waBust}`);
+  // God-tier WhatsApp bypass: point directly to a pure, raw HTML API route
+  // that statically serves the OG tags so WhatsApp's scraper cannot possibly fail,
+  // which then instantly redirects the user to the real page.
+  const [waBypassUrl, setWaBypassUrl] = useState("");
+  useEffect(() => {
+    const origin = window.location.origin;
+    const dest = encodeURIComponent("/");
+    const desc = encodeURIComponent("Discover your Life Path Number, Destiny Number, and daily horoscope for free. Beautiful, shareable, and made for India.");
+    setWaBypassUrl(`${origin}/api/share?dest=${dest}&desc=${desc}&type=home&title=Cosmic%20Numbers&subtitle=Numerology%20%2B%20Horoscope&ext=.png&w=${Date.now()}`);
+  }, []);
 
   // Instagram has no public share-link API (unlike WhatsApp's wa.me or Facebook's sharer.php),
   // so copy-to-clipboard + "paste it yourself" is the only thing that actually works everywhere.
@@ -59,7 +65,7 @@ export function Footer() {
             <h3 className="mb-4 text-base font-semibold text-[var(--foreground)]">{t("footer.share_app", { defaultValue: "Share App" })}</h3>
             <ul className="space-y-2.5 text-sm text-muted">
               <li>
-                <a href={`https://wa.me/?text=${shareText}%0A%0A${waShareUrl}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#25D366] transition-colors">
+                <a href={`https://wa.me/?text=${shareText}%0A%0A${encodeURIComponent(waBypassUrl)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#25D366] transition-colors">
                   <span className="text-[#25D366]">WhatsApp</span>
                 </a>
               </li>

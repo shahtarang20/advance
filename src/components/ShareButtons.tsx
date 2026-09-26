@@ -109,11 +109,13 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
       // link is what lets WhatsApp/Facebook generate that card themselves — this is genuinely the
       // more "professional card" outcome of the two, not a downgrade.
       if (fallbackPlatform === 'whatsapp') {
-        // WhatsApp caches broken link previews (like the Vercel login wall) for days.
-        // We append a timestamp to force WhatsApp to fetch the brand new, public OG tags.
-        const cacheBuster = shareUrl.includes("?") ? `&w=${Date.now()}` : `?w=${Date.now()}`;
-        const freshUrl = shareUrl + cacheBuster;
-        const text = encodeURIComponent(`${caption}\n\n${freshUrl}`);
+        // God-tier WhatsApp bypass: point directly to a pure, raw HTML API route
+        // that statically serves the OG tags so WhatsApp's scraper cannot possibly fail,
+        // which then instantly redirects the user to the real page.
+        const destPath = new URL(shareUrl).pathname + new URL(shareUrl).search;
+        const bypassUrl = `${window.location.origin}/api/share?dest=${encodeURIComponent(destPath)}&desc=${encodeURIComponent(caption)}&${ogQuery}&w=${Date.now()}`;
+        
+        const text = encodeURIComponent(`${caption}\n\n${bypassUrl}`);
         window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
         triggerPostSharePopup();
         return;
