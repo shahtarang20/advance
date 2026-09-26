@@ -64,7 +64,7 @@ export const historyTextKey = (id: string) => `palmistry.history.${id}.text`;
 
 export type Hand = "left" | "right";
 
-export type HandShape = "earth" | "air" | "fire" | "water";
+export type HandShape = "earth" | "air" | "fire" | "water" | "conic" | "spatulate" | "psychic" | "knotty";
 
 export interface HandShapeInfo {
   name: string;
@@ -74,34 +74,14 @@ export interface HandShapeInfo {
 }
 
 export const HAND_SHAPES: Record<HandShape, HandShapeInfo> = {
-  earth: {
-    name: "Earth Hand",
-    westernName: "Square palm, short fingers",
-    chineseElement: "Earth (土)",
-    traits:
-      "A square, solid palm with short, thick fingers. Traditionally read as practical, grounded, and reliable — someone who trusts what they can see and touch, works steadily, and is uncomfortable with abstraction for its own sake.",
-  },
-  air: {
-    name: "Air Hand",
-    westernName: "Square palm, long fingers",
-    chineseElement: "Metal (金)",
-    traits:
-      "A square or rectangular palm with long fingers and often visible knuckles. Traditionally linked to communication, intellect, and restlessness — a quick mind that needs new ideas and conversation the way other hands need routine.",
-  },
-  fire: {
-    name: "Fire Hand",
-    westernName: "Long palm, short fingers",
-    chineseElement: "Fire (火)",
-    traits:
-      "A long or rectangular palm with short fingers, often warm and flushed. Traditionally associated with energy, enthusiasm, and impulsiveness — a hand that reaches for the next thing before finishing the last, and leads with instinct over analysis.",
-  },
-  water: {
-    name: "Water Hand",
-    westernName: "Long palm, long fingers",
-    chineseElement: "Water (水)",
-    traits:
-      "A long, oval palm with long, flexible fingers. Traditionally read as sensitive, imaginative, and emotionally attuned — a hand said to belong to dreamers, artists, and people who absorb the moods of a room without trying to.",
-  },
+  earth: { name: "Earth Hand", westernName: "Square palm, short fingers", chineseElement: "Earth (土)", traits: "A square, solid palm with short, thick fingers." },
+  air: { name: "Air Hand", westernName: "Square palm, long fingers", chineseElement: "Metal (金)", traits: "A square or rectangular palm with long fingers." },
+  fire: { name: "Fire Hand", westernName: "Long palm, short fingers", chineseElement: "Fire (火)", traits: "A long or rectangular palm with short fingers." },
+  water: { name: "Water Hand", westernName: "Long palm, long fingers", chineseElement: "Water (水)", traits: "A long, oval palm with long, flexible fingers." },
+  conic: { name: "Conic Hand", westernName: "Tapered palm", chineseElement: "Wood (木)", traits: "Smooth, tapering fingers with a slightly pointed tip." },
+  spatulate: { name: "Spatulate Hand", westernName: "Flared fingers", chineseElement: "Metal (金)", traits: "Fingers that flair out at the tips like a spatula." },
+  psychic: { name: "Psychic Hand", westernName: "Very long, thin", chineseElement: "Water (水)", traits: "Very long, thin, beautiful fingers with pointed tips." },
+  knotty: { name: "Knotty Hand", westernName: "Swollen joints", chineseElement: "Wood (木)", traits: "Fingers with highly visible, swollen joints." },
 };
 
 interface LineVariant {
@@ -109,157 +89,46 @@ interface LineVariant {
   meaning: string;
 }
 
-// Heart Line — Western chiromancy; Hridaya Rekha in Hast Rekha Shastra; the "Heaven line" (天纹)
-// in Chinese palmistry. Runs beneath the fingers, read for love, emotion, and relationships.
 export const HEART_LINE_VARIANTS: Record<string, LineVariant> = {
-  long_curved: {
-    title: "Long and gently curved",
-    meaning:
-      "A long, softly curving Heart Line is traditionally read as warm and expressive in love — someone who feels deeply, shows it openly, and isn't afraid of emotional risk. Hast Rekha Shastra links this to a generous, affectionate Venusian temperament.",
-  },
-  straight_short: {
-    title: "Short and straight",
-    meaning:
-      "A short, straight Heart Line is traditionally associated with a more guarded, practical approach to love — affection expressed through action and loyalty rather than grand declarations, and a real dislike of performative romance.",
-  },
-  deeply_etched: {
-    title: "Deep and clearly etched",
-    meaning:
-      "A deep, well-defined Heart Line is traditionally read as emotional intensity and constancy — feelings that run strong and steady rather than shallow or fickle, once trust has been given.",
-  },
-  chained: {
-    title: "Chained or wavy",
-    meaning:
-      "A chained or wavy Heart Line is traditionally interpreted as a history of emotional ups and downs in relationships — sensitivity that can tip into overwhelm, and a need to consciously build emotional steadiness rather than expect it to come easily.",
-  },
-  forked_end: {
-    title: "Forked at the end",
-    meaning:
-      "A Heart Line that forks near the index or middle finger is traditionally read as balance — the ability to love both passionately and sensibly, holding both the heart's wants and the head's judgment at once.",
-  },
-  broken: {
-    title: "Broken or interrupted",
-    meaning:
-      "A break in the Heart Line is traditionally read as a significant emotional turning point — often a past heartbreak or a relationship that reshaped how you love, rather than a permanent flaw.",
-  },
+  long_curved: { title: "Long and gently curved", meaning: "You are warm and expressive in love." },
+  straight_short: { title: "Short and straight", meaning: "You have a guarded, practical approach to love." },
+  deeply_etched: { title: "Deep and clearly etched", meaning: "You experience emotional intensity and constancy." },
+  chained: { title: "Chained or wavy", meaning: "Your romantic life has seen many ups and downs." },
+  forked_end: { title: "Forked at the end", meaning: "You have the rare ability to love both passionately and sensibly." },
+  broken: { title: "Broken or interrupted", meaning: "A break indicates a significant emotional turning point." },
+  double_line: { title: "Double Heart Line", meaning: "You possess an immense capacity for love." },
+  drops_to_head: { title: "Dropping into the Head Line", meaning: "Your heart is ruled by your head." },
 };
 
-// Head Line — Western chiromancy; Mastishk Rekha in Hast Rekha Shastra; the "Human line" (人纹)
-// in Chinese palmistry. Runs across the middle of the palm, read for thought and intellect.
 export const HEAD_LINE_VARIANTS: Record<string, LineVariant> = {
-  long_straight: {
-    title: "Long and straight",
-    meaning:
-      "A long, straight Head Line is traditionally read as focused, logical, and realistic thinking — a mind that likes clear evidence and dislikes ambiguity, well-suited to detailed or technical work.",
-  },
-  sloping: {
-    title: "Sloping toward the wrist",
-    meaning:
-      "A Head Line that curves down toward the wrist (toward the Mount of the Moon) is traditionally associated with imagination and creativity — a mind that thinks in pictures and possibilities rather than strictly in facts.",
-  },
-  short: {
-    title: "Short and direct",
-    meaning:
-      "A short Head Line is traditionally read as decisive, single-minded thinking — someone who prefers to act quickly on a conclusion rather than turning a problem over for a long time.",
-  },
-  forked_writers: {
-    title: "Forked at the end (the \"writer's fork\")",
-    meaning:
-      "A Head Line that splits into two branches near its end is traditionally called the writer's fork, read as the ability to hold both practical and imaginative thinking at once — often associated with skill in writing or persuasive communication.",
-  },
-  chained: {
-    title: "Chained or faint",
-    meaning:
-      "A chained or faint Head Line is traditionally read as a mind prone to distraction or overthinking — sharp in bursts, but needing structure to stay focused on one thread at a time.",
-  },
-  deeply_etched: {
-    title: "Deep and unbroken",
-    meaning:
-      "A deep, unbroken Head Line is traditionally read as strong mental discipline and clarity — steady concentration and a memory that holds onto detail well.",
-  },
+  long_straight: { title: "Long and straight", meaning: "You possess a focused, logical, and highly realistic mind." },
+  sloping: { title: "Sloping toward the wrist", meaning: "Your mind is deeply imaginative and creative." },
+  short: { title: "Short and direct", meaning: "You are a decisive, single-minded thinker." },
+  forked_writers: { title: "Forked at the end", meaning: "You have a brilliant ability to see multiple sides." },
+  chained: { title: "Chained or wavy", meaning: "Your intellectual journey is characterized by periods of brilliant inspiration." },
+  broken: { title: "Broken or interrupted", meaning: "A sharp break suggests a major shift in your worldview." },
+  separated_from_life: { title: "Separated from Life Line", meaning: "You are fiercely independent and impulsive." },
 };
 
-// Life Line — Western chiromancy; Jeevan Rekha in Hast Rekha Shastra; the "Earth line" (地纹) in
-// Chinese palmistry. Curves around the base of the thumb; traditionally read for vitality and
-// life changes — importantly, its LENGTH is not read as lifespan in any credible modern reading
-// of the tradition, only its depth and character as vitality and resilience.
 export const LIFE_LINE_VARIANTS: Record<string, LineVariant> = {
-  wide_curve: {
-    title: "Wide, sweeping curve",
-    meaning:
-      "A Life Line that arcs well out into the palm is traditionally read as strong vitality and an enthusiastic, energetic approach to life — comfortable taking up space and pursuing what you want.",
-  },
-  close_curve: {
-    title: "Close to the thumb",
-    meaning:
-      "A Life Line that hugs close to the thumb is traditionally associated with a more cautious, careful temperament — energy conserved rather than spent freely, and a preference for the familiar over the unknown.",
-  },
-  deeply_etched: {
-    title: "Deep and clearly etched",
-    meaning:
-      "A deep, well-defined Life Line is traditionally read as robust physical vitality and resilience — the capacity to recover well from setbacks.",
-  },
-  doubled: {
-    title: "Doubled (a second line running alongside)",
-    meaning:
-      "A faint second line running alongside the Life Line is traditionally called a 'sister line' and is read as extra support and protection through hard periods — traditionally a favorable sign in both Western and Hast Rekha Shastra readings.",
-  },
-  broken: {
-    title: "Broken or interrupted",
-    meaning:
-      "A break in the Life Line is traditionally read as a major life change or turning point — a shift in circumstances or direction, not (in any serious reading of the tradition) a literal marker of illness or lifespan.",
-  },
-  chained: {
-    title: "Chained near the start",
-    meaning:
-      "Chaining in the Life Line near the thumb is traditionally associated with a more sensitive constitution in early life, often said to settle into steadier vitality as the line clears further along its curve.",
-  },
+  deep_long: { title: "Deep and long", meaning: "You possess a strong constitution and incredible physical stamina." },
+  short: { title: "Short or faint", meaning: "This points to physical delicacy or times where you need to consciously protect your energy." },
+  chained: { title: "Chained or braided", meaning: "Your path involves navigating periods of delicate health." },
+  broken: { title: "Broken or interrupted", meaning: "You will experience a massive, transformative shift in your life." },
+  double_line: { title: "Double Life Line", meaning: "You have a powerful 'guardian angel' line." },
 };
 
-// Fate Line (Destiny Line) — Bhagya Rekha in Hast Rekha Shastra. Runs vertically up the palm;
-// not everyone has a strong one, and its absence is traditionally read as a self-directed life
-// rather than a life shaped heavily by external circumstance.
 export const FATE_LINE_VARIANTS: Record<string, LineVariant> = {
-  absent_faint: {
-    title: "Absent or very faint",
-    meaning:
-      "No clear Fate Line is traditionally read as a life built more by your own choices than by circumstance or a fixed path — freedom, but also more responsibility for charting your own direction.",
-  },
-  straight_deep: {
-    title: "Straight and deeply etched",
-    meaning:
-      "A strong, straight Fate Line running from the base of the palm toward the fingers is traditionally read as a clear, purposeful sense of direction in career and life path, often set early and pursued with consistency.",
-  },
-  starts_late: {
-    title: "Starts partway up the palm",
-    meaning:
-      "A Fate Line that only begins partway up the palm is traditionally read as a life direction that becomes clear later — often after a formative period of searching or a distinct turning point.",
-  },
-  wavy_broken: {
-    title: "Wavy or broken",
-    meaning:
-      "A wavy or broken Fate Line is traditionally associated with a career or life path that changes direction more than once — traditionally read as adaptability rather than instability.",
-  },
+  clear_deep: { title: "Clear and deep", meaning: "You have a very strong sense of purpose." },
+  faint: { title: "Faint or wavy", meaning: "Your path in life is highly adaptable." },
+  absent: { title: "Absent Fate Line", meaning: "You are a true free spirit." },
+  starting_life_line: { title: "Starting from Life Line", meaning: "Your success is entirely self-made." },
 };
 
-// Sun Line (Apollo Line) — read for recognition, creativity, and fulfillment. Also not present
-// on every hand.
 export const SUN_LINE_VARIANTS: Record<string, LineVariant> = {
-  absent: {
-    title: "Absent or very faint",
-    meaning:
-      "No strong Sun Line is traditionally read as fulfillment found more through quiet, personal satisfaction than through public recognition — success measured on your own terms.",
-  },
-  clear_present: {
-    title: "Clear and present",
-    meaning:
-      "A clear Sun (Apollo) Line beneath the ring finger is traditionally read as a gift for creative or public success — recognition, charisma, and a life where your work tends to be noticed.",
-  },
-  faint_multiple: {
-    title: "Several faint lines",
-    meaning:
-      "Multiple faint Sun Lines are traditionally read as talent spread across several creative pursuits rather than concentrated in one — versatility, though sometimes at the cost of specializing deeply in a single one.",
-  },
+  clear: { title: "Clear", meaning: "A clear Sun Line is traditionally read as a gift for creative success." },
+  faint: { title: "Faint", meaning: "Faint Sun Lines are traditionally read as talent spread across several creative pursuits." },
+  broken: { title: "Broken", meaning: "A broken Sun Line indicates interrupted recognition or fame." },
 };
 
 // Marriage / relationship lines — small horizontal lines on the outer edge of the palm below the

@@ -48,6 +48,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ShareButtons } from "@/components/ShareButtons";
 import { SITE_URL } from "@/lib/site";
 import { Trans } from "@/components/Trans";
+import { DbPalmistryTrans } from "@/components/DbPalmistryTrans";
 import { PalmPhotoPreview } from "./PalmPhotoPreview";
 import { RecentActivityTracker } from "@/components/RecentActivityTracker";
 
@@ -364,13 +365,10 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
             />
           </p>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            <Trans tKey={handShapeNameKey(reading.handShape)} replacements={{ defaultValue: HAND_SHAPES[reading.handShape].name }} />
+            <DbPalmistryTrans category="handShape" subCategory={reading.handShape} fallbackTitle={HAND_SHAPES[reading.handShape].name} fallbackMeaning="" isTitle={true} />
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-muted">
-            <Trans
-              tKey={handShapeTraitsKey(reading.handShape)}
-              replacements={{ defaultValue: HAND_SHAPES[reading.handShape].traits }}
-            />
+            <DbPalmistryTrans category="handShape" subCategory={reading.handShape} fallbackTitle="" fallbackMeaning={HAND_SHAPES[reading.handShape].traits} isTitle={false} />
           </p>
         </div>
       </Reveal>
@@ -450,7 +448,7 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
             </p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {biometricsList.map((bio) => (
-                <GlassCard key={bio.key} className="p-5 flex flex-col justify-between border-[rgba(var(--accent-solid-rgb),0.2)] bg-[rgba(var(--accent-solid-rgb),0.02)]">
+                <GlassCard key={bio.key} className="p-5 flex flex-col justify-between border-[rgba(var(--accent-solid-rgb),0.02)] bg-[rgba(var(--accent-solid-rgb),0.02)]">
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <h3 className="text-xs uppercase tracking-widest font-semibold text-muted-soft">
@@ -507,11 +505,11 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
                   <h3 className="text-md font-semibold">
                     <Trans tKey={line.titleKey} replacements={{ defaultValue: line.titleDefault }} /> —{" "}
                     <span className="text-[var(--accent-solid)]">
-                      <Trans tKey={line.variantTitleKey} replacements={{ defaultValue: line.variantTitleDefault }} />
+                      <DbPalmistryTrans category="minorLines" subCategory={reading.minorLines[line.key as 'health' | 'intuition' | 'travel' | 'girdle'].key} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={true} />
                     </span>
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted">
-                    <Trans tKey={line.meaningKey} replacements={{ defaultValue: line.meaningDefault }} />
+                    <DbPalmistryTrans category="minorLines" subCategory={reading.minorLines[line.key as 'health' | 'intuition' | 'travel' | 'girdle'].key} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={false} />
                   </p>
                 </GlassCard>
               ))}
@@ -594,21 +592,30 @@ export default async function PalmistryResultPage({ searchParams }: { searchPara
       </Reveal>
 
       <div className="space-y-6">
-        {lines.map((line, i) => (
+        {lines.map((line, i) => {
+          let lineDataKey = "";
+          if (line.key === "heartLine") lineDataKey = reading.heartLine.key;
+          else if (line.key === "headLine") lineDataKey = reading.headLine.key;
+          else if (line.key === "lifeLine") lineDataKey = reading.lifeLine.key;
+          else if (line.key === "fateLine") lineDataKey = reading.fateLine.key;
+          else if (line.key === "sunLine") lineDataKey = reading.sunLine.key;
+          else if (line.key === "marriageLine") lineDataKey = reading.marriageLine.key;
+          
+          return (
           <Reveal key={line.key} delay={0.05 * i}>
             <GlassCard className="p-6 sm:p-8">
               <h2 className="text-lg font-semibold">
                 <Trans tKey={line.titleKey} replacements={{ defaultValue: line.titleDefault }} /> —{" "}
                 <span className="text-[var(--accent-solid)]">
-                  <Trans tKey={line.variantTitleKey} replacements={{ defaultValue: line.variantTitleDefault }} />
+                  <DbPalmistryTrans category={line.key} subCategory={lineDataKey} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={true} />
                 </span>
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted">
-                <Trans tKey={line.meaningKey} replacements={{ defaultValue: line.meaningDefault }} />
+                <DbPalmistryTrans category={line.key} subCategory={lineDataKey} fallbackTitle={line.variantTitleDefault} fallbackMeaning={line.meaningDefault} isTitle={false} />
               </p>
             </GlassCard>
           </Reveal>
-        ))}
+        )})}
 
         
 

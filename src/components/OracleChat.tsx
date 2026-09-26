@@ -47,10 +47,10 @@ export const OracleChat = () => {
     shuffleQuestions();
   }, []);
 
-  // Fetch the active questions (and marriage) from the DB
+  // Fetch the active questions from the DB
   useEffect(() => {
     if (activeQuestionIds.length === 0) return;
-    const ids = ["marriage", ...activeQuestionIds].join(",");
+    const ids = activeQuestionIds.join(",");
     fetch(`/api/oracle-questions?lang=${language}&ids=${ids}`)
       .then(res => res.json())
       .then(data => {
@@ -87,50 +87,13 @@ export const OracleChat = () => {
     setMessages((prev) => [...prev, userMsg]);
     setIsOracleTyping(true);
 
-    if (qId === "marriage") {
-      let answerKey = "";
-      const profile = typeof window !== "undefined" ? window.localStorage.getItem("cosmic-birth-profile") : null;
-      let age: number | null = null;
-      if (profile) {
-        try {
-          const parsed = JSON.parse(profile);
-          if (parsed.dob) {
-            const dobDate = new Date(parsed.dob);
-            if (!isNaN(dobDate.getTime())) {
-              const today = new Date();
-              age = today.getFullYear() - dobDate.getFullYear();
-              const m = today.getMonth() - dobDate.getMonth();
-              if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age--;
-            }
-          }
-        } catch (e) {
-          // ignore
-        }
-      }
-      
-      if (age !== null && age < 30) {
-        answerKey = "marriage_under30";
-      } else if (age !== null && age >= 30) {
-        answerKey = "marriage_over30";
-      } else {
-        answerKey = "marriage_unknown";
-      }
-
-      setTimeout(() => {
-        setIsOracleTyping(false);
-        setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: answerKey }]);
-        setTimeout(() => { setHasAsked(false); shuffleQuestions(); }, 2000);
-      }, 2500);
-      return;
-    }
-
     try {
       const res = await fetch(`/api/oracle?qId=${qId}&lang=${language}`);
       const data = await res.json();
       const answer = data.answer || "The stars align in mysterious ways. Trust your intuition.";
       
       // Add an artificial delay to simulate the Oracle "thinking" or consulting the stars
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
       setIsOracleTyping(false);
       setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: answer }]);
@@ -139,6 +102,7 @@ export const OracleChat = () => {
         setHasAsked(false);
         shuffleQuestions();
       }, 2000);
+
     } catch (error) {
       setIsOracleTyping(false);
       setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: "The universe is momentarily quiet. Please try again." }]);
@@ -227,12 +191,13 @@ export const OracleChat = () => {
         </div>
 
         {/* Footer Area - Auto height based on buttons */}
-        <div className="p-4 md:p-6 bg-[var(--surface-strong)] border-t border-[var(--surface-border)] shrink-0">
+        <div className="p-4 md:p-6 bg-[var(--surface-strong)] border-t border-[var(--surface-border)] shrink-0 min-h-[140px]">
           <div className="flex items-center justify-between mb-3 md:mb-4 px-2">
             <p className="text-xs text-purple-600 dark:text-purple-400 uppercase tracking-widest font-bold m-0">
               {t("oracle.chat.select_question", { defaultValue: "Select a cosmic question" })}
             </p>
             <button 
+              type="button"
               onClick={shuffleQuestions} 
               disabled={isOracleTyping || hasAsked}
               className="text-2xl hover:rotate-180 transition-transform duration-500 disabled:opacity-50 flex items-center justify-center cursor-pointer active:scale-90"
@@ -241,28 +206,29 @@ export const OracleChat = () => {
               🎲
             </button>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={wrapAction(() => handleAsk("marriage", getQuestionText("marriage", "What do the stars say about my marriage?")))}
-              disabled={isOracleTyping || hasAsked}
-              className="relative px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 border border-transparent rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
-            >
-              ❤️ {getQuestionText("marriage", "What do the stars say about my marriage?")}
-              {questionHint.show && !hasAsked && <FieldTapHint className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />}
-            </button>
-            {activeQuestionIds.map((qId) => {
-              const qText = getQuestionText(qId, `Mystic Question ${qId}?`);
-              return (
-                <button
-                  key={qId}
-                  onClick={wrapAction(() => handleAsk(qId, qText))}
-                  disabled={isOracleTyping || hasAsked}
-                  className="px-4 py-2.5 text-sm font-medium text-[var(--foreground)] bg-[var(--surface)] border border-[var(--surface-border)] rounded-xl shadow-sm hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-left"
-                >
-                  {qText}
-                </button>
-              );
-            })}
+          <div className="flex flex-wrap gap-3 relative">
+            <AnimatePresence mode="popLayout">
+              {activeQuestionIds.map((qId) => {
+                const qText = getQuestionText(qId, `Mystic Question ${qId}?`);
+                return (
+                  <motion.button
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                    key={qId}
+                    type="button"
+                    onClick={wrapAction(() => handleAsk(qId, qText))}
+                    disabled={isOracleTyping || hasAsked}
+                    className="relative px-4 py-2.5 text-sm font-medium text-[var(--foreground)] bg-[var(--surface)] border border-[var(--surface-border)] rounded-xl shadow-sm hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-left"
+                  >
+                    {qText}
+                    {questionHint.show && !hasAsked && <FieldTapHint className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />}
+                  </motion.button>
+                );
+              })}
+            </AnimatePresence>
           </div>
         </div>
 
