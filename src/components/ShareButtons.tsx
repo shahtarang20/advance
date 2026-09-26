@@ -109,7 +109,7 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
       // link is what lets WhatsApp/Facebook generate that card themselves — this is genuinely the
       // more "professional card" outcome of the two, not a downgrade.
       if (fallbackPlatform === 'whatsapp') {
-        const text = encodeURIComponent(`${caption}\n${shareUrl}`);
+        const text = encodeURIComponent(`${caption}\n\n${shareUrl}`);
         window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
         triggerPostSharePopup();
         return;
@@ -134,10 +134,10 @@ export function ShareButtons({ shareUrl, ogQuery, caption }: ShareButtonsProps) 
           await navigator.share({
             files: [file],
             title: "Cosmic Numbers",
-            text: `${caption}\n${shareUrl}\n\n— shared via Cosmic Numbers`,
+            text: `${caption}\n\n${shareUrl}\n\n— shared via Cosmic Numbers`,
           });
         } else {
-          await navigator.clipboard.writeText(`${caption}\n${shareUrl}`);
+          await navigator.clipboard.writeText(`${caption}\n\n${shareUrl}`);
           setInstagramCopied(true);
           setTimeout(() => setInstagramCopied(false), 2500);
         }
