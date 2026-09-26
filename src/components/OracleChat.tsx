@@ -6,6 +6,7 @@ import { useTranslation } from "@/lib/I18nContext";
 import { usePrivacyGuard } from "@/lib/PrivacyGuard";
 import { FieldTapHint } from "@/components/FieldTapHint";
 import { useFieldHint } from "@/lib/fieldHints";
+import { InstallAppCTA } from "@/components/InstallAppCTA";
 
 type Message = {
   id: string;
@@ -32,6 +33,7 @@ export const OracleChat = () => {
   const [activeQuestionIds, setActiveQuestionIds] = useState<number[]>([]);
   const [dbQuestions, setDbQuestions] = useState<Record<string, string>>({});
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
+  const [questionCount, setQuestionCount] = useState(0);
 
   const shuffleQuestions = () => {
     const newIds: number[] = [];
@@ -87,6 +89,7 @@ export const OracleChat = () => {
     if (isOracleTyping || hasAsked) return;
     questionHint.dismiss();
     setHasAsked(true);
+    setQuestionCount((prev) => prev + 1);
 
     const userMsg: Message = { id: Date.now().toString(), sender: "user", text: qText };
     setMessages((prev) => [...prev, userMsg]);
@@ -189,6 +192,18 @@ export const OracleChat = () => {
                   <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} className="h-2 w-2 rounded-full bg-purple-500" />
                   <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} className="h-2 w-2 rounded-full bg-purple-500" />
                   <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} className="h-2 w-2 rounded-full bg-purple-500" />
+                </div>
+              </motion.div>
+            )}
+
+            {questionCount >= 2 && !isOracleTyping && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full flex justify-center py-4"
+              >
+                <div className="w-full max-w-[90%] transform scale-90 sm:scale-100 origin-center">
+                  <InstallAppCTA forceShow={true} className="mt-4" />
                 </div>
               </motion.div>
             )}

@@ -11,6 +11,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { RecentActivity } from "@/components/RecentActivity";
+import { InstallAppCTA } from "@/components/InstallAppCTA";
 import { useLoveMatchHighlight, markLoveMatchSeen } from "@/lib/loveMatchHighlight";
 
 export default function HomePage() {
@@ -84,6 +85,8 @@ export default function HomePage() {
           />
         </section>
       </Reveal>
+
+      <InstallAppCTA />
 
       <div className="mt-20">
         {/* Replace "YOUR_HOME_AD_SLOT_ID" with the real slot id from your AdSense dashboard. */}

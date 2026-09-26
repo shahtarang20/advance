@@ -1168,7 +1168,7 @@
   "pwa.install.title": "Cosmic Numbers installieren",
   "pwa.install.desc": "Füge sie zu deinem Startbildschirm hinzu, für das volle App-Erlebnis.",
   "pwa.install.ios_hint": "Tippe auf das Teilen-Symbol und dann auf \"Zum Home-Bildschirm\".",
-  "pwa.install.button": "Installieren",
+  "pwa.install.button": "Jetzt installieren",
   "pwa.install.dismiss": "Schließen",
   "audio.play": "Audio abspielen",
   "audio.stop": "Audio stoppen",
@@ -1188,7 +1188,7 @@
   "footer.share_app": "App teilen",
   "footer.link_copied": "Link kopiert — füge ihn in deine Instagram-Story oder Bio ein!",
   "pwa.install.generic_hint": "Tippe auf das Menü deines Browsers (⋮ oder das Symbol in der Adressleiste) und wähle \"App installieren\", falls verfügbar — das gibt dir das echte App-Symbol und die Vollbild-Erfahrung. Nutze \"Zum Home-Bildschirm hinzufügen\" nur, wenn \"App installieren\" nicht angeboten wird.",
-  "pwa.install.show_me": "Zeig mir wie",
+  "pwa.install.show_me": "Wie installiert man (iOS)",
   "ios_guide.step1.title": "Tippe auf das Teilen-Symbol",
   "ios_guide.step1.body": "Du findest es in Safaris Symbolleiste — normalerweise am unteren Bildschirmrand.",
   "ios_guide.step2.title": "Tippe auf \"Zum Home-Bildschirm\"",
@@ -1298,5 +1298,7 @@
   "oracle.page.title": "Das Mystische Orakel",
   "oracle.page.desc": "Sprich mit dem mystischen Orakel für tägliche Führung und Antworten auf deine tiefsten Fragen.",
   "oracle.chat.welcome": "Willkommen, Suchender. Ich bin das mystische Orakel. Das Universum hat dich hierher geführt. Welche Führung suchst du heute?",
-  "oracle.chat.select_question": "Wähle eine kosmische Frage"
+  "oracle.chat.select_question": "Wähle eine kosmische Frage",
+  "pwa.cta.title": "Cosmic Numbers Installieren",
+  "pwa.cta.desc": "Holen Sie sich das volle Erlebnis. Fügen Sie unsere App direkt zu Ihrem Startbildschirm hinzu, um sofortigen Zugriff auf Ihre täglichen Horoskope, Tarot-Lesungen und mehr zu erhalten – kein App Store erforderlich!"
 }

@@ -1168,7 +1168,7 @@
   "pwa.install.title": "安装 Cosmic Numbers",
   "pwa.install.desc": "将其添加到主屏幕，获得完整的应用体验。",
   "pwa.install.ios_hint": "点击分享按钮，然后选择“添加到主屏幕”。",
-  "pwa.install.button": "安装",
+  "pwa.install.button": "立即安装",
   "pwa.install.dismiss": "关闭",
   "audio.play": "播放音频",
   "audio.stop": "停止音频",
@@ -1188,7 +1188,7 @@
   "footer.share_app": "分享应用",
   "footer.link_copied": "链接已复制——粘贴到你的 Instagram 故事或简介中吧！",
   "pwa.install.generic_hint": "点击浏览器菜单（⋮ 或地址栏中的图标），如果出现“安装应用”选项请选择它——这样才能获得真正的应用图标和全屏体验。只有在没有“安装应用”选项时才选择“添加到主屏幕”。",
-  "pwa.install.show_me": "演示给我看",
+  "pwa.install.show_me": "如何安装 (iOS)",
   "ios_guide.step1.title": "点击分享图标",
   "ios_guide.step1.body": "在 Safari 的工具栏中找到它——通常在屏幕底部。",
   "ios_guide.step2.title": "点击“添加到主屏幕”",
@@ -1298,5 +1298,7 @@
   "oracle.page.title": "神秘神谕 (Mystic Oracle)",
   "oracle.page.desc": "与神秘神谕交谈，获取日常指导和内心深处问题的答案。",
   "oracle.chat.welcome": "欢迎你，探索者。我是神秘神谕。宇宙指引你来到这里。今天你需要什么指导？",
-  "oracle.chat.select_question": "选择一个宇宙问题"
+  "oracle.chat.select_question": "选择一个宇宙问题",
+  "pwa.cta.title": "安装宇宙密码",
+  "pwa.cta.desc": "获得完整体验。将我们的应用直接添加到您的主屏幕，即可即时访问您的每日星座运势、塔罗牌占卜等 - 无需应用商店！"
 }

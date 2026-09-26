@@ -1168,7 +1168,7 @@
   "pwa.install.title": "Install Cosmic Numbers",
   "pwa.install.desc": "Add it to your home screen for the full app experience.",
   "pwa.install.ios_hint": "Tap the Share button, then \"Add to Home Screen\".",
-  "pwa.install.button": "Install",
+  "pwa.install.button": "Install App Now",
   "pwa.install.dismiss": "Dismiss",
   "audio.play": "Play Audio",
   "audio.stop": "Stop Audio",
@@ -1188,7 +1188,7 @@
   "footer.share_app": "Share App",
   "footer.link_copied": "Link copied — paste it into your Instagram Story or Bio!",
   "pwa.install.generic_hint": "Tap your browser's menu (⋮ or the icon in the address bar) and choose \"Install app\" if it's offered — that gives you the real app icon and full-screen experience. Only use \"Add to Home Screen\" if \"Install app\" isn't available.",
-  "pwa.install.show_me": "Show Me",
+  "pwa.install.show_me": "How to Install (iOS)",
   "ios_guide.step1.title": "Tap the Share icon",
   "ios_guide.step1.body": "Find it in Safari's toolbar — usually at the bottom of your screen.",
   "ios_guide.step2.title": "Tap \"Add to Home Screen\"",
@@ -1298,5 +1298,7 @@
   "oracle.page.title": "Mystic Oracle",
   "oracle.page.desc": "Chat with the Mystic Oracle for daily guidance and answers to your deepest questions.",
   "oracle.chat.welcome": "Welcome, seeker. I am the Mystic Oracle. The universe has guided you here. What guidance do you seek today?",
-  "oracle.chat.select_question": "Select a cosmic question"
+  "oracle.chat.select_question": "Select a cosmic question",
+  "pwa.cta.title": "Install Cosmic Numbers",
+  "pwa.cta.desc": "Get the full experience. Add our app directly to your home screen for instant access to your daily horoscopes, tarot readings, and more—no app store required!"
 }
