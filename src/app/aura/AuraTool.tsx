@@ -56,7 +56,7 @@ export function AuraTool() {
               </p>
             )}
           </div>
-          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
+          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={!canSubmit}>
             {t("aura.tool.reveal", { defaultValue: "Reveal My Aura Color" })}
           </Button>
         </form>

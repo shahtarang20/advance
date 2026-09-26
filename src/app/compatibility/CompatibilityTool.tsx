@@ -117,7 +117,7 @@ export function CompatibilityTool() {
               {touched && dobBError && <p className="mt-1.5 text-xs text-amber-600">{dobBError}</p>}
             </div>
           </div>
-          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={touched && !canSubmit}>
+          <Button data-tour="page-cta" type="submit" className="w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={!canSubmit}>
             {t("comp.tool.check_btn")}
           </Button>
         </form>

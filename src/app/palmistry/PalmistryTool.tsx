@@ -281,7 +281,7 @@ export function PalmistryTool() {
           </div>
         </div>
 
-        <Button data-tour="page-cta" onClick={wrapAction(handleSubmit)} disabled={checkingPhoto} className="w-full disabled:cursor-not-allowed disabled:opacity-50">
+        <Button data-tour="page-cta" onClick={wrapAction(handleSubmit)} disabled={checkingPhoto || !photoDataUrl} className="w-full disabled:cursor-not-allowed disabled:opacity-50">
           {t("palmistry.tool.reveal", { defaultValue: "Reveal My Palm Reading" })}
         </Button>
       </div>
