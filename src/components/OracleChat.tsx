@@ -59,7 +59,7 @@ export const OracleChat = () => {
     scrollToBottom();
   }, [messages, isOracleTyping]);
 
-  const handleAsk = (qId: number | string, qText: string) => {
+  const handleAsk = async (qId: number | string, qText: string) => {
     if (isOracleTyping || hasAsked) return;
     questionHint.dismiss();
     setHasAsked(true);
@@ -68,9 +68,8 @@ export const OracleChat = () => {
     setMessages((prev) => [...prev, userMsg]);
     setIsOracleTyping(true);
 
-    let answerKey = "";
-
     if (qId === "marriage") {
+      let answerKey = "";
       const profile = typeof window !== "undefined" ? window.localStorage.getItem("cosmic-birth-profile") : null;
       let age: number | null = null;
       if (profile) {
@@ -82,9 +81,7 @@ export const OracleChat = () => {
               const today = new Date();
               age = today.getFullYear() - dobDate.getFullYear();
               const m = today.getMonth() - dobDate.getMonth();
-              if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
-                age--;
-              }
+              if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age--;
             }
           }
         } catch (e) {
@@ -99,22 +96,33 @@ export const OracleChat = () => {
       } else {
         answerKey = "marriage_unknown";
       }
-    } else {
-      const randomAnswerIndex = Math.floor(Math.random() * 10) + 1;
-      answerKey = `${qId}_${randomAnswerIndex}`;
+
+      setTimeout(() => {
+        setIsOracleTyping(false);
+        setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: answerKey }]);
+        setTimeout(() => { setHasAsked(false); shuffleQuestions(); }, 2000);
+      }, 2500);
+      return;
     }
 
-    setTimeout(() => {
+    try {
+      // Fetch directly from our new MongoDB backend!
+      const res = await fetch(`/api/oracle?qId=${qId}&lang=${language}`);
+      const data = await res.json();
+      const answer = data.answer || "The stars align in mysterious ways. Trust your intuition.";
+      
       setIsOracleTyping(false);
-      setMessages((prev) => [
-        ...prev,
-        { id: (Date.now() + 1).toString(), sender: "oracle", text: answerKey },
-      ]);
+      setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: answer }]);
+      
       setTimeout(() => {
         setHasAsked(false);
         shuffleQuestions();
       }, 2000);
-    }, 2500);
+    } catch (error) {
+      setIsOracleTyping(false);
+      setMessages((prev) => [...prev, { id: Date.now().toString(), sender: "oracle", text: "The universe is momentarily quiet. Please try again." }]);
+      setHasAsked(false);
+    }
   };
 
   const renderMessageText = (msg: Message) => {
@@ -133,9 +141,9 @@ export const OracleChat = () => {
       return t("oracle.a.marriage_unknown", { defaultValue: "Love is a deep cosmic journey. Whether you are seeking a partner to share your life with, or nurturing an existing bond, the stars ask you to keep your heart open to joy and trust the process." });
     }
 
-    return t(`oracle.a.${msg.text}`, { 
-      defaultValue: "The stars align in mysterious ways. Trust your intuition, for it is your greatest compass." 
-    });
+    // Since we now fetch the actual translated human string directly from the MongoDB database,
+    // we just return it exactly as is! No more local JSON lookups for the 1000 answers.
+    return msg.text;
   };
 
   return (
